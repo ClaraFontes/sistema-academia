@@ -35,6 +35,16 @@ public class FrameLogin {
 	private JLabel lblloginmensagem = new JLabel("");
 	private Checkbox admincheckbox = new Checkbox("      Admin");
 
+	
+
+	public JTextField getTxtUsername() {
+		return txtUsername;
+	}
+
+	public JPasswordField getTxtPassword() {
+		return txtPassword;
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,6 +67,8 @@ public class FrameLogin {
 	public FrameLogin() {
 		initialize();
 	}
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
