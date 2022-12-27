@@ -1,3 +1,4 @@
+package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

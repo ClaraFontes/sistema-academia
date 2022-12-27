@@ -1,3 +1,4 @@
+package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -53,6 +57,7 @@ public class FrameCadastro {
 	public FrameCadastro() {
 		initialize();
 	}
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -70,6 +75,8 @@ public class FrameCadastro {
 				}
 			}
 		});
+		
+		
 		framecadastro.setResizable(false);
 		framecadastro.getContentPane().setBackground(new Color(0, 128, 128));
 		framecadastro.getContentPane().setLayout(null);
@@ -232,5 +239,6 @@ public class FrameCadastro {
 		framecadastro.setBackground(new Color(0, 128, 128));
 		framecadastro.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameCadastro.class.getResource("/assets_loginFrame/Logotipo academia personal trainner (1).png")));
 		framecadastro.setBounds(100, 100, 1024, 720);
+		
 	}
 }

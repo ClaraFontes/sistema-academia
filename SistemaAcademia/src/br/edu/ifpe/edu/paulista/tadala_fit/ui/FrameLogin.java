@@ -1,3 +1,4 @@
+package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 import java.awt.EventQueue;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
@@ -7,6 +8,12 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
+
+import br.edu.ifpe.paulista.tadala_fit.core.AccessController;
+import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.Professor;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -19,6 +26,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 public class FrameLogin {
 
@@ -74,6 +82,7 @@ public class FrameLogin {
 				}
 			}
 		});
+	
 		framelogin.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		framelogin.getContentPane().setFont(new Font("04b", Font.PLAIN, 11));
 		framelogin.getContentPane().setBackground(new Color(0, 128, 128));
@@ -169,24 +178,40 @@ public class FrameLogin {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				String user = txtUsername.getText();
+				String password = new String(txtPassword.getPassword());
 				
-				if (txtUsername.getText().equals("") || txtUsername.getText().equals("User")||
-				txtPassword.getText().equals("") || txtPassword.getText().equals("Senha")){
-					//lblloginmensagem.setText("Preencha todos os campos!!");
-					JOptionPane.showMessageDialog(null, ("Preencha todos os campos!"));
-				}
-				else if (txtUsername.getText().equals("admin") && txtPassword.getText().equals("admin")) {
-					JOptionPane.showMessageDialog(null, ("Login Efetuado"));
-					lblloginmensagem.setText("");
-					FrameHome fh = new FrameHome();
-					fh.framehome.setVisible(true);
-					framelogin.dispose();
+				/* try {
+					if (checkboxAluno == true) {
 					
-				}else {
-					//lblloginmensagem.setText("Login ou Senha Inválidos!!");
-					JOptionPane.showMessageDialog(null, ("Login ou Senha Inválidos!"));
+						Aluno alunoLogado = AccessController.loginAluno(user, password);
+						FrameAluno fAluno = new FrameAluno();
+						fAluno.framealuno.setVisible(true);
+						fAluno.getAluno(alunoLogado);
+						framelogin.dispose();
+					} else if (checkboxProfessor == true) {
+						Professor professorLogado = AccessController.loginProfessor(user, password);
+						FrameProfessor fProfessor = new FrameProfessor();
+						fProfessor.frameprofessor.setVisible(true);
+						fProfessor.getProfessor(professorLogado);
+						framelogin.dispose();
+					} else if (checkboxAdministrador == true) {
+						Administrador admLogado = AccessController.loginAdm(user, password);
+						FrameAdm fAdm = new FrameAdm();
+						fAdm.frameadm.setVisible(true);
+						fAdm.getAdm(admLogado);
+						framelogin.dispose();
+					}
+					
+				} catch (ClassNotFoundException | SQLException e1) {
+					lblloginmensagem.setText("Erro inesperado, tente novamente.");
+					System.out.println(e1.getMessage());
+				} catch (RuntimeException e2) {
+					lblloginmensagem.setText("Digite usuário e senha.");
+				} catch (Exception e3) {
+					System.out.println(e3);
+				} */
 				
-			}
 		  }
 		});
 		btnNewButton.setBackground(UIManager.getColor("Button.background"));
