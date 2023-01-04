@@ -19,9 +19,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
+
+import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
+
 import javax.swing.border.BevelBorder;
 import java.awt.Rectangle;
 import java.awt.ComponentOrientation;
+import java.awt.Font;
 
 public class FrameHome {
 
@@ -67,56 +71,71 @@ public class FrameHome {
 			}
 		});
 		framehome.setBackground(new Color(0, 128, 128));
-		framehome.getContentPane().setBackground(new Color(0, 128, 128));
+		framehome.getContentPane().setBackground(new Color(0, 79, 157));
 		framehome.setTitle("TadalaFit - Versão - 1.0");
 		framehome.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameHome.class.getResource("/assets_loginFrame/Logotipo academia personal trainner (1).png")));
-		framehome.setBounds(100, 100, 1024, 720);
+		framehome.setBounds(100, 100, 1024, 769);
 		framehome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		framehome.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 100, 100));
-		panel.setBounds(10, 11, 215, 659);
+		panel.setBackground(new Color(0, 65, 130));
+		panel.setBounds(44, 11, 258, 708);
 		framehome.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(FrameHome.class.getResource("/assets_loginFrame/logotipo200x200.png")));
-		lblNewLabel.setBounds(10, 11, 178, 159);
+		lblNewLabel.setBounds(30, 53, 200, 159);
 		panel.add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("Cadastrar Aluno");
-		btnNewButton.setBackground(UIManager.getColor("Button.shadow"));
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		JButton btnCadastro = new JButton("Matricular Aluno");
+		btnCadastro.setFont(new Font("Arial", Font.BOLD, 13));
+		btnCadastro.setBackground(new Color(255, 255, 255));
+		btnCadastro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FrameCadastro fc = new FrameCadastro();
 				fc.framecadastro.setVisible(true);
+				framehome.dispose();
 	
 			}
 		});
-		btnNewButton.addActionListener(new ActionListener() {
+		btnCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton.setBounds(45, 189, 129, 33);
-		panel.add(btnNewButton);
+		btnCadastro.setBounds(54, 275, 151, 33);
+		panel.add(btnCadastro);
 		
 		JButton btnConsulta = new JButton("Consultar Aluno");
-		btnConsulta.setBounds(45, 281, 129, 33);
+		btnConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameConsulta fcon = new FrameConsulta();
+				fcon.frameconsulta.setVisible(true);
+				framehome.dispose();
+			}
+		});
+		btnConsulta.setFont(new Font("Arial", Font.BOLD, 13));
+		btnConsulta.setBackground(new Color(255, 255, 255));
+		btnConsulta.setBounds(54, 375, 151, 33);
 		panel.add(btnConsulta);
 		
-		JButton btnConsulta_1 = new JButton("......");
-		btnConsulta_1.addActionListener(new ActionListener() {
+		JButton btnBoleto = new JButton("Novo boleto");
+		btnBoleto.setFont(new Font("Arial", Font.BOLD, 13));
+		btnBoleto.setBackground(new Color(255, 255, 255));
+		btnBoleto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnConsulta_1.setBorder(UIManager.getBorder("Button.border"));
-		btnConsulta_1.setBounds(45, 363, 129, 33);
-		panel.add(btnConsulta_1);
+		btnBoleto.setBorder(UIManager.getBorder("Button.border"));
+		btnBoleto.setBounds(54, 465, 151, 33);
+		panel.add(btnBoleto);
 		
-		JButton btnConsulta_1_1 = new JButton("Deslogar");
-		btnConsulta_1_1.addMouseListener(new MouseAdapter() {
+		JButton btnSair = new JButton("Sair");
+		btnSair.setFont(new Font("Arial", Font.BOLD, 13));
+		btnSair.setBackground(new Color(255, 255, 255));
+		btnSair.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FrameLogin fl = new FrameLogin();
@@ -124,23 +143,35 @@ public class FrameHome {
 				framehome.dispose();
 			}
 		});
-		btnConsulta_1_1.addActionListener(new ActionListener() {
+		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnConsulta_1_1.setBounds(45, 441, 129, 33);
-		panel.add(btnConsulta_1_1);
+		btnSair.setBounds(54, 567, 151, 33);
+		panel.add(btnSair);
+		
+		JButton btnCadastro_1 = new JButton("Cadastro de Professor");
+		btnCadastro_1.setFont(new Font("Arial", Font.BOLD, 13));
+		btnCadastro_1.setBackground(Color.WHITE);
+		btnCadastro_1.setBounds(0, 320, 258, 33);
+		panel.add(btnCadastro_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(391, 630, 324, 40);
+		lblNewLabel_2.setBounds(472, 679, 324, 40);
 		framehome.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBounds(new Rectangle(0, 0, 100, 1000));
 		lblNewLabel_1.setIcon(new ImageIcon(FrameHome.class.getResource("/assets_loginFrame/Logotipo_academia_personal_trainner__1_-removebg-preview.png")));
-		lblNewLabel_1.setBounds(303, 101, 481, 442);
+		lblNewLabel_1.setBounds(380, 113, 481, 442);
 		framehome.getContentPane().add(lblNewLabel_1);
+		
+	}
+
+	public void getAdm(Administrador admLogado) {
+		// TODO Auto-generated method stub
 		
 	}
 }

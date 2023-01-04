@@ -21,7 +21,7 @@ public class MySQLRepository implements Repository {
 	public Aluno loginAluno(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Anaclara18");
 			PreparedStatement statement = connection.prepareStatement("SELECT *, senha FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -72,8 +72,8 @@ public class MySQLRepository implements Repository {
 	public Administrador loginAdm(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
-			PreparedStatement statement = connection.prepareStatement("SELECT *, senha FROM administrador a WHERE a.usuario = ? AND a.senha = ?");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Anaclara18");
+			PreparedStatement statement = connection.prepareStatement("SELECT *, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();

@@ -37,7 +37,8 @@ public class AccessController {
 			}
 			
 			Repository repository = new MySQLRepository();
-			return repository.loginAdm(user, password);
+			return repository.loginAdm(user, password);			
+			
 		
 
 	}

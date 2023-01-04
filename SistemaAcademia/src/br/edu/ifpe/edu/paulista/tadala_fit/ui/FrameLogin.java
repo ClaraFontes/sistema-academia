@@ -27,6 +27,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FrameLogin {
 
@@ -85,7 +88,7 @@ public class FrameLogin {
 	
 		framelogin.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		framelogin.getContentPane().setFont(new Font("04b", Font.PLAIN, 11));
-		framelogin.getContentPane().setBackground(new Color(0, 128, 128));
+		framelogin.getContentPane().setBackground(new Color(0, 79, 157));
 		framelogin.setBackground(new Color(0, 128, 128));
 		framelogin.getContentPane().setForeground(UIManager.getColor("Button.background"));
 		framelogin.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameLogin.class.getResource("/assets_loginFrame/Logotipo academia personal trainner (1).png")));
@@ -97,7 +100,7 @@ public class FrameLogin {
 		framelogin.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(UIManager.getColor("Button.background"));
+		panel.setBackground(new Color(0, 65, 130));
 		panel.setBounds(331, 352, 324, 54);
 		framelogin.getContentPane().add(panel);
 		panel.setLayout(null);
@@ -135,7 +138,7 @@ public class FrameLogin {
 		panel.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(UIManager.getColor("Button.background"));
+		panel_1.setBackground(new Color(0, 65, 130));
 		panel_1.setBounds(331, 441, 324, 54);
 		framelogin.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
@@ -173,7 +176,12 @@ public class FrameLogin {
 		framelogin.getContentPane().add(lblNewLabelI);
 		lblloginmensagem.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		JCheckBox chckbxAdm = new JCheckBox("ADMIN?");
+		chckbxAdm.setBounds(726, 386, 97, 23);
+		framelogin.getContentPane().add(chckbxAdm);
+		
 		JButton btnNewButton = new JButton("Entrar");
+		btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@SuppressWarnings("deprecation")
 			@Override
@@ -212,22 +220,43 @@ public class FrameLogin {
 					System.out.println(e3);
 				} */
 				
+				try {
+					if (chckbxAdm.isSelected()) {
+					Administrador admLogado = AccessController.loginAdm(user, password);
+					FrameHome fh = new FrameHome();
+					fh.framehome.setVisible(true);
+					fh.getAdm(admLogado);
+					framelogin.dispose();
+					}
+					
+				} catch (ClassNotFoundException | SQLException e1) {
+				lblloginmensagem.setText("Erro inesperado, tente novamente.");
+				System.out.println(e1.getMessage());
+				} catch (RuntimeException e2) {
+				lblloginmensagem.setText("Digite usuário e senha.");
+				} catch (Exception e3) {
+				System.out.println(e3);
+				} 
+
 		  }
 		});
-		btnNewButton.setBackground(UIManager.getColor("Button.background"));
-		btnNewButton.setBounds(434, 558, 125, 40);
+		
+		btnNewButton.setBackground(new Color(255, 255, 255));
+		btnNewButton.setBounds(407, 528, 184, 40);
 		framelogin.getContentPane().add(btnNewButton);
 		
 
 		
 		lblloginmensagem.setHorizontalAlignment(SwingConstants.CENTER);
 		lblloginmensagem.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblloginmensagem.setBounds(289, 502, 414, 22);
+		lblloginmensagem.setBounds(359, 618, 414, 22);
 		framelogin.getContentPane().add(lblloginmensagem);
 		
 		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setBounds(348, 678, 324, 40);
 		framelogin.getContentPane().add(lblNewLabel_2);
+		
 	}
 }
