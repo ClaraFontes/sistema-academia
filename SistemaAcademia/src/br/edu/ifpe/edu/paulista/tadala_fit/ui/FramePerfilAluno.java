@@ -144,7 +144,7 @@ public class FramePerfilAluno {
 		lblNewLabel_1.setBounds(22, 567, 200, 130);
 		panel.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setIcon(new ImageIcon(FrameCadastro.class.getResource("/assets_loginFrame/logotipo200x200.png")));
+		lblNewLabel_1.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(49, 116, 173, 178);
@@ -154,7 +154,7 @@ public class FramePerfilAluno {
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBounds(10, 11, 150, 150);
 		panel_1.add(lblNewLabel_3);
-		lblNewLabel_3.setIcon(new ImageIcon(FrameCadastro.class.getResource("/assets_loginFrame/user.png")));
+		lblNewLabel_3.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/assets_loginFrame/user.png")));
 		
 		JLabel lblnome = new JLabel("");
 		lblnome.setBounds(326, 109, 178, 14);
