@@ -176,8 +176,8 @@ public class FrameLogin {
 		framelogin.getContentPane().add(lblNewLabelI);
 		lblloginmensagem.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JCheckBox chckbxAdm = new JCheckBox("ADMIN?");
-		chckbxAdm.setBounds(726, 386, 97, 23);
+		JCheckBox chckbxAdm = new JCheckBox("ADMIN");
+		chckbxAdm.setBounds(402, 513, 74, 22);
 		framelogin.getContentPane().add(chckbxAdm);
 		
 		JButton btnNewButton = new JButton("Entrar");
@@ -242,14 +242,14 @@ public class FrameLogin {
 		});
 		
 		btnNewButton.setBackground(new Color(255, 255, 255));
-		btnNewButton.setBounds(407, 528, 184, 40);
+		btnNewButton.setBounds(402, 567, 184, 40);
 		framelogin.getContentPane().add(btnNewButton);
 		
 
 		
 		lblloginmensagem.setHorizontalAlignment(SwingConstants.CENTER);
 		lblloginmensagem.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblloginmensagem.setBounds(359, 618, 414, 22);
+		lblloginmensagem.setBounds(295, 619, 414, 22);
 		framelogin.getContentPane().add(lblloginmensagem);
 		
 		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
@@ -257,6 +257,10 @@ public class FrameLogin {
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setBounds(348, 678, 324, 40);
 		framelogin.getContentPane().add(lblNewLabel_2);
+		
+		JCheckBox chckbxAluno = new JCheckBox("ALUNO");
+		chckbxAluno.setBounds(511, 513, 74, 22);
+		framelogin.getContentPane().add(chckbxAluno);
 		
 	}
 }

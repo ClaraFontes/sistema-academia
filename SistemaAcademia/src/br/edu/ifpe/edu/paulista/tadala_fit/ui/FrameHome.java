@@ -118,7 +118,7 @@ public class FrameHome {
 		});
 		btnConsulta.setFont(new Font("Arial", Font.BOLD, 13));
 		btnConsulta.setBackground(new Color(255, 255, 255));
-		btnConsulta.setBounds(54, 375, 151, 33);
+		btnConsulta.setBounds(54, 399, 151, 33);
 		panel.add(btnConsulta);
 		
 		JButton btnBoleto = new JButton("Novo boleto");
@@ -153,7 +153,7 @@ public class FrameHome {
 		JButton btnCadastro_1 = new JButton("Cadastro de Professor");
 		btnCadastro_1.setFont(new Font("Arial", Font.BOLD, 13));
 		btnCadastro_1.setBackground(Color.WHITE);
-		btnCadastro_1.setBounds(0, 320, 258, 33);
+		btnCadastro_1.setBounds(54, 341, 151, 33);
 		panel.add(btnCadastro_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
