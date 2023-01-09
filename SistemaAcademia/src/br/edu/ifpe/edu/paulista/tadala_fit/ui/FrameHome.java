@@ -95,7 +95,7 @@ public class FrameHome {
 		btnCadastro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameCadastro fc = new FrameCadastro();
+				FrameCadastroAluno fc = new FrameCadastroAluno();
 				fc.framecadastro.setVisible(true);
 				framehome.dispose();
 	
@@ -105,7 +105,7 @@ public class FrameHome {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnCadastro.setBounds(54, 275, 151, 33);
+		btnCadastro.setBounds(43, 241, 176, 33);
 		panel.add(btnCadastro);
 		
 		JButton btnConsulta = new JButton("Consultar Aluno");
@@ -118,7 +118,11 @@ public class FrameHome {
 		});
 		btnConsulta.setFont(new Font("Arial", Font.BOLD, 13));
 		btnConsulta.setBackground(new Color(255, 255, 255));
+<<<<<<< Updated upstream
 		btnConsulta.setBounds(54, 399, 151, 33);
+=======
+		btnConsulta.setBounds(43, 385, 176, 33);
+>>>>>>> Stashed changes
 		panel.add(btnConsulta);
 		
 		JButton btnBoleto = new JButton("Novo boleto");
@@ -129,7 +133,7 @@ public class FrameHome {
 			}
 		});
 		btnBoleto.setBorder(UIManager.getBorder("Button.border"));
-		btnBoleto.setBounds(54, 465, 151, 33);
+		btnBoleto.setBounds(43, 456, 176, 33);
 		panel.add(btnBoleto);
 		
 		JButton btnSair = new JButton("Sair");
@@ -147,13 +151,17 @@ public class FrameHome {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnSair.setBounds(54, 567, 151, 33);
+		btnSair.setBounds(43, 533, 176, 33);
 		panel.add(btnSair);
 		
 		JButton btnCadastro_1 = new JButton("Cadastro de Professor");
 		btnCadastro_1.setFont(new Font("Arial", Font.BOLD, 13));
 		btnCadastro_1.setBackground(Color.WHITE);
+<<<<<<< Updated upstream
 		btnCadastro_1.setBounds(54, 341, 151, 33);
+=======
+		btnCadastro_1.setBounds(43, 312, 176, 33);
+>>>>>>> Stashed changes
 		panel.add(btnCadastro_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
