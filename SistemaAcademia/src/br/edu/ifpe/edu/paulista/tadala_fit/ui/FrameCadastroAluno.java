@@ -26,9 +26,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
-import javax.swing.JCheckBox;       
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.JPasswordField;       
 
-public class FrameCadastro {
+public class FrameCadastroAluno {
 
 	protected JFrame framecadastro;
 	private JTextField txtnome;
@@ -36,11 +38,12 @@ public class FrameCadastro {
 	private JTextField txtcpf;
 	private JTextField txtdatanascimento;
 	private JTextField txtemail;
-	private JTextField txtendereço;
 	private JTextField txtcep;
 	private JTextField txtbairro;
-	private JTextField txtcidade;
 	private JTextField txtuf;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -49,7 +52,7 @@ public class FrameCadastro {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameCadastro window = new FrameCadastro();
+					FrameCadastroAluno window = new FrameCadastroAluno();
 					window.framecadastro.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,7 +64,7 @@ public class FrameCadastro {
 	/**
 	 * Create the application.
 	 */
-	public FrameCadastro() {
+	public FrameCadastroAluno() {
 		initialize();
 	}
 	
@@ -111,16 +114,17 @@ public class FrameCadastro {
 		panel.add(lblNewLabel);
 		
 		txtrg = new JTextField();
+		txtrg.setToolTipText("AAA");
 		txtrg.setFont(new Font("Arial", Font.PLAIN, 13));
 		txtrg.setColumns(10);
-		txtrg.setBounds(314, 151, 270, 25);
+		txtrg.setBounds(341, 151, 270, 25);
 		panel.add(txtrg);
 		
-		JLabel lblRg = new JLabel("RG:");
+		JLabel lblRg = new JLabel("TELEFONE:");
 		lblRg.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblRg.setForeground(Color.WHITE);
 		lblRg.setFont(new Font("Arial Black", Font.BOLD, 12));
-		lblRg.setBounds(232, 150, 72, 24);
+		lblRg.setBounds(244, 150, 87, 24);
 		panel.add(lblRg);
 		
 		txtcpf = new JTextField();
@@ -162,19 +166,6 @@ public class FrameCadastro {
 		lblEmail.setBounds(501, 196, 72, 26);
 		panel.add(lblEmail);
 		
-		txtendereço = new JTextField();
-		txtendereço.setFont(new Font("Arial", Font.PLAIN, 13));
-		txtendereço.setColumns(10);
-		txtendereço.setBounds(650, 295, 253, 25);
-		panel.add(txtendereço);
-		
-		JLabel lblEndereo = new JLabel("ENDEREÇO:");
-		lblEndereo.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblEndereo.setForeground(Color.WHITE);
-		lblEndereo.setFont(new Font("Arial Black", Font.BOLD, 11));
-		lblEndereo.setBounds(539, 294, 101, 24);
-		panel.add(lblEndereo);
-		
 		txtcep = new JTextField();
 		txtcep.setFont(new Font("Arial", Font.PLAIN, 13));
 		txtcep.setColumns(10);
@@ -187,31 +178,25 @@ public class FrameCadastro {
 		txtbairro.setBounds(554, 245, 238, 25);
 		panel.add(txtbairro);
 		
-		txtcidade = new JTextField();
-		txtcidade.setFont(new Font("Arial", Font.PLAIN, 13));
-		txtcidade.setColumns(10);
-		txtcidade.setBounds(326, 295, 218, 25);
-		panel.add(txtcidade);
-		
-		JLabel lblCep = new JLabel("CEP:");
+		JLabel lblCep = new JLabel("PESO:");
 		lblCep.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCep.setForeground(Color.WHITE);
 		lblCep.setFont(new Font("Arial Black", Font.BOLD, 12));
 		lblCep.setBounds(232, 244, 72, 24);
 		panel.add(lblCep);
 		
-		JLabel lblBairro = new JLabel("BAIRRO:");
+		JLabel lblBairro = new JLabel("ALTURA:");
 		lblBairro.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblBairro.setForeground(Color.WHITE);
 		lblBairro.setFont(new Font("Arial Black", Font.BOLD, 12));
 		lblBairro.setBounds(472, 246, 72, 24);
 		panel.add(lblBairro);
 		
-		JLabel lblCidade = new JLabel("CIDADE:");
+		JLabel lblCidade = new JLabel("USER:");
 		lblCidade.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCidade.setForeground(Color.WHITE);
 		lblCidade.setFont(new Font("Arial Black", Font.BOLD, 12));
-		lblCidade.setBounds(244, 294, 72, 24);
+		lblCidade.setBounds(190, 448, 132, 24);
 		panel.add(lblCidade);
 		
 		txtuf = new JTextField();
@@ -219,7 +204,7 @@ public class FrameCadastro {
 		txtuf.setBounds(843, 245, 60, 25);
 		panel.add(txtuf);
 		
-		JLabel lblUf = new JLabel("UF:");
+		JLabel lblUf = new JLabel("BF:");
 		lblUf.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblUf.setForeground(Color.WHITE);
 		lblUf.setFont(new Font("Arial Black", Font.BOLD, 12));
@@ -235,14 +220,14 @@ public class FrameCadastro {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(null);
 		panel_2.setBackground(new Color(0, 65, 130));
-		panel_2.setBounds(22, 438, 956, 10);
+		panel_2.setBounds(22, 414, 956, 10);
 		panel.add(panel_2);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBounds(22, 567, 200, 130);
 		panel.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setIcon(new ImageIcon(FrameCadastro.class.getResource("/assets_loginFrame/logotipo200x200.png")));
+		lblNewLabel_1.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(49, 116, 173, 178);
@@ -252,7 +237,7 @@ public class FrameCadastro {
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBounds(10, 11, 150, 150);
 		panel_1.add(lblNewLabel_3);
-		lblNewLabel_3.setIcon(new ImageIcon(FrameCadastro.class.getResource("/assets_loginFrame/user.png")));
+		lblNewLabel_3.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/assets_loginFrame/user.png")));
 		
 		JButton btnNewButton = new JButton("Finalizar Matrícula");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -273,7 +258,7 @@ public class FrameCadastro {
 		});
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 16));
-		btnNewButton.setBounds(407, 479, 218, 32);
+		btnNewButton.setBounds(284, 547, 218, 32);
 		panel.add(btnNewButton);
 		
 		JButton btnGerarBoleto = new JButton("Finalizar e Criar Treinos");
@@ -283,19 +268,19 @@ public class FrameCadastro {
 		});
 		btnGerarBoleto.setFont(new Font("Arial", Font.BOLD, 16));
 		btnGerarBoleto.setBackground(Color.WHITE);
-		btnGerarBoleto.setBounds(407, 522, 218, 32);
+		btnGerarBoleto.setBounds(574, 547, 218, 32);
 		panel.add(btnGerarBoleto);
 		
 		JCheckBox Pago = new JCheckBox("Pagamento Já Efetuado");
 		Pago.setFont(new Font("Arial", Font.BOLD, 13));
-		Pago.setBounds(602, 357, 301, 33);
+		Pago.setBounds(602, 362, 301, 33);
 		panel.add(Pago);
 		
 		
 		JButton Geraboleto = new JButton("Gerar Boleto");
 		Geraboleto.setFont(new Font("Arial", Font.BOLD, 16));
 		Geraboleto.setBackground(Color.WHITE);
-		Geraboleto.setBounds(254, 355, 301, 32);
+		Geraboleto.setBounds(255, 360, 301, 32);
 		panel.add(Geraboleto);
 		
 		JButton btnVoltar = new JButton("Voltar");
@@ -311,8 +296,49 @@ public class FrameCadastro {
 		btnVoltar.setBackground(new Color(0, 69, 130));
 		btnVoltar.setBounds(809, 617, 139, 32);
 		panel.add(btnVoltar);
-		framecadastro.setBackground(new Color(0, 128, 128));
-		framecadastro.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameCadastro.class.getResource("/assets_loginFrame/Logotipo academia personal trainner (1).png")));
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Arial", Font.PLAIN, 13));
+		textField.setColumns(10);
+		textField.setBounds(332, 449, 212, 25);
+		panel.add(textField);
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Sem comorbidade");
+		rdbtnNewRadioButton.setFont(new Font("Arial", Font.PLAIN, 13));
+		rdbtnNewRadioButton.setBounds(600, 295, 148, 24);
+		panel.add(rdbtnNewRadioButton);
+		
+		JLabel lblCidade_1 = new JLabel("COMORBIDADE:");
+		lblCidade_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCidade_1.setForeground(Color.WHITE);
+		lblCidade_1.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblCidade_1.setBounds(232, 294, 132, 24);
+		panel.add(lblCidade_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Arial", Font.PLAIN, 13));
+		textField_1.setColumns(10);
+		textField_1.setBounds(370, 295, 212, 25);
+		panel.add(textField_1);
+		
+		JLabel lblCidade_2 = new JLabel("SENHA:");
+		lblCidade_2.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCidade_2.setForeground(Color.WHITE);
+		lblCidade_2.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblCidade_2.setBounds(545, 448, 80, 24);
+		panel.add(lblCidade_2);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(633, 449, 200, 25);
+		panel.add(passwordField);
+		
+		JLabel labelErro = new JLabel("");
+		labelErro.setToolTipText("");
+		labelErro.setFont(new Font("Arial", Font.BOLD, 14));
+		labelErro.setBounds(478, 498, 314, 39);
+		panel.add(labelErro);
+		framecadastro.setBackground(new Color(0, 79, 157));
+		framecadastro.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameCadastroAluno.class.getResource("/assets_loginFrame/Logotipo academia personal trainner (1).png")));
 		framecadastro.setBounds(100, 100, 1025, 769);
 		
 	}
