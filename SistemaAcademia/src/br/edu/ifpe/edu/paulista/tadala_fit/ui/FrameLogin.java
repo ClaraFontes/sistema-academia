@@ -191,37 +191,6 @@ public class FrameLogin {
 				String user = txtUsername.getText();
 				String password = new String(txtPassword.getPassword());
 				
-				/* try {
-					if (checkboxAluno == true) {
-					
-						Aluno alunoLogado = AccessController.loginAluno(user, password);
-						FrameAluno fAluno = new FrameAluno();
-						fAluno.framealuno.setVisible(true);
-						fAluno.getAluno(alunoLogado);
-						framelogin.dispose();
-					} else if (checkboxProfessor == true) {
-						Professor professorLogado = AccessController.loginProfessor(user, password);
-						FrameProfessor fProfessor = new FrameProfessor();
-						fProfessor.frameprofessor.setVisible(true);
-						fProfessor.getProfessor(professorLogado);
-						framelogin.dispose();
-					} else if (checkboxAdministrador == true) {
-						Administrador admLogado = AccessController.loginAdm(user, password);
-						FrameAdm fAdm = new FrameAdm();
-						fAdm.frameadm.setVisible(true);
-						fAdm.getAdm(admLogado);
-						framelogin.dispose();
-					}
-					
-				} catch (ClassNotFoundException | SQLException e1) {
-					lblloginmensagem.setText("Erro inesperado, tente novamente.");
-					System.out.println(e1.getMessage());
-				} catch (RuntimeException e2) {
-					lblloginmensagem.setText("Digite usuário e senha.");
-				} catch (Exception e3) {
-					System.out.println(e3);
-				} */
-				
 				try {
 					if (chckbxAdm.isSelected()) {
 					Administrador admLogado = AccessController.loginAdm(user, password);
@@ -248,6 +217,10 @@ public class FrameLogin {
 						}
 						
 						}
+					
+					if (chckbxAluno.isSelected() && chckbxAdm.isSelected()) {
+						lblloginmensagem.setText("Marque apenas uma caixa.");
+					}
 					
 				} catch (ClassNotFoundException | SQLException e1) {
 				lblloginmensagem.setText("Erro inesperado, tente novamente.");
