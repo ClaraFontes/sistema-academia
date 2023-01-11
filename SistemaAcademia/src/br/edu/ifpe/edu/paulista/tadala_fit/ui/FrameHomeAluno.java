@@ -19,6 +19,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+
 
 public class FrameHomeAluno {
 
@@ -133,5 +135,10 @@ public class FrameHomeAluno {
 		framehomealuno.setTitle("TadalaFit - Versão - 1.0");
 		framehomealuno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		framehomealuno.setBounds(100, 100, 1024, 769);
+	}
+
+	public void getAluno(Aluno alunoLogado) {
+		// TODO Auto-generated method stub
+		
 	}
 }

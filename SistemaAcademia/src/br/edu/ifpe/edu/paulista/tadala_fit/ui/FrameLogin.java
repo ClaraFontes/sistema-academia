@@ -225,11 +225,29 @@ public class FrameLogin {
 				try {
 					if (chckbxAdm.isSelected()) {
 					Administrador admLogado = AccessController.loginAdm(user, password);
-					FrameHome fh = new FrameHome();
-					fh.framehome.setVisible(true);
-					fh.getAdm(admLogado);
-					framelogin.dispose();
+					if (admLogado != null) {
+						FrameHome fh = new FrameHome();
+						fh.framehome.setVisible(true);
+						fh.getAdm(admLogado);
+						framelogin.dispose();
+					} else {
+						lblloginmensagem.setText("Usuário ou senha incorretos.");
 					}
+					
+					}
+					
+					if (chckbxAluno.isSelected()) {
+						Aluno alunoLogado = AccessController.loginAluno(user, password);
+						if (alunoLogado != null) {
+							FrameHomeAluno fa = new FrameHomeAluno();
+							fa.framehomealuno.setVisible(true);
+							fa.getAluno(alunoLogado);
+							framelogin.dispose();
+						} else {
+							lblloginmensagem.setText("Usuário ou senha incorretos.");
+						}
+						
+						}
 					
 				} catch (ClassNotFoundException | SQLException e1) {
 				lblloginmensagem.setText("Erro inesperado, tente novamente.");
