@@ -89,7 +89,7 @@ public class FrameLogin {
 		framelogin.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		framelogin.getContentPane().setFont(new Font("04b", Font.PLAIN, 11));
 		framelogin.getContentPane().setBackground(new Color(0, 79, 157));
-		framelogin.setBackground(new Color(0, 128, 128));
+		framelogin.setBackground(new Color(0, 79, 157));
 		framelogin.getContentPane().setForeground(UIManager.getColor("Button.background"));
 		framelogin.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameLogin.class.getResource("/assets_loginFrame/Logotipo academia personal trainner (1).png")));
 		framelogin.setForeground(new Color(255, 255, 255));
@@ -180,11 +180,13 @@ public class FrameLogin {
 		chckbxAdm.setBounds(402, 513, 74, 22);
 		framelogin.getContentPane().add(chckbxAdm);
 		
+		JCheckBox chckbxAluno = new JCheckBox("ALUNO");
+		chckbxAluno.setBounds(511, 513, 74, 22);
+		framelogin.getContentPane().add(chckbxAluno);
+		
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
 		btnNewButton.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("deprecation")
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				String user = txtUsername.getText();
 				String password = new String(txtPassword.getPassword());
@@ -258,9 +260,6 @@ public class FrameLogin {
 		lblNewLabel_2.setBounds(348, 678, 324, 40);
 		framelogin.getContentPane().add(lblNewLabel_2);
 		
-		JCheckBox chckbxAluno = new JCheckBox("ALUNO");
-		chckbxAluno.setBounds(511, 513, 74, 22);
-		framelogin.getContentPane().add(chckbxAluno);
 		
 	}
 }

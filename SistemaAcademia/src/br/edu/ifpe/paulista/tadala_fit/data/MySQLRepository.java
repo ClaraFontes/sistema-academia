@@ -17,7 +17,6 @@ public class MySQLRepository implements Repository {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 	}
 	
-	@SuppressWarnings("resource")
 	public Aluno loginAluno(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
@@ -77,13 +76,11 @@ public class MySQLRepository implements Repository {
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
+			
 			if (resultSet.next()) {
-				int matricula = resultSet.getInt("matricula");
+				int id = resultSet.getInt("id");
 				String nome = resultSet.getString("nome");
-				String sexo = resultSet.getString("sexo");
-				String cpf = resultSet.getString("cpf");
-				String cargo = resultSet.getString("cargo");
-				Administrador admAtual = new Administrador(matricula, user, password, nome, sexo, cpf, cargo);
+				Administrador admAtual = new Administrador(id, user, password, nome);
 				return admAtual;
 			} 
 		} finally {

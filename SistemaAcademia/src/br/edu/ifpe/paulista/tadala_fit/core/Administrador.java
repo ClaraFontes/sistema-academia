@@ -1,35 +1,29 @@
 package br.edu.ifpe.paulista.tadala_fit.core;
 
 public class Administrador {
-	protected int matricula;
+	protected int id;
 	protected String usuario;
 	protected String senha;
 	protected String nome;
-	protected String sexo;
-	protected String cpf;
-	protected String cargo;
 	
 	public Administrador(String usuario, String senha) {
 		this.usuario = usuario;
 		this.senha = senha;
 	}
 	
-	public Administrador(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String cargo) {
-		this.matricula = matricula;
+	public Administrador(int id, String usuario, String senha, String nome) {
+		this.id = id;
 		this.usuario = usuario;
 		this.senha = senha;
 		this.nome = nome;
-		this.sexo = sexo;
-		this.cpf = cpf;
-		this.cargo = cargo;
 	}
 
 	public int getMatricula() {
-		return matricula;
+		return id;
 	}
 
-	public void setMatricula(int matricula) {
-		this.matricula = matricula;
+	public void setMatricula(int id) {
+		this.id = id;
 	}
 
 	public String getUsuario() {
@@ -56,7 +50,7 @@ public class Administrador {
 		this.nome = nome;
 	}
 
-	public String getSexo() {
+	/*public String getSexo() {
 		return sexo;
 	}
 
@@ -70,6 +64,6 @@ public class Administrador {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
+	}*/
 }
 
