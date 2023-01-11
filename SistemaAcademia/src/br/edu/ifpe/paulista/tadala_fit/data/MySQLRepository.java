@@ -21,7 +21,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
-			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, sexo, cpf, senha, usuario cargo FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, sexo, cpf, senha, usuario, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, situacao FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
@@ -30,8 +30,15 @@ public class MySQLRepository implements Repository {
 				String nome = resultSet.getString("nome");
 				String sexo = resultSet.getString("sexo");
 				String cpf = resultSet.getString("cpf");
-				String cargo = resultSet.getString("cargo");
-				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf, cargo);
+				String telefone = resultSet.getString("telefone");
+				String email = resultSet.getString("email");
+				String data_nascimento = resultSet.getString("data_nascimento");
+				Double altura = resultSet.getDouble("altura");
+				Double peso = resultSet.getDouble("peso");
+				Double bf = resultSet.getDouble("bf");
+				String comorbidade = resultSet.getString("comorbidade");
+				String situacao = resultSet.getString("situacao");
+				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf, situacao, telefone, email, bf, altura, peso, data_nascimento, comorbidade);
 				return alunoAtual;
 			} else {
 				return null;
@@ -76,7 +83,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
-			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, password FROM administrador a WHERE a.user = ? AND a.password = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, cpf, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
@@ -84,7 +91,8 @@ public class MySQLRepository implements Repository {
 			if (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				String nome = resultSet.getString("nome");
-				Administrador admAtual = new Administrador(id, user, password, nome);
+				String cpf = resultSet.getString("cpf");
+				Administrador admAtual = new Administrador(id, user, password, nome, cpf);
 				return admAtual;
 			} else {
 				

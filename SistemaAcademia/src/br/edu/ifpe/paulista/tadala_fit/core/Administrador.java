@@ -5,17 +5,22 @@ public class Administrador {
 	protected String usuario;
 	protected String senha;
 	protected String nome;
+	protected String cpf;
 	
-	public Administrador(String usuario, String senha) {
-		this.usuario = usuario;
-		this.senha = senha;
-	}
-	
-	public Administrador(int id, String usuario, String senha, String nome) {
+	public Administrador(int id, String usuario, String senha, String nome, String cpf) {
 		this.id = id;
 		this.usuario = usuario;
 		this.senha = senha;
 		this.nome = nome;
+		this.cpf = cpf;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public int getMatricula() {
@@ -50,20 +55,6 @@ public class Administrador {
 		this.nome = nome;
 	}
 
-	/*public String getSexo() {
-		return sexo;
-	}
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}*/
+	
 }
 
