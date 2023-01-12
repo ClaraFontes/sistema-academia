@@ -13,22 +13,14 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
-import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
-
 import java.awt.Font;
 import javax.swing.ImageIcon;
-import javax.swing.JDesktopPane;
-import javax.swing.JFileChooser;
-import java.io.File;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JSlider;
-import javax.swing.JToggleButton;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
-import javax.swing.JPasswordField;       
+import javax.swing.JPasswordField;    
 
 public class FrameCadastroAluno {
 
@@ -86,12 +78,9 @@ public class FrameCadastroAluno {
 			}
 		});
 		
-		
 		framecadastro.setResizable(false);
 		framecadastro.getContentPane().setBackground(new Color(0, 65, 130));
 		framecadastro.getContentPane().setLayout(null);
-		
-		JFileChooser fileChooser = new JFileChooser();
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);

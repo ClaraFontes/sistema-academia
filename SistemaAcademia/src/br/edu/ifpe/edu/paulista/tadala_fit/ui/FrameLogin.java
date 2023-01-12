@@ -12,7 +12,6 @@ import javax.swing.UIManager;
 import br.edu.ifpe.paulista.tadala_fit.core.AccessController;
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
-import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -28,8 +27,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import javax.swing.JCheckBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class FrameLogin {
 
@@ -116,12 +113,6 @@ public class FrameLogin {
 					txtUsername.selectAll();
 				}
 			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (txtUsername.getText().equals("")) {
-					txtUsername.setText("User");
-				}
-			}
 		});
 		txtUsername.setBorder(null);
 		txtUsername.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -149,13 +140,7 @@ public class FrameLogin {
 			public void focusGained(FocusEvent e) {
 				txtPassword.setText("");
 			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(txtPassword.getText().equals("")) {
-					txtPassword.setText("Senha");
-
-				}
-			}
+	
 		});
 		txtPassword.setBorder(null);
 		txtPassword.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));

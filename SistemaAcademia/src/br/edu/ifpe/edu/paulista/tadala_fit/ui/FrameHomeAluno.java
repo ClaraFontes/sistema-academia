@@ -17,8 +17,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
-import javax.swing.SwingConstants;
-
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 
 
@@ -97,6 +95,14 @@ public class FrameHomeAluno {
 		panel.add(btnverperfil);
 		
 		JButton btnconsultartreino = new JButton("Consultar Treino");
+		btnconsultartreino.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrameTreinoAluno fta = new FrameTreinoAluno();
+				fta.frametreinoaluno.setVisible(true);
+				framehomealuno.dispose();
+			}
+		});
 		btnconsultartreino.setBackground(new Color(255, 255, 255));
 		btnconsultartreino.setFont(new Font("Arial", Font.BOLD, 13));
 		btnconsultartreino.addActionListener(new ActionListener() {

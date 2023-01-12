@@ -17,16 +17,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.SoftBevelBorder;
-
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
-
-import javax.swing.border.BevelBorder;
 import java.awt.Rectangle;
-import java.awt.ComponentOrientation;
 import java.awt.Font;
-
 public class FrameHome {
 
 	protected JFrame framehome;
@@ -74,7 +67,7 @@ public class FrameHome {
 		framehome.getContentPane().setBackground(new Color(0, 79, 157));
 		framehome.setTitle("TadalaFit - Versão - 1.0");
 		framehome.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameHome.class.getResource("/assets_loginFrame/Logotipo academia personal trainner (1).png")));
-		framehome.setBounds(100, 100, 1024, 769);
+		framehome.setBounds(100, 100, 1200, 769);
 		framehome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		framehome.getContentPane().setLayout(null);
 		
@@ -153,6 +146,14 @@ public class FrameHome {
 		panel.add(btnSair);
 		
 		JButton btnCadastro_1 = new JButton("Cadastro de Professor");
+		btnCadastro_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrameCadastroProfessor fcp = new FrameCadastroProfessor();
+				fcp.framecadastroprofessor.setVisible(true);
+				framehome.dispose();
+			}
+		});
 		btnCadastro_1.setFont(new Font("Arial", Font.BOLD, 13));
 		btnCadastro_1.setBackground(Color.WHITE);
 		btnCadastro_1.setBounds(54, 341, 151, 33);

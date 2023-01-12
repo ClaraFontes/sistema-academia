@@ -3,10 +3,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Color;
-import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Font;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -20,8 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class FrameConsulta {
 

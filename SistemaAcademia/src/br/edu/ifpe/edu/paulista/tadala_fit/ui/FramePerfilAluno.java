@@ -9,7 +9,6 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -129,9 +128,10 @@ public class FramePerfilAluno {
 		panel.add(lblBf);
 		
 		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		lblNewLabel_2.setFont(new Font("Arial Black", Font.BOLD, 12));
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(348, 657, 324, 40);
+		lblNewLabel_2.setBounds(348, 657, 342, 40);
 		panel.add(lblNewLabel_2);
 		
 		JPanel panel_2 = new JPanel();
@@ -147,11 +147,13 @@ public class FramePerfilAluno {
 		lblNewLabel_1.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(0, 79, 157));
 		panel_1.setBounds(49, 116, 173, 178);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setBackground(new Color(0, 30, 130));
 		lblNewLabel_3.setBounds(10, 11, 150, 150);
 		panel_1.add(lblNewLabel_3);
 		lblNewLabel_3.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/assets_loginFrame/user.png")));
@@ -185,7 +187,7 @@ public class FramePerfilAluno {
 		panel.add(lblaltura);
 		
 		JLabel lblbf = new JLabel("");
-		lblbf.setBounds(843, 250, 178, 14);
+		lblbf.setBounds(843, 250, 113, 14);
 		panel.add(lblbf);
 		
 		JLabel lblcomorbidade = new JLabel("");
@@ -208,6 +210,9 @@ public class FramePerfilAluno {
 		panel.add(lblstatus);
 		
 		JButton btnvoltar = new JButton("Voltar");
+		btnvoltar.setBackground(new Color(0, 30, 130));
+		btnvoltar.setForeground(new Color(255, 255, 255));
+		btnvoltar.setFont(new Font("Arial", Font.BOLD, 16));
 		btnvoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -220,7 +225,7 @@ public class FramePerfilAluno {
 				}
 			}
 		});
-		btnvoltar.setBounds(434, 567, 139, 40);
+		btnvoltar.setBounds(443, 567, 139, 40);
 		panel.add(btnvoltar);
 	}
 
