@@ -10,16 +10,21 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextField;
 
 public class FramePerfilAluno {
 
 	protected JFrame frameperfilaluno;
+	protected Aluno perfilAlunoAtual;
+	protected JTextField txtnome;
 
-
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -237,6 +242,19 @@ public class FramePerfilAluno {
 		});
 		btnvoltar.setBounds(443, 567, 139, 40);
 		panel.add(btnvoltar);
+		
+		txtnome = new JTextField();
+		txtnome.setEnabled(false);
+		txtnome.setBounds(314, 106, 86, 20);
+		panel.add(txtnome);
+		txtnome.setColumns(10);
+		
+		
 	}
-
+	
+	public void getAluno(Aluno alunoLogado) {
+		perfilAlunoAtual = alunoLogado;
+		txtnome.setText(perfilAlunoAtual.getNome());
+				
+	}
 }

@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 public class FrameHomeAluno {
 
 	protected JFrame framehomealuno;
+	protected Aluno alunoAtual;
 
 	/**
 	 * Launch the application.
@@ -86,6 +87,7 @@ public class FrameHomeAluno {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FramePerfilAluno fpa = new FramePerfilAluno();
+				fpa.getAluno(alunoAtual);
 				fpa.frameperfilaluno.setVisible(true);
 				framehomealuno.dispose();
 			}
@@ -146,7 +148,7 @@ public class FrameHomeAluno {
 	}
 
 	public void getAluno(Aluno alunoLogado) {
-		// TODO Auto-generated method stub
+		alunoAtual = alunoLogado;
 		
 	}
 }
