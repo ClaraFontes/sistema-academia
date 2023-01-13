@@ -72,21 +72,21 @@ public class FrameConsulta {
 		btnExcluir.setEnabled(false);
 		btnExcluir.setBackground(new Color(255, 255, 255));
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 13));
-		btnExcluir.setBounds(766, 273, 174, 36);
+		btnExcluir.setBounds(766, 265, 174, 36);
 		frameconsulta.getContentPane().add(btnExcluir);
 		
 		JButton btnPerfil = new JButton("Ver Perfil");
 		btnPerfil.setEnabled(false);
 		btnPerfil.setFont(new Font("Arial", Font.BOLD, 13));
 		btnPerfil.setBackground(Color.WHITE);
-		btnPerfil.setBounds(766, 433, 174, 36);
+		btnPerfil.setBounds(766, 412, 174, 36);
 		frameconsulta.getContentPane().add(btnPerfil);
 		
 		JButton btnRenovar = new JButton("Renovar Pagamento");
 		btnRenovar.setEnabled(false);
 		btnRenovar.setFont(new Font("Arial", Font.BOLD, 13));
 		btnRenovar.setBackground(Color.WHITE);
-		btnRenovar.setBounds(766, 352, 174, 36);
+		btnRenovar.setBounds(766, 338, 174, 36);
 		frameconsulta.getContentPane().add(btnRenovar);
 		
 		JButton btnVoltar = new JButton("Voltar");
@@ -99,7 +99,7 @@ public class FrameConsulta {
 		});
 		btnVoltar.setFont(new Font("Arial", Font.BOLD, 13));
 		btnVoltar.setBackground(Color.WHITE);
-		btnVoltar.setBounds(766, 525, 174, 36);
+		btnVoltar.setBounds(766, 566, 174, 36);
 		frameconsulta.getContentPane().add(btnVoltar);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -166,6 +166,13 @@ public class FrameConsulta {
 		logo.setIcon(new ImageIcon(FrameConsulta.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		logo.setBounds(753, 82, 200, 139);
 		frameconsulta.getContentPane().add(logo);
+		
+		JButton btnCriart = new JButton("Criar Treino");
+		btnCriart.setFont(new Font("Arial", Font.BOLD, 13));
+		btnCriart.setEnabled(false);
+		btnCriart.setBackground(Color.WHITE);
+		btnCriart.setBounds(766, 487, 174, 36);
+		frameconsulta.getContentPane().add(btnCriart);
 		frameconsulta.setBounds(100, 100, 1025, 769);
 		frameconsulta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameconsulta.setResizable(true);

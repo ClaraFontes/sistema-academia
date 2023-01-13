@@ -75,21 +75,25 @@ public class FrameTreinoAluno {
 		lblNewLabel.setIcon(new ImageIcon(FrameTreinoAluno.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		
 		JButton btnB = new JButton("B");
+		btnB.setBackground(new Color(255, 255, 255));
 		btnB.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnB.setBounds(312, 113, 121, 40);
 		frametreinoaluno.getContentPane().add(btnB);
 		
 		JButton btnC = new JButton("C");
+		btnC.setBackground(new Color(255, 255, 255));
 		btnC.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnC.setBounds(443, 113, 121, 40);
 		frametreinoaluno.getContentPane().add(btnC);
 		
 		JButton btnD = new JButton("D");
+		btnD.setBackground(new Color(255, 255, 255));
 		btnD.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnD.setBounds(574, 113, 121, 40);
 		frametreinoaluno.getContentPane().add(btnD);
 		
 		JButton btnE = new JButton("E");
+		btnE.setBackground(new Color(255, 255, 255));
 		btnE.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnE.setBounds(705, 113, 121, 40);
 		frametreinoaluno.getContentPane().add(btnE);
@@ -101,8 +105,8 @@ public class FrameTreinoAluno {
 		lblNewLabel_1.setBounds(453, 67, 168, 14);
 		frametreinoaluno.getContentPane().add(lblNewLabel_1);
 		
-		JButton btnvoltar = new JButton("Voltar");
-		btnvoltar.addMouseListener(new MouseAdapter() {
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FrameHomeAluno fha = new FrameHomeAluno();
@@ -110,16 +114,31 @@ public class FrameTreinoAluno {
 				frametreinoaluno.dispose();
 			}
 		});
-		btnvoltar.setForeground(new Color(255, 255, 255));
-		btnvoltar.setFont(new Font("Arial", Font.BOLD, 18));
-		btnvoltar.setBackground(new Color(0, 30, 157));
-		btnvoltar.setBounds(769, 614, 121, 40);
-		frametreinoaluno.getContentPane().add(btnvoltar);
+		btnVoltar.setForeground(new Color(255, 255, 255));
+		btnVoltar.setFont(new Font("Arial", Font.BOLD, 18));
+		btnVoltar.setBackground(new Color(0, 69, 130));
+		btnVoltar.setBounds(769, 614, 121, 40);
+		frametreinoaluno.getContentPane().add(btnVoltar);
 		
 		JButton btnA = new JButton("A");
+		btnA.setBackground(new Color(255, 255, 255));
 		btnA.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnA.setBounds(181, 113, 121, 40);
 		frametreinoaluno.getContentPane().add(btnA);
+		
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setForeground(Color.WHITE);
+		btnAlterar.setFont(new Font("Arial", Font.BOLD, 18));
+		btnAlterar.setBackground(new Color(0, 69, 130));
+		btnAlterar.setBounds(244, 614, 121, 40);
+		frametreinoaluno.getContentPane().add(btnAlterar);
+		
+		JButton btnImprimir = new JButton("Imprimir");
+		btnImprimir.setForeground(Color.WHITE);
+		btnImprimir.setFont(new Font("Arial", Font.BOLD, 18));
+		btnImprimir.setBackground(new Color(0, 69, 130));
+		btnImprimir.setBounds(383, 614, 121, 40);
+		frametreinoaluno.getContentPane().add(btnImprimir);
 		frametreinoaluno.setTitle("Tadalafit - Versão 1.0");
 		frametreinoaluno.setBounds(100, 100, 1024, 768);
 		frametreinoaluno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

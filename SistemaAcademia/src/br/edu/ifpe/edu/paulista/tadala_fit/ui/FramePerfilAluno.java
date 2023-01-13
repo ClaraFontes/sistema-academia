@@ -159,38 +159,47 @@ public class FramePerfilAluno {
 		lblNewLabel_3.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/assets_loginFrame/user.png")));
 		
 		JLabel lblnome = new JLabel("");
+		lblnome.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblnome.setBounds(326, 109, 178, 14);
 		panel.add(lblnome);
 		
 		JLabel lbltelefone = new JLabel("");
+		lbltelefone.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbltelefone.setBounds(343, 150, 183, 24);
 		panel.add(lbltelefone);
 		
 		JLabel lblcpf = new JLabel("");
+		lblcpf.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblcpf.setBounds(677, 156, 178, 14);
 		panel.add(lblcpf);
 		
 		JLabel lbldata = new JLabel("");
+		lbldata.setFont(new Font("Arial", Font.PLAIN, 12));
 		lbldata.setBounds(348, 203, 178, 14);
 		panel.add(lbldata);
 		
 		JLabel lblemail = new JLabel("");
+		lblemail.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblemail.setBounds(583, 203, 178, 14);
 		panel.add(lblemail);
 		
 		JLabel lblpeso = new JLabel("");
-		lblpeso.setBounds(308, 250, 178, 14);
+		lblpeso.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblpeso.setBounds(308, 250, 147, 14);
 		panel.add(lblpeso);
 		
 		JLabel lblaltura = new JLabel("");
+		lblaltura.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblaltura.setBounds(547, 250, 178, 14);
 		panel.add(lblaltura);
 		
 		JLabel lblbf = new JLabel("");
+		lblbf.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblbf.setBounds(843, 250, 113, 14);
 		panel.add(lblbf);
 		
 		JLabel lblcomorbidade = new JLabel("");
+		lblcomorbidade.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblcomorbidade.setBounds(375, 300, 178, 14);
 		panel.add(lblcomorbidade);
 		
@@ -206,11 +215,12 @@ public class FramePerfilAluno {
 		panel.add(lblSatus);
 		
 		JLabel lblstatus = new JLabel("");
+		lblstatus.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblstatus.setBounds(394, 437, 183, 20);
 		panel.add(lblstatus);
 		
 		JButton btnvoltar = new JButton("Voltar");
-		btnvoltar.setBackground(new Color(0, 30, 130));
+		btnvoltar.setBackground(new Color(0, 69, 130));
 		btnvoltar.setForeground(new Color(255, 255, 255));
 		btnvoltar.setFont(new Font("Arial", Font.BOLD, 16));
 		btnvoltar.addMouseListener(new MouseAdapter() {

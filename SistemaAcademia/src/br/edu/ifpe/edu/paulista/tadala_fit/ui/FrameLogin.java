@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import br.edu.ifpe.paulista.tadala_fit.core.AccessController;
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -27,6 +28,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FrameLogin {
 
@@ -113,6 +116,12 @@ public class FrameLogin {
 					txtUsername.selectAll();
 				}
 			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (txtUsername.getText().equals("")) {
+					txtUsername.setText("User");
+				}
+			}
 		});
 		txtUsername.setBorder(null);
 		txtUsername.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -140,7 +149,14 @@ public class FrameLogin {
 			public void focusGained(FocusEvent e) {
 				txtPassword.setText("");
 			}
-	
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(txtPassword.getPassword().toString().equals("")) {
+					txtPassword.setText("Senha");
+					
+
+				}
+			}
 		});
 		txtPassword.setBorder(null);
 		txtPassword.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -177,43 +193,50 @@ public class FrameLogin {
 				String password = new String(txtPassword.getPassword());
 				
 				try {
-					if (chckbxAdm.isSelected()) {
-					Administrador admLogado = AccessController.loginAdm(user, password);
-					if (admLogado != null) {
-						FrameHome fh = new FrameHome();
-						fh.framehome.setVisible(true);
-						fh.getAdm(admLogado);
-						framelogin.dispose();
+					if (chckbxAluno.isSelected() && chckbxAdm.isSelected()) {
+						lblloginmensagem.setText("Marque apenas uma caixa.");
+					} else if (!chckbxAluno.isSelected() && !chckbxAdm.isSelected()) {
+						lblloginmensagem.setText("Marque alguma caixa.");
+					} else if (chckbxAdm.isSelected()) {
+						Administrador admLogado = AccessController.loginAdm(user, password);
+						if (admLogado != null) {
+							FrameHome fh = new FrameHome();
+							fh.framehome.setVisible(true);
+							fh.getAdm(admLogado);
+							framelogin.dispose();
 					} else {
 						lblloginmensagem.setText("Usuário ou senha incorretos.");
 					}
 					
-					}
-					
-					if (chckbxAluno.isSelected()) {
+					} else if (chckbxAluno.isSelected()) { 
 						Aluno alunoLogado = AccessController.loginAluno(user, password);
 						if (alunoLogado != null) {
 							FrameHomeAluno fa = new FrameHomeAluno();
 							fa.framehomealuno.setVisible(true);
 							fa.getAluno(alunoLogado);
 							framelogin.dispose();
-						} else {
-							lblloginmensagem.setText("Usuário ou senha incorretos.");
+					} else {
+						lblloginmensagem.setText("Usuário ou senha incorretos.");
 						}
 						
 						}
 					
-					if (chckbxAluno.isSelected() && chckbxAdm.isSelected()) {
+					/*if (chckbxAluno.isSelected() && chckbxAdm.isSelected()) {
 						lblloginmensagem.setText("Marque apenas uma caixa.");
 					}
 					
+					if (chckbxAluno.isSelected() || chckbxAdm.isSelected() == false) {
+						lblloginmensagem.setText("Marque alguma caixa.");
+					}*/
+					
 				} catch (ClassNotFoundException | SQLException e1) {
-				lblloginmensagem.setText("Erro inesperado, tente novamente.");
+					lblloginmensagem.setText("Erro inesperado, tente novamente.");
 				System.out.println(e1.getMessage());
 				} catch (RuntimeException e2) {
-				lblloginmensagem.setText("Digite usuário e senha.");
+					lblloginmensagem.setText("Campos vazios ou usuário e senha incorretos.");
+					System.out.println(e2);
 				} catch (Exception e3) {
-				System.out.println(e3);
+					System.out.println(e3);
 				} 
 
 		  }

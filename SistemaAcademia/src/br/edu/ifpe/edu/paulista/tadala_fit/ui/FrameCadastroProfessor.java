@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.SwingConstants;
 
 public class FrameCadastroProfessor {
 
@@ -26,6 +27,7 @@ public class FrameCadastroProfessor {
 	private JTextField txtcref;
 	private JTextField txtuser;
 	private JTextField txtpassword;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -81,45 +83,45 @@ public class FrameCadastroProfessor {
 		JLabel lblnome = new JLabel("NOME:");
 		lblnome.setFont(new Font("Arial Black", Font.BOLD, 13));
 		lblnome.setForeground(new Color(255, 255, 255));
-		lblnome.setBounds(254, 105, 57, 14);
+		lblnome.setBounds(280, 143, 57, 14);
 		framecadastroprofessor.getContentPane().add(lblnome);
 		
 		JLabel lbltelefone = new JLabel("TELEFONE:");
 		lbltelefone.setForeground(Color.WHITE);
 		lbltelefone.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lbltelefone.setBounds(226, 153, 96, 14);
+		lbltelefone.setBounds(252, 182, 96, 14);
 		framecadastroprofessor.getContentPane().add(lbltelefone);
 		
 		JLabel lblemail = new JLabel("EMAIL: ");
 		lblemail.setForeground(Color.WHITE);
 		lblemail.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lblemail.setBounds(254, 196, 57, 14);
+		lblemail.setBounds(280, 225, 57, 14);
 		framecadastroprofessor.getContentPane().add(lblemail);
 		
 		JLabel lblcref = new JLabel("CREF:");
 		lblcref.setForeground(Color.WHITE);
 		lblcref.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lblcref.setBounds(264, 241, 46, 14);
+		lblcref.setBounds(290, 270, 46, 14);
 		framecadastroprofessor.getContentPane().add(lblcref);
 		
 		txtnome = new JTextField();
-		txtnome.setBounds(321, 104, 460, 20);
+		txtnome.setBounds(347, 143, 460, 20);
 		framecadastroprofessor.getContentPane().add(txtnome);
 		txtnome.setColumns(10);
 		
 		txttelefone = new JTextField();
 		txttelefone.setColumns(10);
-		txttelefone.setBounds(321, 152, 460, 20);
+		txttelefone.setBounds(347, 181, 460, 20);
 		framecadastroprofessor.getContentPane().add(txttelefone);
 		
 		txtemail = new JTextField();
 		txtemail.setColumns(10);
-		txtemail.setBounds(321, 195, 460, 20);
+		txtemail.setBounds(347, 224, 460, 20);
 		framecadastroprofessor.getContentPane().add(txtemail);
 		
 		txtcref = new JTextField();
 		txtcref.setColumns(10);
-		txtcref.setBounds(320, 240, 460, 20);
+		txtcref.setBounds(346, 269, 460, 20);
 		framecadastroprofessor.getContentPane().add(txtcref);
 		
 		JLabel lbllogo = new JLabel("");
@@ -127,19 +129,12 @@ public class FrameCadastroProfessor {
 		lbllogo.setBounds(67, 535, 222, 167);
 		framecadastroprofessor.getContentPane().add(lbllogo);
 		
-		JLabel lblcopyright = new JLabel("\"Copyright (c) 2022 Tadalafit  All Rights Reserved\"");
-		lblcopyright.setForeground(new Color(255, 255, 255));
-		lblcopyright.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblcopyright.setBackground(new Color(255, 255, 255));
-		lblcopyright.setBounds(345, 665, 486, 14);
-		framecadastroprofessor.getContentPane().add(lblcopyright);
-		
 		JPanel panel = new JPanel();
 		panel.setBounds(55, 307, 65, -2);
 		framecadastroprofessor.getContentPane().add(panel);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(0, 30, 130));
+		panel_1.setBackground(new Color(0, 69, 130));
 		panel_1.setBounds(10, 322, 988, 10);
 		framecadastroprofessor.getContentPane().add(panel_1);
 		
@@ -168,7 +163,7 @@ public class FrameCadastroProfessor {
 		JButton btnfinalizarmatricula = new JButton("Finalizar Matrícula");
 		btnfinalizarmatricula.setForeground(new Color(0, 0, 0));
 		btnfinalizarmatricula.setBackground(new Color(255, 255, 255));
-		btnfinalizarmatricula.setFont(new Font("Arial Black", Font.BOLD, 16));
+		btnfinalizarmatricula.setFont(new Font("Arial", Font.BOLD, 16));
 		btnfinalizarmatricula.setBounds(408, 517, 222, 35);
 		framecadastroprofessor.getContentPane().add(btnfinalizarmatricula);
 		
@@ -182,9 +177,26 @@ public class FrameCadastroProfessor {
 			}
 		});
 		btnvoltar.setForeground(Color.WHITE);
-		btnvoltar.setFont(new Font("Arial Black", Font.BOLD, 16));
-		btnvoltar.setBackground(new Color(0, 30, 130));
+		btnvoltar.setFont(new Font("Arial", Font.BOLD, 16));
+		btnvoltar.setBackground(new Color(0, 69, 130));
 		btnvoltar.setBounds(712, 593, 166, 35);
 		framecadastroprofessor.getContentPane().add(btnvoltar);
+		
+		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setBounds(348, 657, 324, 40);
+		framecadastroprofessor.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblMatrcula = new JLabel("MATRÍCULA:");
+		lblMatrcula.setForeground(Color.WHITE);
+		lblMatrcula.setFont(new Font("Arial Black", Font.BOLD, 13));
+		lblMatrcula.setBounds(241, 99, 96, 14);
+		framecadastroprofessor.getContentPane().add(lblMatrcula);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(347, 99, 460, 20);
+		framecadastroprofessor.getContentPane().add(textField);
 	}
 }

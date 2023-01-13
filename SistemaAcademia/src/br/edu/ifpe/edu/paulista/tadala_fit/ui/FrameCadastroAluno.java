@@ -219,6 +219,7 @@ public class FrameCadastroAluno {
 		lblNewLabel_1.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(0, 79, 157));
 		panel_1.setBounds(49, 116, 173, 178);
 		panel.add(panel_1);
 		panel_1.setLayout(null);

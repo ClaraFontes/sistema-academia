@@ -67,7 +67,7 @@ public class FrameHome {
 		framehome.getContentPane().setBackground(new Color(0, 79, 157));
 		framehome.setTitle("TadalaFit - Versão - 1.0");
 		framehome.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameHome.class.getResource("/assets_loginFrame/Logotipo academia personal trainner (1).png")));
-		framehome.setBounds(100, 100, 1200, 769);
+		framehome.setBounds(100, 100, 1125, 769);
 		framehome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		framehome.getContentPane().setLayout(null);
 		

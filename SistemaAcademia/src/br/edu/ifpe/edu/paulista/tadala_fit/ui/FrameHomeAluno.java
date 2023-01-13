@@ -18,6 +18,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import javax.swing.SwingConstants;
 
 
 public class FrameHomeAluno {
@@ -135,6 +136,7 @@ public class FrameHomeAluno {
 		framehomealuno.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setBounds(472, 679, 324, 40);
 		framehomealuno.getContentPane().add(lblNewLabel_2);
