@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import javax.swing.SwingConstants;
+import javax.swing.JTextField;
 
 
 public class FrameHomeAluno {
@@ -26,6 +27,7 @@ public class FrameHomeAluno {
 	protected JFrame framehomealuno;
 	protected Aluno alunoAtual;
 	protected FrameHomeAluno window;
+	protected JTextField txtboasvindas;
 
 	/**
 	 * Launch the application.
@@ -102,9 +104,10 @@ public class FrameHomeAluno {
 		btnconsultartreino.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameTreinoAluno fta = new FrameTreinoAluno();
-				fta.frametreinoaluno.setVisible(true);
-				framehomealuno.dispose();
+				TreinoAluno ta = new TreinoAluno();
+				ta.getAluno(alunoAtual);
+				ta.setModal(true);
+				ta.setVisible(true);
 			}
 		});
 		btnconsultartreino.setBackground(new Color(255, 255, 255));
@@ -121,12 +124,30 @@ public class FrameHomeAluno {
 		btnsair.setFont(new Font("Arial", Font.BOLD, 13));
 		btnsair.setBounds(57, 430, 150, 33);
 		panel.add(btnsair);
+		
+		JLabel lblNewLabel_3 = new JLabel("Bem vindo(a):");
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 13));
+		lblNewLabel_3.setBounds(40, 210, 95, 14);
+		panel.add(lblNewLabel_3);
+		
+		txtboasvindas = new JTextField();
+		txtboasvindas.setDisabledTextColor(new Color(255, 255, 255));
+		txtboasvindas.setForeground(new Color(255, 255, 255));
+		txtboasvindas.setBackground(new Color(0, 65, 130));
+		txtboasvindas.setBorder(null);
+		txtboasvindas.setEnabled(false);
+		txtboasvindas.setFont(new Font("Arial Black", Font.BOLD, 13));
+		txtboasvindas.setBounds(133, 207, 97, 20);
+		panel.add(txtboasvindas);
+		txtboasvindas.setColumns(10);
 		btnsair.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (JOptionPane.showConfirmDialog(null, "deseja sair?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
 					FrameLogin fl = new FrameLogin();
 					fl.framelogin.setVisible(true);
+					framehomealuno.dispose();
 				}else {
 	
 			  }
@@ -149,6 +170,7 @@ public class FrameHomeAluno {
 
 	public void getAluno(Aluno alunoLogado) {
 		alunoAtual = alunoLogado;
+		txtboasvindas.setText(alunoLogado.getNome());
 		
 	}
 }

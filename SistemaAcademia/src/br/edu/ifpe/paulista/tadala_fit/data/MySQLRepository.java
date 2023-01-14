@@ -38,7 +38,8 @@ public class MySQLRepository implements Repository {
 				Double bf = resultSet.getDouble("bf");
 				String comorbidade = resultSet.getString("comorbidade");
 				String situacao = resultSet.getString("situacao");
-				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao);
+				String treino_a = resultSet.getString("treino_a");
+				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao,treino_a);
 				return alunoAtual;
 			} else {
 				return null;

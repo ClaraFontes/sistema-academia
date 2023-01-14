@@ -194,6 +194,7 @@ public class FrameLogin {
 					} else if (chckbxAdm.isSelected()) {
 						Administrador admLogado = AccessController.loginAdm(user, password);
 						if (admLogado != null) {
+							JOptionPane.showMessageDialog (null, "Login Efetuado");
 							FrameHome fh = new FrameHome();
 							fh.framehome.setVisible(true);
 							fh.getAdm(admLogado);
@@ -205,6 +206,7 @@ public class FrameLogin {
 					} else if (chckbxAluno.isSelected()) { 
 						Aluno alunoLogado = AccessController.loginAluno(user, password);
 						if (alunoLogado != null) {
+							JOptionPane.showMessageDialog (null, "Login Efetuado");
 							FrameHomeAluno fa = new FrameHomeAluno();
 							fa.framehomealuno.setVisible(true);
 							fa.getAluno(alunoLogado);

@@ -1,7 +1,6 @@
 package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -9,20 +8,16 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
-
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
+
 
 public class PerfilAluno extends JDialog {
 
@@ -48,7 +43,7 @@ public class PerfilAluno extends JDialog {
 	public static void main(String[] args) {
 		try {
 			PerfilAluno dialog = new PerfilAluno();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			//dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,8 +54,17 @@ public class PerfilAluno extends JDialog {
 	 * Create the dialog.
 	 */
 	public PerfilAluno() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "deseja sair do perfil?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+					setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				}else {
+					setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+				}
+			}
+		});
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setAlwaysOnTop(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(PerfilAluno.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		setTitle("Taladafit - Versão 1.0");
 		setResizable(false);

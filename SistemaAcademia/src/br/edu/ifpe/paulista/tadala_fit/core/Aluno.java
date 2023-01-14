@@ -17,13 +17,13 @@ public class Aluno {
 	protected double bf;
 	protected String comorbidade;
 	protected int matricula_prof_encarregado;
-	protected ArrayList<String> treino_a = new ArrayList<String>();
+	protected String treino_a;
 	protected ArrayList<String> treino_b = new ArrayList<String>();
 	protected ArrayList<String> treino_c = new ArrayList<String>();
 	protected ArrayList<String> treino_d = new ArrayList<String>();
 	protected String situacao;
 	
-	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, String situacao) {
+	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, String situacao,String treino_a) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -38,6 +38,7 @@ public class Aluno {
 		this.bf = bf;
 		this.comorbidade = comorbidade;
 		this.situacao = situacao;
+		this.treino_a = treino_a;
 	}
 	
 	
@@ -106,13 +107,13 @@ public class Aluno {
 		this.matricula_prof_encarregado = matricula_prof_encarregado;
 	}
 
-	public ArrayList<String> getTreino_a() {
+	public String getTreino_a() {
 		return treino_a;
 	}
 
-	public void setTreino_a(ArrayList<String> treino_a) {
-		this.treino_a = treino_a;
-	}
+	//public void setTreino_a(ArrayList<String> treino_a) {
+		//this.treino_a = treino_a;
+	////}
 
 	public ArrayList<String> getTreino_b() {
 		return treino_b;

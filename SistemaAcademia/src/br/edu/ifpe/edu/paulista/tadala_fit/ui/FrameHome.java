@@ -88,10 +88,10 @@ public class FrameHome {
 		btnCadastro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameCadastroAluno fc = new FrameCadastroAluno();
-				fc.framecadastro.setVisible(true);
-				framehome.dispose();
-	
+				CadastroAluno fc = new CadastroAluno();
+				fc.setModal(true);
+				fc.setVisible(true);
+
 			}
 		});
 		btnCadastro.addActionListener(new ActionListener() {
@@ -149,9 +149,10 @@ public class FrameHome {
 		btnCadastro_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameCadastroProfessor fcp = new FrameCadastroProfessor();
-				fcp.framecadastroprofessor.setVisible(true);
-				framehome.dispose();
+				CadastroProfessor cp = new CadastroProfessor();
+				cp.setModal(true);
+				cp.setVisible(true);
+	
 			}
 		});
 		btnCadastro_1.setFont(new Font("Arial", Font.BOLD, 13));
