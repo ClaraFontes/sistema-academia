@@ -8,12 +8,9 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
-
 import br.edu.ifpe.paulista.tadala_fit.core.AccessController;
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
-import br.edu.ifpe.paulista.tadala_fit.core.Professor;
-
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -28,9 +25,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import javax.swing.JCheckBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class FrameLogin {
 
 	protected JFrame framelogin;
@@ -228,7 +222,6 @@ public class FrameLogin {
 					if (chckbxAluno.isSelected() || chckbxAdm.isSelected() == false) {
 						lblloginmensagem.setText("Marque alguma caixa.");
 					}*/
-					
 				} catch (ClassNotFoundException | SQLException e1) {
 					lblloginmensagem.setText("Erro inesperado, tente novamente.");
 				System.out.println(e1.getMessage());

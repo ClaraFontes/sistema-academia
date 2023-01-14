@@ -23,7 +23,6 @@ public class Aluno {
 	protected ArrayList<String> treino_d = new ArrayList<String>();
 	protected String situacao;
 	
-	
 	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, String situacao) {
 		this.matricula = matricula;
 		this.usuario = usuario;

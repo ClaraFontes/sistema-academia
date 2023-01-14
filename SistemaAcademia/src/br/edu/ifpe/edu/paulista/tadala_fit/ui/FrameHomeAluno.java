@@ -25,6 +25,7 @@ public class FrameHomeAluno {
 
 	protected JFrame framehomealuno;
 	protected Aluno alunoAtual;
+	protected FrameHomeAluno window;
 
 	/**
 	 * Launch the application.
@@ -86,10 +87,10 @@ public class FrameHomeAluno {
 		btnverperfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FramePerfilAluno fpa = new FramePerfilAluno();
-				fpa.getAluno(alunoAtual);
-				fpa.frameperfilaluno.setVisible(true);
-				framehomealuno.dispose();
+				PerfilAluno fa = new PerfilAluno();
+				fa.getAluno(alunoAtual);
+				fa.setModal(true);
+				fa.setVisible(true);
 			}
 		});
 		btnverperfil.setBackground(new Color(240, 240, 240));
@@ -126,7 +127,6 @@ public class FrameHomeAluno {
 				if (JOptionPane.showConfirmDialog(null, "deseja sair?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
 					FrameLogin fl = new FrameLogin();
 					fl.framelogin.setVisible(true);
-					framehomealuno.dispose();
 				}else {
 	
 			  }
