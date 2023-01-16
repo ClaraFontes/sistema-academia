@@ -94,21 +94,17 @@ public class FrameHome {
 
 			}
 		});
-		btnCadastro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnCadastro.setBounds(43, 241, 176, 33);
 		panel.add(btnCadastro);
 		
 		JButton btnConsulta = new JButton("Consultar Aluno");
-		btnConsulta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FrameConsulta fcon = new FrameConsulta();
-				fcon.frameconsulta.setVisible(true);
-				framehome.dispose();
-			}
-		});
+		btnConsulta.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					ConsultaAluno fcon = new ConsultaAluno();
+					fcon.setModal(true);
+					fcon.setVisible(true);
+				}
+			});
 		btnConsulta.setFont(new Font("Arial", Font.BOLD, 13));
 		btnConsulta.setBackground(new Color(255, 255, 255));
 		btnConsulta.setBounds(54, 399, 151, 33);

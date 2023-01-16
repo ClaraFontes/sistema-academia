@@ -20,7 +20,7 @@ public class MySQLRepository implements Repository {
 	public Aluno loginAluno(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, situacao FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -55,7 +55,7 @@ public class MySQLRepository implements Repository {
 	public Professor loginProfessor(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, sexo, cpf, cargo, senha FROM professor a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -83,7 +83,7 @@ public class MySQLRepository implements Repository {
 	public Administrador loginAdm(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, cpf, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
