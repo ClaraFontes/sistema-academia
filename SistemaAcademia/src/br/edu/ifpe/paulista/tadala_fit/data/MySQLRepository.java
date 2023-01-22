@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import javax.swing.JOptionPane;
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
@@ -17,10 +17,73 @@ public class MySQLRepository implements Repository {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 	}
 	
+	
+	public void CadastroProfessor(String user, String password, String nome, String telefone, String email, String cref) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			String sql = ("INSERT INTO professor(user, password, nome, telefone, email, cref) VALUES (?,?,?,?,?,?)");
+			String sql2 = ("SELECT user FROM professor WHERE user = ? and cref = ?");
+			PreparedStatement stm2 = connection.prepareStatement(sql2);
+			stm2.setString(1, user);
+			stm2.setString(2, cref);
+			ResultSet resultSet = stm2.executeQuery();
+			if (resultSet.next()) {
+				JOptionPane.showMessageDialog(null, "Usuário ja existe no banco de dados");
+			}else {
+				PreparedStatement stm = connection.prepareStatement(sql);
+				stm.setString(1, user);
+				stm.setString(2, password);
+				stm.setString(3, nome);
+				stm.setString(4, telefone);
+				stm.setString(5, email);
+				stm.setString(6, cref);
+				stm.execute();
+				JOptionPane.showMessageDialog(null, "Cadastro Efetuado");
+			}
+		} finally {
+			connection.close();
+		}
+	}
+	
+	
+	public void Cadastro(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade)  throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+			String sql2 = ("SELECT usuario FROM aluno WHERE usuario = ?");
+			PreparedStatement stm2 = connection.prepareStatement(sql2);
+			stm2.setString(1, user);
+			ResultSet resultSet = stm2.executeQuery();
+			if(resultSet.next()) {
+				JOptionPane.showMessageDialog(null, "Usuário ja existe no banco de dados");
+			}else{
+				PreparedStatement stm = connection.prepareStatement(sql);
+				stm.setString(1, user);
+				stm.setString(2, password);
+				stm.setString(3, nome);
+				stm.setString(4, sexo);
+				stm.setString(5, cpf);
+				stm.setString(6, telefone);
+				stm.setString(7, email);
+				stm.setString(8, data_nascimento);
+				stm.setDouble(9, altura);
+				stm.setDouble(10, peso);
+				stm.setDouble(11, bf);
+				stm.setString(12, comorbidade);
+				stm.execute();
+				JOptionPane.showMessageDialog(null, "Cadastro Efetuado");
+			}
+			} finally {
+				connection.close();
+			}
+		}
+
 	public Aluno loginAluno(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, situacao FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -48,14 +111,12 @@ public class MySQLRepository implements Repository {
 			connection.close();
 		}
 		
-		
-		
 	}
 	
 	public Professor loginProfessor(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, sexo, cpf, cargo, senha FROM professor a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -75,15 +136,12 @@ public class MySQLRepository implements Repository {
 			connection.close();
 		}
 		
-		
-		
-		
 	}
 	
 	public Administrador loginAdm(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, cpf, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -102,6 +160,8 @@ public class MySQLRepository implements Repository {
 	} finally {
 		connection.close();
 	}
-	}
+	
+  }
 }
+
 

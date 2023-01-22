@@ -1,16 +1,14 @@
 package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
@@ -25,13 +23,19 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.ScrollPaneConstants;
 
 public class ConsultaAluno extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTable table;
-	private JTextField textField;
-	private JTextField teste;
+	public JTable table;
+	private JTextField Pesquisar;
+	protected Aluno alunoatual;
 
 	/**
 	 * Launch the application.
@@ -62,7 +66,6 @@ public class ConsultaAluno extends JDialog {
 	 * Create the dialog.
 	 */
 	public ConsultaAluno() {
-		setAlwaysOnTop(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ConsultaAluno.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		setResizable(false);
 		addWindowListener(new WindowAdapter() {
@@ -114,10 +117,13 @@ public class ConsultaAluno extends JDialog {
 		panel.add(btnCriart);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBorder(null);
 		scrollPane.setBounds(78, 99, 592, 592);
 		panel.add(scrollPane);
 		
 		table = new JTable();
+		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -133,7 +139,7 @@ public class ConsultaAluno extends JDialog {
 			new Object[][] {
 			},
 			new String[] {
-				"Nome", "Email", "Status"
+				"Matricula", "Nome", "Telefone", "Status"
 			}
 		));
 		scrollPane.setViewportView(table);
@@ -143,11 +149,11 @@ public class ConsultaAluno extends JDialog {
 		logo.setBounds(752, 82, 200, 139);
 		panel.add(logo);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Arial", Font.PLAIN, 13));
-		textField.setColumns(10);
-		textField.setBounds(78, 62, 440, 26);
-		panel.add(textField);
+		Pesquisar = new JTextField();
+		Pesquisar.setFont(new Font("Arial", Font.PLAIN, 13));
+		Pesquisar.setColumns(10);
+		Pesquisar.setBounds(78, 62, 440, 26);
+		panel.add(Pesquisar);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setFont(new Font("Arial", Font.BOLD, 13));
@@ -156,25 +162,10 @@ public class ConsultaAluno extends JDialog {
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				/* Quando clicado, fazer a consulta de acordo com o nome que foi escrito. 
-					A consulta será feita dentro do banco de dados e depois mostrada. */
-				
-				String nome = teste.getText(); // nome pesquisado
-				String email = ""; // email de acordo com o nome pesquisado
-				String status = ""; // status de acordo com o nome pesquisado
-				
-				//adiciona nova linha
-				// as linhas presentes nessa table "consulta" serão de acordo com a quantidade de alunos matriculados no banco de dados.
 				DefaultTableModel consulta = (DefaultTableModel) table.getModel();
 				consulta.addRow(new String[] {nome, email, status});		
 			}
 		});
 		panel.add(btnPesquisar);
-		
-		teste = new JTextField();
-		teste.setFont(new Font("Arial", Font.PLAIN, 13));
-		teste.setColumns(10);
-		teste.setBounds(438, 27, 210, 20);
-		panel.add(teste);
 	}
 }

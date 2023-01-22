@@ -5,6 +5,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.awt.Toolkit;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -18,6 +19,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
+
 
 public class CadastroAluno extends JDialog {
 
@@ -25,18 +28,24 @@ public class CadastroAluno extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected JTextField txtnome;
-	protected JTextField txttelefone;
-	protected JTextField txtdata;
-	protected JTextField txtpeso;
-	protected JTextField txtcpf;
-	protected JTextField txtemail;
-	protected JTextField txtaltura;
-	protected JTextField txtbf;
-	protected JTextField txtcomorbidade;
-	protected JTextField txtuser;
-	protected JPasswordField txtpassword;
-	
+	private JTextField txtnome;
+	private JTextField txttelefone;
+	private JTextField txtdata;
+	private JTextField txtpeso;
+	private JTextField txtcpf;
+	private JTextField txtemail;
+	private JTextField txtaltura;
+	private JTextField txtbf;
+	private JTextField txtcomorbidade;
+	private JTextField txtuser;
+	private JPasswordField txtpassword;
+	private JTextField txtsexo;
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	/**
 	 * Launch the application.
 	 */
@@ -64,14 +73,13 @@ public class CadastroAluno extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "deseja interromper o cadastro?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+				if (JOptionPane.showConfirmDialog(null, "deseja voltar pro menu?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
 					setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				}else {
 					setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 				}
 			}
 		});
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1024, 768);
 		getContentPane().setLayout(null);
 		
@@ -252,87 +260,60 @@ public class CadastroAluno extends JDialog {
 		panel.add(lblNewLabel_2);
 		
 		JButton btnfinalizar = new JButton("Finalizar Matrícula");
-		btnfinalizar.setFocusPainted(false);
 		btnfinalizar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String nome = txtnome.getText();
-				String telefone = txttelefone.getText();
-				String data = txtdata.getText();
-				String peso = txtpeso.getText();
-				String cpf = txtcpf.getText();
-				String email = txtemail.getText();
-				String altura = txtaltura.getText();
-				String bf = txtbf.getText();
-				String comorbidade = txtcomorbidade.getText();
-				String user = txtuser.getText();
-				String password = new String(txtpassword.getPassword());
-				
-				if (nome.isBlank() || telefone.isBlank() || data.isBlank() || peso.isBlank() || cpf.isBlank() || email.isBlank() || altura.isBlank() || bf.isBlank() ||
-						comorbidade.isBlank() || user.isBlank() || password.isBlank()) {
+				try {
+					String telefone = txttelefone.getText();
+					String data = txtdata.getText();
+					String nome = txtnome.getText();
+					Double peso = Double.parseDouble(txtpeso.getText());
+					String cpf = txtcpf.getText();
+					String email = txtemail.getText();
+					Double altura = Double.parseDouble(txtaltura.getText());
+					Double bf = Double.parseDouble(txtbf.getText());
+					String sexo = txtsexo.getText();
+					String comorbidade = txtcomorbidade.getText();
+					String user = txtuser.getText();
+					String password = new String(txtpassword.getPassword());
+					MySQLRepository cadastro = new MySQLRepository();
+					cadastro.Cadastro(user, password, nome, sexo, cpf, telefone, email, data, altura, peso, bf, comorbidade);
+				} catch (RuntimeException e2) {
 					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
-				}else {
-					txtnome.setText("");
-					txttelefone.setText("");
-					txtdata.setText("");
-					txtpeso.setText("");
-					txtcpf.setText("");
-					txtemail.setText("");
-					txtaltura.setText("");
-					txtbf.setText("");
-					txtcomorbidade.setText("");
-					txtuser.setText("");
-					txtpassword.setText("");
-					JOptionPane.showMessageDialog (null, "Cadastro Efetuado");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
 				}
-			}
+				
+		   }
 		});
+		btnfinalizar.setFocusPainted(false);
 		btnfinalizar.setFont(new Font("Arial", Font.BOLD, 16));
 		btnfinalizar.setBackground(Color.WHITE);
 		btnfinalizar.setBounds(599, 579, 218, 32);
 		panel.add(btnfinalizar);
 		
+
 		JButton btnfinalizarecriartreinos = new JButton("Finalizar e Criar Treinos");
-		btnfinalizarecriartreinos.setFocusPainted(false);
 		btnfinalizarecriartreinos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String nome = txtnome.getText();
-				String telefone = txttelefone.getText();
-				String data = txtdata.getText();
-				String peso = txtpeso.getText();
-				String cpf = txtcpf.getText();
-				String email = txtemail.getText();
-				String altura = txtaltura.getText();
-				String bf = txtbf.getText();
-				String comorbidade = txtcomorbidade.getText();
-				String user = txtuser.getText();
-				String password = new String(txtpassword.getPassword());
-				if (nome.isBlank() || telefone.isBlank() || data.isBlank() || peso.isBlank() || cpf.isBlank() || email.isBlank() || altura.isBlank() || bf.isBlank() ||
-						comorbidade.isBlank() || user.isBlank() || password.isBlank()) {
-					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
-				}else {
-					txtnome.setText("");
-					txttelefone.setText("");
-					txtdata.setText("");
-					txtpeso.setText("");
-					txtcpf.setText("");
-					txtemail.setText("");
-					txtaltura.setText("");
-					txtbf.setText("");
-					txtcomorbidade.setText("");
-					txtuser.setText("");
-					txtpassword.setText("");
-					JOptionPane.showMessageDialog (null, "Cadastro Efetuado");
-				}
 			}
 		});
+		btnfinalizarecriartreinos.setFocusPainted(false);
 		btnfinalizarecriartreinos.setFont(new Font("Arial", Font.BOLD, 16));
 		btnfinalizarecriartreinos.setBackground(Color.WHITE);
 		btnfinalizarecriartreinos.setBounds(324, 579, 218, 32);
 		panel.add(btnfinalizarecriartreinos);
 		
 		JButton btngeraboleto = new JButton("Gerar Boleto");
+		btngeraboleto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new PDF("Boleto de Cobrança Mensalidade no valor de R$ 50,00");
+			}
+		});
 		btngeraboleto.setFocusPainted(false);
 		btngeraboleto.setFont(new Font("Arial", Font.BOLD, 16));
 		btngeraboleto.setBackground(Color.WHITE);
@@ -350,6 +331,18 @@ public class CadastroAluno extends JDialog {
 		txtpassword.setBorder(null);
 		txtpassword.setBounds(637, 400, 210, 23);
 		panel.add(txtpassword);
-
+		
+		txtsexo = new JTextField();
+		txtsexo.setBounds(636, 281, 121, 20);
+		panel.add(txtsexo);
+		txtsexo.setColumns(10);
+		
+		JLabel lblsexo = new JLabel("SEXO:");
+		lblsexo.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblsexo.setForeground(Color.WHITE);
+		lblsexo.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblsexo.setBounds(556, 278, 72, 24);
+		panel.add(lblsexo);
+		
 	}
 }

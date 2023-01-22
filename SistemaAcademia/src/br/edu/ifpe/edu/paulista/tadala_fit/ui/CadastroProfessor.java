@@ -6,9 +6,13 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
+
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -18,6 +22,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CadastroProfessor extends JDialog {
 
@@ -26,18 +32,12 @@ public class CadastroProfessor extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	protected JTextField txtmatricula;
 	protected JTextField txtnome;
 	protected JTextField txttelefone;
 	protected JTextField txtemail;
 	protected JTextField txtcref;
 	protected JTextField txtuser;
 	protected JPasswordField txtpassword;
-	protected String matricula;
-	protected String nome;
-	protected String telefone;
-	protected String email;
-	protected int cref;
 
 	/**
 	 * Launch the application.
@@ -97,12 +97,6 @@ public class CadastroProfessor extends JDialog {
 		lblnome.setBounds(278, 118, 69, 19);
 		panel.add(lblnome);
 		
-		JLabel lblMatrcula = new JLabel("MATRÍCULA:");
-		lblMatrcula.setForeground(Color.WHITE);
-		lblMatrcula.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lblMatrcula.setBounds(232, 79, 96, 14);
-		panel.add(lblMatrcula);
-		
 		JLabel lbltelefone = new JLabel("TELEFONE:");
 		lbltelefone.setForeground(Color.WHITE);
 		lbltelefone.setFont(new Font("Arial Black", Font.BOLD, 13));
@@ -121,27 +115,30 @@ public class CadastroProfessor extends JDialog {
 		lblcref.setBounds(282, 258, 46, 14);
 		panel.add(lblcref);
 		
-		txtmatricula = new JTextField();
-		txtmatricula.setColumns(10);
-		txtmatricula.setBounds(338, 79, 460, 20);
-		panel.add(txtmatricula);
-		
 		txtnome = new JTextField();
+		txtnome.setFont(new Font("Arial", Font.BOLD, 15));
+		txtnome.setBorder(null);
 		txtnome.setColumns(10);
 		txtnome.setBounds(338, 119, 460, 20);
 		panel.add(txtnome);
 		
 		txttelefone = new JTextField();
+		txttelefone.setFont(new Font("Arial", Font.BOLD, 15));
+		txttelefone.setBorder(null);
 		txttelefone.setColumns(10);
 		txttelefone.setBounds(338, 165, 460, 20);
 		panel.add(txttelefone);
 		
 		txtemail = new JTextField();
+		txtemail.setFont(new Font("Arial Black", Font.BOLD, 15));
+		txtemail.setBorder(null);
 		txtemail.setColumns(10);
 		txtemail.setBounds(338, 211, 460, 20);
 		panel.add(txtemail);
 		
 		txtcref = new JTextField();
+		txtcref.setFont(new Font("Arial", Font.BOLD, 15));
+		txtcref.setBorder(null);
 		txtcref.setColumns(10);
 		txtcref.setBounds(338, 257, 460, 20);
 		panel.add(txtcref);
@@ -153,6 +150,8 @@ public class CadastroProfessor extends JDialog {
 		panel.add(lbluser);
 		
 		txtuser = new JTextField();
+		txtuser.setFont(new Font("Arial Black", Font.BOLD, 16));
+		txtuser.setBorder(null);
 		txtuser.setColumns(10);
 		txtuser.setBounds(326, 416, 182, 20);
 		panel.add(txtuser);
@@ -164,12 +163,24 @@ public class CadastroProfessor extends JDialog {
 		panel.add(lblpassword);
 		
 		JButton btnfinalizarmatricula = new JButton("Finalizar Matrícula");
-		btnfinalizarmatricula.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String matricula = txtmatricula.getText();
-				String nome = txtnome.getText();
-				String telefone = txttelefone.getText();
+		btnfinalizarmatricula.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String user = txtuser.getText();
+					String password = new String(txtpassword.getPassword());
+					String cref = txtcref.getText();
+					String nome = txtnome.getText();
+					String telefone = txttelefone.getText();
+					MySQLRepository cadastroprofessor = new MySQLRepository();
+					cadastroprofessor.CadastroProfessor(user, password, nome, telefone, telefone, cref);
+				} catch (RuntimeException e2) {
+					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		btnfinalizarmatricula.setForeground(Color.BLACK);
@@ -190,6 +201,8 @@ public class CadastroProfessor extends JDialog {
 		panel.add(lblNewLabel_2);
 		
 		txtpassword = new JPasswordField();
+		txtpassword.setFont(new Font("Arial Black", Font.BOLD, 15));
+		txtpassword.setBorder(null);
 		txtpassword.setBounds(613, 417, 185, 19);
 		panel.add(txtpassword);
 	}

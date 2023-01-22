@@ -216,14 +216,7 @@ public class FrameLogin {
 						}
 						
 						}
-					
-					/*if (chckbxAluno.isSelected() && chckbxAdm.isSelected()) {
-						lblloginmensagem.setText("Marque apenas uma caixa.");
-					}
-					
-					if (chckbxAluno.isSelected() || chckbxAdm.isSelected() == false) {
-						lblloginmensagem.setText("Marque alguma caixa.");
-					}*/
+		
 				} catch (ClassNotFoundException | SQLException e1) {
 					lblloginmensagem.setText("Erro inesperado, tente novamente.");
 				System.out.println(e1.getMessage());
