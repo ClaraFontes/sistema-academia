@@ -19,6 +19,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.CreateController;
 import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
 
 
@@ -276,10 +279,14 @@ public class CadastroAluno extends JDialog {
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
 					String password = new String(txtpassword.getPassword());
-					MySQLRepository cadastro = new MySQLRepository();
-					cadastro.Cadastro(user, password, nome, sexo, cpf, telefone, email, data, altura, peso, bf, comorbidade);
+					Aluno alunoCadastrado = CreateController.createAluno(user, password, nome, sexo, cpf, telefone, email, data, altura, peso, bf, comorbidade);
+					if (alunoCadastrado == null) {
+						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
+					} else {
+						JOptionPane.showMessageDialog(null, "Aluno " + alunoCadastrado.getNome() +" cadastrado com sucesso!");
+					}
 				} catch (RuntimeException e2) {
-					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
+					JOptionPane.showMessageDialog(null,e2.getMessage());
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {

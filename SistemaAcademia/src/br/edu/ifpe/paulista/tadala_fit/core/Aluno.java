@@ -41,6 +41,20 @@ public class Aluno {
 		this.treino_a = treino_a;
 	}
 	
+	public Aluno( String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade) {
+		this.usuario = usuario;
+		this.senha = senha;
+		this.nome = nome;
+		this.sexo = sexo;
+		this.cpf = cpf;
+		this.telefone = telefone;
+		this.email = email;
+		this.data_nascimento = data_nascimento;
+		this.altura = altura;
+		this.peso = peso;
+		this.bf = bf;
+		this.comorbidade = comorbidade;
+	}
 	
 	
 	public String getTelefone() {

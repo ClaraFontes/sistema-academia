@@ -12,6 +12,7 @@ public interface Repository {
 		public Aluno loginAluno(String user, String password) throws SQLException;
 		public Professor loginProfessor(String user, String password) throws SQLException;
 		public Administrador loginAdm(String user, String password) throws SQLException;
-		
+		public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade) throws SQLException;
+		public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref) throws SQLException;
 	}
 

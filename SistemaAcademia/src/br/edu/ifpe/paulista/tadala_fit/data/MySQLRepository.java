@@ -18,10 +18,10 @@ public class MySQLRepository implements Repository {
 	}
 	
 	
-	public void CadastroProfessor(String user, String password, String nome, String telefone, String email, String cref) throws SQLException {
+	public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			String sql = ("INSERT INTO professor(user, password, nome, telefone, email, cref) VALUES (?,?,?,?,?,?)");
 			String sql2 = ("SELECT user FROM professor WHERE user = ? and cref = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -29,8 +29,9 @@ public class MySQLRepository implements Repository {
 			stm2.setString(2, cref);
 			ResultSet resultSet = stm2.executeQuery();
 			if (resultSet.next()) {
-				JOptionPane.showMessageDialog(null, "Usuário ja existe no banco de dados");
-			}else {
+				return null;
+			}
+			else {
 				PreparedStatement stm = connection.prepareStatement(sql);
 				stm.setString(1, user);
 				stm.setString(2, password);
@@ -39,26 +40,28 @@ public class MySQLRepository implements Repository {
 				stm.setString(5, email);
 				stm.setString(6, cref);
 				stm.execute();
-				JOptionPane.showMessageDialog(null, "Cadastro Efetuado");
 			}
 		} finally {
 			connection.close();
 		}
+		Professor professorCadastrado = new Professor(user, password, nome, telefone, email, cref);
+		return professorCadastrado;
 	}
 	
 	
-	public void Cadastro(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade)  throws SQLException {
+	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade)  throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario FROM aluno WHERE usuario = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
 			stm2.setString(1, user);
 			ResultSet resultSet = stm2.executeQuery();
 			if(resultSet.next()) {
-				JOptionPane.showMessageDialog(null, "Usuário ja existe no banco de dados");
-			}else{
+				return null;
+			}
+			else{
 				PreparedStatement stm = connection.prepareStatement(sql);
 				stm.setString(1, user);
 				stm.setString(2, password);
@@ -73,11 +76,13 @@ public class MySQLRepository implements Repository {
 				stm.setDouble(11, bf);
 				stm.setString(12, comorbidade);
 				stm.execute();
-				JOptionPane.showMessageDialog(null, "Cadastro Efetuado");
+				
 			}
 			} finally {
 				connection.close();
 			}
+		Aluno alunoCadastrado = new Aluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento,altura, peso, bf, comorbidade);
+		return alunoCadastrado;
 		}
 
 	public Aluno loginAluno(String user, String password) throws SQLException {
@@ -117,17 +122,17 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
-			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, sexo, cpf, cargo, senha FROM professor a WHERE a.usuario = ? AND a.senha = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, telefone, email, cref, FROM professor a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				int matricula = resultSet.getInt("matricula");
 				String nome = resultSet.getString("nome");
-				String sexo = resultSet.getString("sexo");
-				String cpf = resultSet.getString("cpf");
-				String cargo = resultSet.getString("cargo");
-				Professor professorAtual = new Professor(matricula, user, password, nome, sexo, cpf, cargo);
+				String telefone = resultSet.getString("telefone");
+				String email = resultSet.getString("email");
+				String cref = resultSet.getString("cref");
+				Professor professorAtual = new Professor(matricula, user, password, nome, telefone, email, cref);
 				return professorAtual;
 			} else {
 				return null;

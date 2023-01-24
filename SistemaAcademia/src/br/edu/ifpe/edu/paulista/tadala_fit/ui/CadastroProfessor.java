@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.edu.ifpe.paulista.tadala_fit.core.CreateController;
+import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
 
 import java.awt.Toolkit;
@@ -171,8 +173,12 @@ public class CadastroProfessor extends JDialog {
 					String cref = txtcref.getText();
 					String nome = txtnome.getText();
 					String telefone = txttelefone.getText();
-					MySQLRepository cadastroprofessor = new MySQLRepository();
-					cadastroprofessor.CadastroProfessor(user, password, nome, telefone, telefone, cref);
+					Professor professorCadastrado = CreateController.createProfessor(user, password, nome, telefone, telefone, cref);
+					if (professorCadastrado == null) {
+						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
+					} else {
+						JOptionPane.showMessageDialog(null, "Professor " + professorCadastrado.getNome() +" cadastrado com sucesso!");
+					}
 				} catch (RuntimeException e2) {
 					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
 				} catch (SQLException e1) {
