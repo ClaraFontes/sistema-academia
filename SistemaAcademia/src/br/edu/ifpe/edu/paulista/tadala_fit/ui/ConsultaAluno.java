@@ -163,7 +163,7 @@ public class ConsultaAluno extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				
 				DefaultTableModel consulta = (DefaultTableModel) table.getModel();
-				consulta.addRow(new String[] {nome, email, status});		
+				//consulta.addRow(new String[] {nome, email, status});		
 			}
 		});
 		panel.add(btnPesquisar);

@@ -283,14 +283,17 @@ public class CadastroAluno extends JDialog {
 					if (alunoCadastrado == null) {
 						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
 					} else {
-						JOptionPane.showMessageDialog(null, "Aluno " + alunoCadastrado.getNome() +" cadastrado com sucesso!");
+						JOptionPane.showMessageDialog(null, "Aluno(a) " + alunoCadastrado.getNome() +" cadastrado com sucesso!");
+						dispose();
 					}
 				} catch (RuntimeException e2) {
-					JOptionPane.showMessageDialog(null,e2.getMessage());
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
+				} catch (Exception e3) {
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos corretamente.");
 				}
 				
 		   }

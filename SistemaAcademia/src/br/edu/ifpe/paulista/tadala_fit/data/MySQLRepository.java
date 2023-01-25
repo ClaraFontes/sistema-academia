@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
@@ -167,6 +169,124 @@ public class MySQLRepository implements Repository {
 	}
 	
   }
+	
+	public ArrayList<Object> getAllAluno()throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno");
+			ResultSet resultSet = statement.executeQuery();
+			
+			if (resultSet.next()) {
+				 ArrayList<Object> alunos = new ArrayList();
+				 while (resultSet.next()) {
+				 	int matricula = resultSet.getInt("matricula");
+				 	String user = resultSet.getString("user");
+				 	String password = resultSet.getString("password");
+					String nome = resultSet.getString("nome");
+					String sexo = resultSet.getString("sexo");
+					String cpf = resultSet.getString("cpf");
+					String telefone = resultSet.getString("telefone");
+					String email = resultSet.getString("email");
+					String data_nascimento = resultSet.getString("data_nascimento");
+					Double altura = resultSet.getDouble("altura");
+					Double peso = resultSet.getDouble("peso");
+					Double bf = resultSet.getDouble("bf");
+					String comorbidade = resultSet.getString("comorbidade");
+					String situacao = resultSet.getString("situacao");
+					String treino_a = resultSet.getString("treino_a");
+					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao,treino_a);
+					alunos.add(alunoRecebido);
+					 
+				 }
+				 return alunos;
+			} else {
+				return null;
+			}
+		} finally {
+			connection.close();
+		}
+	}
+	
+	public Aluno getAlunoFiltered(String pesquisa) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno a WHERE a.nome = ? OR a.matricula = ?");
+			statement.setString(1, pesquisa);
+			statement.setString(2, pesquisa);
+			ResultSet resultSet = statement.executeQuery();
+			
+			if (resultSet.next()) {
+				int matricula = resultSet.getInt("matricula");
+			 	String user = resultSet.getString("user");
+			 	String password = resultSet.getString("password");
+				String nome = resultSet.getString("nome");
+				String sexo = resultSet.getString("sexo");
+				String cpf = resultSet.getString("cpf");
+				String telefone = resultSet.getString("telefone");
+				String email = resultSet.getString("email");
+				String data_nascimento = resultSet.getString("data_nascimento");
+				Double altura = resultSet.getDouble("altura");
+				Double peso = resultSet.getDouble("peso");
+				Double bf = resultSet.getDouble("bf");
+				String comorbidade = resultSet.getString("comorbidade");
+				String situacao = resultSet.getString("situacao");
+				String treino_a = resultSet.getString("treino_a");
+				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao,treino_a);
+				return alunoFiltered;
+			} else {
+				return null;
+			}
+		} finally {
+			connection.close();
+		}
+	}
+	
+	public Aluno updateAluno(Integer matricula, String telefone, String email, Double  altura, Double peso, Double bf) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ? WHERE a.matricula = ?");
+			String sql2 = ("SELECT * FROM aluno a WHERE a.matricula = ?");
+			PreparedStatement statement1 = connection.prepareStatement(sql1);
+			statement1.setString(1, telefone);
+			statement1.setString(2, email);
+			statement1.setDouble(3, altura);
+			statement1.setDouble(4, peso);
+			statement1.setDouble(5, bf);
+			statement1.setInt(6, matricula);
+			statement1.executeQuery();
+			
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+			statement1.setInt(1, matricula);
+			ResultSet resultSet = statement1.executeQuery();
+			if (resultSet.next()) {
+				int matricula2 = resultSet.getInt("matricula");
+			 	String user2 = resultSet.getString("user");
+			 	String password2 = resultSet.getString("password");
+				String nome2 = resultSet.getString("nome");
+				String sexo2 = resultSet.getString("sexo");
+				String cpf2 = resultSet.getString("cpf");
+				String telefone2 = resultSet.getString("telefone");
+				String email2 = resultSet.getString("email");
+				String data_nascimento2 = resultSet.getString("data_nascimento");
+				Double altura2 = resultSet.getDouble("altura");
+				Double peso2 = resultSet.getDouble("peso");
+				Double bf2 = resultSet.getDouble("bf");
+				String comorbidade2 = resultSet.getString("comorbidade");
+				String situacao2 = resultSet.getString("situacao");
+				String treino_a2 = resultSet.getString("treino_a");
+				Aluno alunoUpdated = new Aluno(matricula2, user2, password2, nome2, sexo2, cpf2, telefone2, email2, data_nascimento2, altura2, peso2, bf2, comorbidade2, situacao2, treino_a2);
+				return alunoUpdated;
+			} else {
+				return null;
+			}
+			
+		} finally {
+			connection.close();
+		}
+	}
 }
 
 

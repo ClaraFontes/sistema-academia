@@ -185,6 +185,8 @@ public class CadastroProfessor extends JDialog {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
+				} catch (Exception e3) {
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos corretamente.");
 				}
 				
 			}

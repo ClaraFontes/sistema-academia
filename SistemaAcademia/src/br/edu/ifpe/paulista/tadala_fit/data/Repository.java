@@ -1,6 +1,7 @@
 package br.edu.ifpe.paulista.tadala_fit.data;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
@@ -14,5 +15,8 @@ public interface Repository {
 		public Administrador loginAdm(String user, String password) throws SQLException;
 		public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade) throws SQLException;
 		public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref) throws SQLException;
+		public ArrayList<Object> getAllAluno() throws SQLException;
+		public Aluno getAlunoFiltered(String pesquisa) throws SQLException;
+		public Aluno updateAluno(Integer matricula, String telefone, String email, Double  altura, Double peso, Double bf) throws SQLException;
 	}
 
