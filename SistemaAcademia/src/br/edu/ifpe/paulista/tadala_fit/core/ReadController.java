@@ -8,7 +8,7 @@ import br.edu.ifpe.paulista.tadala_fit.data.Repository;
 
 public class ReadController {
 	
-	public static ArrayList<Object> getAllAlunos() throws ClassNotFoundException, SQLException {
+	public static ArrayList<Aluno> getAllAlunos() throws ClassNotFoundException, SQLException {
 		Repository repository = new MySQLRepository();
 		return repository.getAllAluno();
 	}

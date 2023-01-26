@@ -2,6 +2,8 @@ package br.edu.ifpe.paulista.tadala_fit.core;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 public class Aluno {
 	protected int matricula;
 	protected String usuario;
@@ -17,13 +19,13 @@ public class Aluno {
 	protected double bf;
 	protected String comorbidade;
 	protected int matricula_prof_encarregado;
-	protected String treino_a;
+	protected JSONObject treino_a;
 	protected ArrayList<String> treino_b = new ArrayList<String>();
 	protected ArrayList<String> treino_c = new ArrayList<String>();
 	protected ArrayList<String> treino_d = new ArrayList<String>();
 	protected String situacao;
 	
-	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, String situacao,String treino_a) {
+	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, String situacao,JSONObject treino_a) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -121,13 +123,13 @@ public class Aluno {
 		this.matricula_prof_encarregado = matricula_prof_encarregado;
 	}
 
-	public String getTreino_a() {
+	public JSONObject getTreino_a() {
 		return treino_a;
 	}
 
-	//public void setTreino_a(ArrayList<String> treino_a) {
-		//this.treino_a = treino_a;
-	////}
+	public void setTreino_a(JSONObject treino_a) {
+		this.treino_a = treino_a;
+	}
 
 	public ArrayList<String> getTreino_b() {
 		return treino_b;

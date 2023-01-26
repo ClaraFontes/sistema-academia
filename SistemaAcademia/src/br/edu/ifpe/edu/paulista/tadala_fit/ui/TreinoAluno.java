@@ -168,7 +168,8 @@ public class TreinoAluno extends JDialog {
 			btnA.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					txttreinos.setText(alunoLogado.getTreino_a());
+					//txttreinos.setText(alunoLogado.getTreino_a());
+					//System.out.println(alunoLogado.getTreino_a());
 				}
 			});
 		}
