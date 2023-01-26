@@ -13,7 +13,7 @@ public class ReadController {
 		return repository.getAllAluno();
 	}
 	
-	public static Aluno getAlunoFiltered(String pesquisa) throws ClassNotFoundException, SQLException {
+	public static Aluno getAlunoFiltered(Integer pesquisa) throws ClassNotFoundException, SQLException {
 		Repository repository = new MySQLRepository();
 		return repository.getAlunoFiltered(pesquisa);
 	}

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.ReadController;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
@@ -16,6 +17,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JScrollPane;
@@ -39,16 +42,7 @@ public class ConsultaAluno extends JDialog {
 
 	/**
 	 * Launch the application.
-	 
-	public static void main(String[] args) {
-		try {
-			ConsultaAluno dialog = new ConsultaAluno();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -92,28 +86,28 @@ public class ConsultaAluno extends JDialog {
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 13));
 		btnExcluir.setEnabled(false);
 		btnExcluir.setBackground(Color.WHITE);
-		btnExcluir.setBounds(766, 296, 174, 36);
+		btnExcluir.setBounds(766, 328, 174, 36);
 		panel.add(btnExcluir);
 		
 		JButton btnRenovar = new JButton("Renovar Pagamento");
 		btnRenovar.setFont(new Font("Arial", Font.BOLD, 13));
 		btnRenovar.setEnabled(false);
 		btnRenovar.setBackground(Color.WHITE);
-		btnRenovar.setBounds(766, 369, 174, 36);
+		btnRenovar.setBounds(766, 398, 174, 36);
 		panel.add(btnRenovar);
 		
 		JButton btnPerfil = new JButton("Ver Perfil");
 		btnPerfil.setFont(new Font("Arial", Font.BOLD, 13));
 		btnPerfil.setEnabled(false);
 		btnPerfil.setBackground(Color.WHITE);
-		btnPerfil.setBounds(766, 443, 174, 36);
+		btnPerfil.setBounds(766, 473, 174, 36);
 		panel.add(btnPerfil);
 		
 		JButton btnCriart = new JButton("Criar Treino");
 		btnCriart.setFont(new Font("Arial", Font.BOLD, 13));
 		btnCriart.setEnabled(false);
 		btnCriart.setBackground(Color.WHITE);
-		btnCriart.setBounds(766, 518, 174, 36);
+		btnCriart.setBounds(766, 545, 174, 36);
 		panel.add(btnCriart);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -134,14 +128,32 @@ public class ConsultaAluno extends JDialog {
 			}
 		});
 		table.setBounds(213, 93, 1, 1);
-		table.setFont(new Font("Arial", Font.PLAIN, 13));
+		table.setFont(new Font("Arial", Font.BOLD, 13));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Matricula", "Nome", "Telefone", "Status"
+				"Id", "Nome", "Telefone", "Status"
 			}
-		));
+		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(29);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(81);
+		table.getColumnModel().getColumn(1).setMinWidth(22);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
 		scrollPane.setViewportView(table);
 		
 		JLabel logo = new JLabel("");
@@ -161,11 +173,74 @@ public class ConsultaAluno extends JDialog {
 		btnPesquisar.setBounds(528, 62, 142, 26);
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				DefaultTableModel consulta = (DefaultTableModel) table.getModel();
-				//consulta.addRow(new String[] {nome, email, status});		
+				try {
+					Integer pesquisa = Integer.parseInt(Pesquisar.getText());
+					table.setModel(new DefaultTableModel(
+							new Object[][] {
+							},
+							new String[] {
+								"Id", "Nome", "Telefone", "Status"
+							}
+						));
+					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+					Aluno pesquisaAluno = ReadController.getAlunoFiltered(pesquisa);
+						modelo.addRow(new Object[]{
+								pesquisaAluno.getMatricula(),
+								pesquisaAluno.getNome(),
+								pesquisaAluno.getTelefone(),
+								pesquisaAluno.getSituacao()
+						});	
+						
+				} catch (NumberFormatException e5) {
+					JOptionPane.showMessageDialog(null,"Insira uma matrícula válida pra realizar a pesquisa!");
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (RuntimeException e1) {
+					JOptionPane.showMessageDialog(null,"preencha o campo!");
+				}
 			}
 		});
 		panel.add(btnPesquisar);
+		
+		JButton btnconsultar = new JButton("Consultar Alunos");
+		btnconsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				table.setModel(new DefaultTableModel(
+						new Object[][] {
+						},
+						new String[] {
+							"Id", "Nome", "Telefone", "Status"
+						}
+					));
+				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+				ArrayList<Aluno> aluno;
+				try {
+					aluno = ReadController.getAllAlunos();
+					for(Aluno a: aluno) {
+						System.out.print(a.getNome());				
+						modelo.addRow(new Object[]{
+								a.getMatricula(),
+								a.getNome(),
+								a.getTelefone(),
+								a.getSituacao()
+						});
+					}	
+				} catch (ClassNotFoundException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}		
+			}
+		});
+		btnconsultar.setFont(new Font("Arial", Font.BOLD, 13));
+		btnconsultar.setBackground(Color.WHITE);
+		btnconsultar.setBounds(766, 262, 174, 36);
+		panel.add(btnconsultar);
 	}
 }

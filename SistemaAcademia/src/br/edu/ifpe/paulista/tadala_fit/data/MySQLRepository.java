@@ -4,20 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.swing.JOptionPane;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-
 
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
@@ -34,7 +26,7 @@ public class MySQLRepository implements Repository {
 	public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			String sql = ("INSERT INTO professor(user, password, nome, telefone, email, cref) VALUES (?,?,?,?,?,?)");
 			String sql2 = ("SELECT user FROM professor WHERE user = ? and cref = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -65,7 +57,7 @@ public class MySQLRepository implements Repository {
 	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade)  throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario FROM aluno WHERE usuario = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -98,10 +90,10 @@ public class MySQLRepository implements Repository {
 		return alunoCadastrado;
 		}
 
-	public Aluno loginAluno(String user, String password) throws SQLException, JSONException {
+	public Aluno loginAluno(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, situacao FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -119,13 +111,9 @@ public class MySQLRepository implements Repository {
 				Double bf = resultSet.getDouble("bf");
 				String comorbidade = resultSet.getString("comorbidade");
 				String situacao = resultSet.getString("situacao");
-				Object treino_a = resultSet.getObject("treino_a");
-				JSONObject treino_a_JSON = new JSONObject(treino_a.toString());
-				    
-				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao, treino_a_JSON);
-				
+				//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
+				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao);
 				return alunoAtual;
-				
 			} else {
 				return null;
 			}
@@ -138,7 +126,7 @@ public class MySQLRepository implements Repository {
 	public Professor loginProfessor(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, telefone, email, cref, FROM professor a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -163,7 +151,7 @@ public class MySQLRepository implements Repository {
 	public Administrador loginAdm(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, cpf, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -188,16 +176,33 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Aluno> getAllAluno()throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno");
 			ResultSet resultSet = statement.executeQuery();
-			
 			if (resultSet.next()) {
-				 ArrayList<Aluno> alunos = new ArrayList();
+				//ALTERAÇÃO TESTE, POIS ESTAVA PERDENDO A PRIMEIRA ITERAÇÃO, NÃO MOSTRANDO O PRIMEIRO USUÁRIO DO BANCO NA CONSULTA.
+				 ArrayList<Aluno> alunos = new ArrayList<Aluno>();
+				 	Integer matricula0 = resultSet.getInt("matricula");
+				 	String user0 = resultSet.getString("usuario");
+				 	String password0 = resultSet.getString("senha");
+					String nome0 = resultSet.getString("nome");
+					String sexo0 = resultSet.getString("sexo");
+					String cpf0 = resultSet.getString("cpf");
+					String telefone0 = resultSet.getString("telefone");
+					String email0 = resultSet.getString("email");
+					String data_nascimento0 = resultSet.getString("data_nascimento");
+					Double altura0 = resultSet.getDouble("altura");
+					Double peso0 = resultSet.getDouble("peso");
+					Double bf0 = resultSet.getDouble("bf");
+					String comorbidade0 = resultSet.getString("comorbidade");
+					String situacao0 = resultSet.getString("situacao");
+					//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
+					Aluno alunoRecebido0 = new Aluno(matricula0, user0, password0, nome0, sexo0, cpf0,telefone0, email0, data_nascimento0,altura0, peso0, bf0, comorbidade0, situacao0);
+					alunos.add(alunoRecebido0);
 				 while (resultSet.next()) {
-				 	int matricula = resultSet.getInt("matricula");
-				 	String user = resultSet.getString("user");
-				 	String password = resultSet.getString("password");
+				 	Integer matricula = resultSet.getInt("matricula");
+				 	String user = resultSet.getString("usuario");
+				 	String password = resultSet.getString("senha");
 					String nome = resultSet.getString("nome");
 					String sexo = resultSet.getString("sexo");
 					String cpf = resultSet.getString("cpf");
@@ -209,11 +214,9 @@ public class MySQLRepository implements Repository {
 					Double bf = resultSet.getDouble("bf");
 					String comorbidade = resultSet.getString("comorbidade");
 					String situacao = resultSet.getString("situacao");
-					Object treino_a = resultSet.getObject("treino_a");
-					JSONObject treino_a_JSON = new JSONObject(treino_a.toString());
-					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao,treino_a_JSON);
+					//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
+					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao);
 					alunos.add(alunoRecebido);
-					 
 				 }
 				 return alunos;
 			} else {
@@ -224,19 +227,17 @@ public class MySQLRepository implements Repository {
 		}
 	}
 	
-	public Aluno getAlunoFiltered(String pesquisa) throws SQLException {
+	public Aluno getAlunoFiltered(Integer pesquisa) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno a WHERE a.nome = ? OR a.matricula = ?");
-			statement.setString(1, pesquisa);
-			statement.setString(2, pesquisa);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno a WHERE a.matricula = ?");
+			statement.setInt(1, pesquisa);
 			ResultSet resultSet = statement.executeQuery();
-			
 			if (resultSet.next()) {
-				int matricula = resultSet.getInt("matricula");
-			 	String user = resultSet.getString("user");
-			 	String password = resultSet.getString("password");
+				Integer matricula = resultSet.getInt("matricula");
+			 	String user = resultSet.getString("usuario");
+			 	String password = resultSet.getString("senha");
 				String nome = resultSet.getString("nome");
 				String sexo = resultSet.getString("sexo");
 				String cpf = resultSet.getString("cpf");
@@ -248,9 +249,8 @@ public class MySQLRepository implements Repository {
 				Double bf = resultSet.getDouble("bf");
 				String comorbidade = resultSet.getString("comorbidade");
 				String situacao = resultSet.getString("situacao");
-				Object treino_a = resultSet.getObject("treino_a");
-				JSONObject treino_a_JSON = new JSONObject(treino_a.toString());
-				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao,treino_a_JSON);
+				//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
+				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao);
 				return alunoFiltered;
 			} else {
 				return null;
@@ -260,12 +260,11 @@ public class MySQLRepository implements Repository {
 		}
 	}
 	
-	public Aluno updateAluno(Integer matricula, String telefone, String email, Double  altura, Double peso, Double bf) throws SQLException {
+	public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
-			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ? WHERE a.matricula = ?");
-			String sql2 = ("SELECT * FROM aluno a WHERE a.matricula = ?");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ? WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setString(1, telefone);
 			statement1.setString(2, email);
@@ -273,38 +272,13 @@ public class MySQLRepository implements Repository {
 			statement1.setDouble(4, peso);
 			statement1.setDouble(5, bf);
 			statement1.setInt(6, matricula);
-			statement1.executeQuery();
-			
-			PreparedStatement statement2 = connection.prepareStatement(sql2);
-			statement1.setInt(1, matricula);
-			ResultSet resultSet = statement1.executeQuery();
-			if (resultSet.next()) {
-				int matricula2 = resultSet.getInt("matricula");
-			 	String user2 = resultSet.getString("user");
-			 	String password2 = resultSet.getString("password");
-				String nome2 = resultSet.getString("nome");
-				String sexo2 = resultSet.getString("sexo");
-				String cpf2 = resultSet.getString("cpf");
-				String telefone2 = resultSet.getString("telefone");
-				String email2 = resultSet.getString("email");
-				String data_nascimento2 = resultSet.getString("data_nascimento");
-				Double altura2 = resultSet.getDouble("altura");
-				Double peso2 = resultSet.getDouble("peso");
-				Double bf2 = resultSet.getDouble("bf");
-				String comorbidade2 = resultSet.getString("comorbidade");
-				String situacao2 = resultSet.getString("situacao");
-				Object treino_a = resultSet.getObject("treino_a");
-				JSONObject treino_a_JSON = new JSONObject(treino_a.toString());
-				Aluno alunoUpdated = new Aluno(matricula2, user2, password2, nome2, sexo2, cpf2, telefone2, email2, data_nascimento2, altura2, peso2, bf2, comorbidade2, situacao2, treino_a_JSON);
-				return alunoUpdated;
-			} else {
-				return null;
-			}
-			
+			statement1.execute();
+			JOptionPane.showMessageDialog(null, "Atualização feita com Sucesso, reinicie a sessão para ver as alterações!");
 		} finally {
 			connection.close();
 		}
+		return null;
 	}
+
+
 }
-
-

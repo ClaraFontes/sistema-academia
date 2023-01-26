@@ -1,9 +1,10 @@
 package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 
+import java.awt.Desktop;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import javax.swing.JTextField;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
-
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
@@ -16,7 +17,7 @@ public class PDF {
 	public PDF (String frase) {
 		Document documentoPDF = new Document();
 		try {
-			PdfWriter.getInstance(documentoPDF, new FileOutputStream("Boleto"+alunoNome+".pdf"));	
+			PdfWriter.getInstance(documentoPDF, new FileOutputStream("Boleto.pdf"));	
 			documentoPDF.open();
 			Paragraph paragrafo = new Paragraph(frase);
 			documentoPDF.add(paragrafo);	
@@ -26,14 +27,8 @@ public class PDF {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}	
-		
 		documentoPDF.close();
 	}
-	
-	public void getAluno(Aluno alunoLogado) {
-		alunoNome = alunoLogado.getNome();
-		
-	}	
 }
 
 

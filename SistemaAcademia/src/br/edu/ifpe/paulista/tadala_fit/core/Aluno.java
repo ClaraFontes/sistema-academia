@@ -1,7 +1,5 @@
 package br.edu.ifpe.paulista.tadala_fit.core;
 
-import java.util.ArrayList;
-
 import org.json.JSONObject;
 
 public class Aluno {
@@ -20,12 +18,12 @@ public class Aluno {
 	protected String comorbidade;
 	protected int matricula_prof_encarregado;
 	protected JSONObject treino_a;
-	protected ArrayList<String> treino_b = new ArrayList<String>();
-	protected ArrayList<String> treino_c = new ArrayList<String>();
-	protected ArrayList<String> treino_d = new ArrayList<String>();
+	protected JSONObject treino_b;
+	protected JSONObject treino_c;
+	protected JSONObject treino_d;
 	protected String situacao;
 	
-	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, String situacao,JSONObject treino_a) {
+	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, String situacao) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -40,7 +38,7 @@ public class Aluno {
 		this.bf = bf;
 		this.comorbidade = comorbidade;
 		this.situacao = situacao;
-		this.treino_a = treino_a;
+		//this.treino_a = treino_a;
 	}
 	
 	public Aluno( String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade) {
@@ -131,27 +129,27 @@ public class Aluno {
 		this.treino_a = treino_a;
 	}
 
-	public ArrayList<String> getTreino_b() {
+	public JSONObject getTreino_b() {
 		return treino_b;
 	}
 
-	public void setTreino_b(ArrayList<String> treino_b) {
+	public void setTreino_b(JSONObject treino_b) {
 		this.treino_b = treino_b;
 	}
 
-	public ArrayList<String> getTreino_c() {
+	public JSONObject getTreino_c() {
 		return treino_c;
 	}
 
-	public void setTreino_c(ArrayList<String> treino_c) {
+	public void setTreino_c(JSONObject treino_c) {
 		this.treino_c = treino_c;
 	}
 
-	public ArrayList<String> getTreino_d() {
+	public JSONObject getTreino_d() {
 		return treino_d;
 	}
 
-	public void setTreino_d(ArrayList<String> treino_d) {
+	public void setTreino_d(JSONObject treino_d) {
 		this.treino_d = treino_d;
 	}
 

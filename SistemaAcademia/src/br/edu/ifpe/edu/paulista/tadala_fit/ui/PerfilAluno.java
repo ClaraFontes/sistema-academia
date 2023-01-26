@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Toolkit;
@@ -17,6 +19,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class PerfilAluno extends JDialog {
@@ -36,6 +41,7 @@ public class PerfilAluno extends JDialog {
 	protected JTextField txtaltura;
 	protected JTextField txtbf;
 	protected JTextField txtstatus;
+	private JTextField txtmatricula;
 
 	/**
 	 * Launch the application.
@@ -208,7 +214,7 @@ public class PerfilAluno extends JDialog {
 		txtpeso.setColumns(10);
 		txtpeso.setBorder(null);
 		txtpeso.setBackground(new Color(0, 79, 157));
-		txtpeso.setBounds(324, 224, 139, 20);
+		txtpeso.setBounds(324, 224, 51, 20);
 		perfilaluno.add(txtpeso);
 		
 		txtcomorbidade = new JTextField();
@@ -248,7 +254,7 @@ public class PerfilAluno extends JDialog {
 		txtaltura.setColumns(10);
 		txtaltura.setBorder(null);
 		txtaltura.setBackground(new Color(0, 79, 157));
-		txtaltura.setBounds(556, 224, 139, 20);
+		txtaltura.setBounds(556, 224, 44, 20);
 		perfilaluno.add(txtaltura);
 		
 		txtbf = new JTextField();
@@ -258,7 +264,7 @@ public class PerfilAluno extends JDialog {
 		txtbf.setColumns(10);
 		txtbf.setBorder(null);
 		txtbf.setBackground(new Color(0, 79, 157));
-		txtbf.setBounds(738, 224, 139, 20);
+		txtbf.setBounds(738, 224, 31, 20);
 		perfilaluno.add(txtbf);
 		
 		txtstatus = new JTextField();
@@ -273,10 +279,8 @@ public class PerfilAluno extends JDialog {
 		perfilaluno.add(txtstatus);
 		
 		JButton btnenviar = new JButton("Submeter");
-		btnenviar.setFocusPainted(false);
-		btnenviar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		btnenviar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				btnenviar.setVisible(false);
 				btnenviar.setEnabled(false);
 				txtbf.setEnabled(false);
@@ -289,9 +293,55 @@ public class PerfilAluno extends JDialog {
 				txtpeso.setBorder(null);
 				txtemail.setBorder(null);
 				txttelefone.setBorder(null);
-				
+				try {
+					String telefone = txttelefone.getText();
+					String email = txtemail.getText();
+					Double altura = Double.parseDouble(txtaltura.getText());
+					Double peso = Double.parseDouble(txtpeso.getText());
+					Double bf = Double.parseDouble(txtbf.getText());
+					Integer matricula = Integer.parseInt(txtmatricula.getText());
+					Aluno updateAluno = UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula);
+				} catch (NumberFormatException e5) {
+					txtbf.setBorder( new TitledBorder("") );
+					txtaltura.setBorder( new TitledBorder("") );
+					txtpeso.setBorder( new TitledBorder("") );
+					txtemail.setBorder( new TitledBorder("") );
+					txttelefone.setBorder( new TitledBorder("") );
+					txtbf.setEnabled(true);
+					txtaltura.setEnabled(true);
+					txtpeso.setEnabled(true);
+					txtemail.setEnabled(true);
+					txttelefone.setEnabled(true);
+					btnenviar.setEnabled(true);
+					btnenviar.setVisible(true);
+					JOptionPane.showMessageDialog(null,"Preencha os campos ALTURA, PESO E BF corretamente com números válidos");
+				} catch (RuntimeException e1) {
+					e1.printStackTrace();
+					txtbf.setBorder( new TitledBorder("") );
+					txtaltura.setBorder( new TitledBorder("") );
+					txtpeso.setBorder( new TitledBorder("") );
+					txtemail.setBorder( new TitledBorder("") );
+					txttelefone.setBorder( new TitledBorder("") );
+					txtbf.setEnabled(true);
+					txtaltura.setEnabled(true);
+					txtpeso.setEnabled(true);
+					txtemail.setEnabled(true);
+					txttelefone.setEnabled(true);
+					btnenviar.setEnabled(true);
+					btnenviar.setVisible(true);
+					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
+				} catch (ClassNotFoundException e2) {
+					e2.printStackTrace();
+				} catch (SQLException e3) {
+					e3.printStackTrace();
+				} catch (Exception e4) {
+					JOptionPane.showMessageDialog(null,"Preencha os campos corretamente");
+					e4.printStackTrace();
+			
+				}
 			}
 		});
+		btnenviar.setFocusPainted(false);
 		btnenviar.setVisible(false);
 		btnenviar.setEnabled(false);
 		btnenviar.setForeground(Color.WHITE);
@@ -301,10 +351,8 @@ public class PerfilAluno extends JDialog {
 		perfilaluno.add(btnenviar);
 		
 		JButton btneditar = new JButton("Alterar Informações");
-		btneditar.setFocusPainted(false);
-		btneditar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		btneditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				txtbf.setBorder( new TitledBorder("") );
 				txtaltura.setBorder( new TitledBorder("") );
 				txtpeso.setBorder( new TitledBorder("") );
@@ -319,22 +367,62 @@ public class PerfilAluno extends JDialog {
 				btnenviar.setVisible(true);
 			}
 		});
+		btneditar.setFocusPainted(false);
 		btneditar.setForeground(Color.WHITE);
 		btneditar.setFont(new Font("Arial", Font.BOLD, 16));
 		btneditar.setBackground(new Color(0, 69, 130));
 		btneditar.setBounds(274, 575, 200, 40);
 		perfilaluno.add(btneditar);
+		
+		JLabel lblmatricula = new JLabel("MATRICULA:");
+		lblmatricula.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblmatricula.setForeground(Color.WHITE);
+		lblmatricula.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblmatricula.setBounds(214, 86, 101, 20);
+		perfilaluno.add(lblmatricula);
+		
+		txtmatricula = new JTextField();
+		txtmatricula.setForeground(Color.WHITE);
+		txtmatricula.setFont(new Font("Arial", Font.BOLD, 20));
+		txtmatricula.setEnabled(false);
+		txtmatricula.setColumns(10);
+		txtmatricula.setBorder(null);
+		txtmatricula.setBackground(new Color(0, 79, 157));
+		txtmatricula.setBounds(324, 87, 139, 20);
+		perfilaluno.add(txtmatricula);
+		
+		JLabel lblKg = new JLabel("Kg");
+		lblKg.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblKg.setForeground(Color.WHITE);
+		lblKg.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblKg.setBounds(324, 221, 72, 24);
+		perfilaluno.add(lblKg);
+		
+		JLabel lblKg_1 = new JLabel("m");
+		lblKg_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblKg_1.setForeground(Color.WHITE);
+		lblKg_1.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblKg_1.setBounds(545, 221, 78, 24);
+		perfilaluno.add(lblKg_1);
+		
+		JLabel lblKg_1_1 = new JLabel("%");
+		lblKg_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblKg_1_1.setForeground(Color.WHITE);
+		lblKg_1_1.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblKg_1_1.setBounds(702, 221, 78, 24);
+		perfilaluno.add(lblKg_1_1);
 	}
 	
 	public void getAluno(Aluno alunoLogado) {
+		txtmatricula.setText(Integer.toString(alunoLogado.getMatricula()));
 		txtnome.setText(alunoLogado.getNome());
 		txtcpf.setText(alunoLogado.getCpf());
 		txttelefone.setText(alunoLogado.getTelefone());
 		txtemail.setText(alunoLogado.getEmail());
 		txtdata.setText(alunoLogado.getData_nascimento());
-		txtaltura.setText(Double.toString(alunoLogado.getAltura()) + " m");
-		txtpeso.setText(Double.toString(alunoLogado.getPeso()) + " Kg");
-		txtbf.setText(Double.toString(alunoLogado.getBf())+ " %");
+		txtaltura.setText(Double.toString(alunoLogado.getAltura()));
+		txtpeso.setText(Double.toString(alunoLogado.getPeso()));
+		txtbf.setText(Double.toString(alunoLogado.getBf()));
 		txtcomorbidade.setText(alunoLogado.getComorbidade());
 		txtstatus.setText(alunoLogado.getSituacao());
 	}

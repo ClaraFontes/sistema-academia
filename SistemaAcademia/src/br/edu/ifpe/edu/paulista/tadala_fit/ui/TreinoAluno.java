@@ -10,18 +10,13 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
-
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.border.BevelBorder;
 import javax.swing.JTextArea;
 
 public class TreinoAluno extends JDialog {

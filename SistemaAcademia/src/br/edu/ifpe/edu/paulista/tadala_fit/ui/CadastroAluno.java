@@ -5,9 +5,13 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Toolkit;
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -286,12 +290,20 @@ public class CadastroAluno extends JDialog {
 						JOptionPane.showMessageDialog(null, "Aluno(a) " + alunoCadastrado.getNome() +" cadastrado com sucesso!");
 						dispose();
 					}
+				} catch (NumberFormatException e5) {
+					JOptionPane.showMessageDialog(null, "Preencha os Campos ALTURA, PESO E BF corretamente.");
+					
+					
 				} catch (RuntimeException e2) {
+					e2.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
+			
 				} catch (SQLException e1) {
 					e1.printStackTrace();
+					
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
+	
 				} catch (Exception e3) {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos corretamente.");
 				}
@@ -304,36 +316,31 @@ public class CadastroAluno extends JDialog {
 		btnfinalizar.setBounds(599, 579, 218, 32);
 		panel.add(btnfinalizar);
 		
-
-		JButton btnfinalizarecriartreinos = new JButton("Finalizar e Criar Treinos");
-		btnfinalizarecriartreinos.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		btnfinalizarecriartreinos.setFocusPainted(false);
-		btnfinalizarecriartreinos.setFont(new Font("Arial", Font.BOLD, 16));
-		btnfinalizarecriartreinos.setBackground(Color.WHITE);
-		btnfinalizarecriartreinos.setBounds(324, 579, 218, 32);
-		panel.add(btnfinalizarecriartreinos);
-		
 		JButton btngeraboleto = new JButton("Gerar Boleto");
 		btngeraboleto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new PDF("Boleto de Cobrança Mensalidade no valor de R$ 50,00");
+				try {
+					String nome = txtnome.getText();
+					new PDF("Boleto de Cobrança Mensalidade no valor de R$ 50,00"
+							+ "Para o Aluno:"+ nome);
+					Desktop.getDesktop().open(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/Boleto.pdf.pdf"));
+				} catch (IOException e1) {
+					 //TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btngeraboleto.setFocusPainted(false);
 		btngeraboleto.setFont(new Font("Arial", Font.BOLD, 16));
 		btngeraboleto.setBackground(Color.WHITE);
-		btngeraboleto.setBounds(324, 525, 218, 32);
+		btngeraboleto.setBounds(324, 579, 218, 32);
 		panel.add(btngeraboleto);
 		
 		JCheckBox pago = new JCheckBox("Pagamento Já Efetuado");
 		pago.setFocusPainted(false);
 		pago.setFont(new Font("Arial", Font.BOLD, 13));
-		pago.setBounds(599, 525, 218, 32);
+		pago.setBounds(456, 528, 218, 32);
 		panel.add(pago);
 		
 		txtpassword = new JPasswordField();
