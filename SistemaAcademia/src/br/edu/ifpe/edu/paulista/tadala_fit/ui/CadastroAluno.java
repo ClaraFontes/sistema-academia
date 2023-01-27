@@ -35,7 +35,7 @@ public class CadastroAluno extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField txtnome;
+	protected JTextField txtnome;
 	private JTextField txttelefone;
 	private JTextField txtdata;
 	private JTextField txtpeso;
@@ -320,11 +320,11 @@ public class CadastroAluno extends JDialog {
 		btngeraboleto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				String nome = txtnome.getText();
+				String boleto = ("Boleto de Cobrança Mensalidade no valor de R% 50,00  para o Aluno:"+ nome);
+				new PDF(boleto, nome);
 				try {
-					String nome = txtnome.getText();
-					new PDF("Boleto de Cobrança Mensalidade no valor de R$ 50,00"
-							+ "Para o Aluno:"+ nome);
-					Desktop.getDesktop().open(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/Boleto.pdf.pdf"));
+					Desktop.getDesktop().open(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/"+nome+".pdf"));
 				} catch (IOException e1) {
 					 //TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -360,6 +360,8 @@ public class CadastroAluno extends JDialog {
 		lblsexo.setFont(new Font("Arial Black", Font.BOLD, 12));
 		lblsexo.setBounds(556, 278, 72, 24);
 		panel.add(lblsexo);
-		
+		}
+		public String getTxtnome() {
+		return txtnome.getText();
 	}
 }
