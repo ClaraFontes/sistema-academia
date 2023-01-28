@@ -21,9 +21,9 @@ public class Aluno {
 	protected JSONObject treino_b;
 	protected JSONObject treino_c;
 	protected JSONObject treino_d;
-	protected String situacao;
+	protected int qtdDiasUltimoPagamento;
 	
-	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, String situacao) {
+	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int qtdDiasUltimoPagamento) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -37,7 +37,7 @@ public class Aluno {
 		this.peso = peso;
 		this.bf = bf;
 		this.comorbidade = comorbidade;
-		this.situacao = situacao;
+		this.qtdDiasUltimoPagamento = qtdDiasUltimoPagamento;
 		//this.treino_a = treino_a;
 	}
 	
@@ -153,12 +153,12 @@ public class Aluno {
 		this.treino_d = treino_d;
 	}
 
-	public String getSituacao() {
-		return situacao;
+	public int getQtdDiasUltimoPagamento() {
+		return qtdDiasUltimoPagamento;
 	}
 
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
+	public void setQtdDiasUltimoPagamento(int qtdDiasUltimoPagamento) {
+		this.qtdDiasUltimoPagamento = qtdDiasUltimoPagamento;
 	}
 
 	public int getMatricula() {

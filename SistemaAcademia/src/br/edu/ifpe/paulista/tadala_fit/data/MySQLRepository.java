@@ -9,6 +9,10 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
@@ -26,7 +30,7 @@ public class MySQLRepository implements Repository {
 	public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			String sql = ("INSERT INTO professor(user, password, nome, telefone, email, cref) VALUES (?,?,?,?,?,?)");
 			String sql2 = ("SELECT user FROM professor WHERE user = ? and cref = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -57,7 +61,7 @@ public class MySQLRepository implements Repository {
 	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade)  throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario FROM aluno WHERE usuario = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -93,8 +97,8 @@ public class MySQLRepository implements Repository {
 	public Aluno loginAluno(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
-			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, situacao FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, dt_pagamento FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
@@ -110,9 +114,13 @@ public class MySQLRepository implements Repository {
 				Double peso = resultSet.getDouble("peso");
 				Double bf = resultSet.getDouble("bf");
 				String comorbidade = resultSet.getString("comorbidade");
-				String situacao = resultSet.getString("situacao");
+				String dt_pagamento = resultSet.getString("dt_pagamento");
+				DateTime dataHoraAtual = new DateTime();
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+				DateTime dt = formatter.parseDateTime(dt_pagamento);
+				 int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
 				//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao);
+				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias);
 				return alunoAtual;
 			} else {
 				return null;
@@ -126,7 +134,7 @@ public class MySQLRepository implements Repository {
 	public Professor loginProfessor(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, telefone, email, cref, FROM professor a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -151,7 +159,7 @@ public class MySQLRepository implements Repository {
 	public Administrador loginAdm(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, cpf, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -176,7 +184,7 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Aluno> getAllAluno()throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno");
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -196,8 +204,13 @@ public class MySQLRepository implements Repository {
 					Double bf0 = resultSet.getDouble("bf");
 					String comorbidade0 = resultSet.getString("comorbidade");
 					String situacao0 = resultSet.getString("situacao");
+					String dt_pagamento0 = resultSet.getString("dt_pagamento");
+					DateTime dataHoraAtual = new DateTime();
+					DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+					DateTime dt0 = formatter.parseDateTime(dt_pagamento0);
+					 int dias0 = Days.daysBetween(dt0, dataHoraAtual).getDays();
 					//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-					Aluno alunoRecebido0 = new Aluno(matricula0, user0, password0, nome0, sexo0, cpf0,telefone0, email0, data_nascimento0,altura0, peso0, bf0, comorbidade0, situacao0);
+					Aluno alunoRecebido0 = new Aluno(matricula0, user0, password0, nome0, sexo0, cpf0,telefone0, email0, data_nascimento0,altura0, peso0, bf0, comorbidade0, dias0);
 					alunos.add(alunoRecebido0);
 				 while (resultSet.next()) {
 				 	Integer matricula = resultSet.getInt("matricula");
@@ -214,8 +227,11 @@ public class MySQLRepository implements Repository {
 					Double bf = resultSet.getDouble("bf");
 					String comorbidade = resultSet.getString("comorbidade");
 					String situacao = resultSet.getString("situacao");
+					String dt_pagamento = resultSet.getString("dt_pagamento");
+					DateTime dt = formatter.parseDateTime(dt_pagamento);
+					 int dias = Days.daysBetween(dt, dataHoraAtual).getDays();
 					//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao);
+					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias);
 					alunos.add(alunoRecebido);
 				 }
 				 return alunos;
@@ -230,7 +246,7 @@ public class MySQLRepository implements Repository {
 	public Aluno getAlunoFiltered(Integer pesquisa) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno a WHERE a.matricula = ?");
 			statement.setInt(1, pesquisa);
 			ResultSet resultSet = statement.executeQuery();
@@ -248,9 +264,13 @@ public class MySQLRepository implements Repository {
 				Double peso = resultSet.getDouble("peso");
 				Double bf = resultSet.getDouble("bf");
 				String comorbidade = resultSet.getString("comorbidade");
-				String situacao = resultSet.getString("situacao");
+				String dt_pagamento = resultSet.getString("dt_pagamento");
+				DateTime dataHoraAtual = new DateTime();
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+				DateTime dt = formatter.parseDateTime(dt_pagamento);
+				 int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
 				//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, situacao);
+				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias);
 				return alunoFiltered;
 			} else {
 				return null;
@@ -263,7 +283,7 @@ public class MySQLRepository implements Repository {
 	public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ? WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setString(1, telefone);

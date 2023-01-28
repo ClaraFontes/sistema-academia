@@ -424,6 +424,12 @@ public class PerfilAluno extends JDialog {
 		txtpeso.setText(Double.toString(alunoLogado.getPeso()));
 		txtbf.setText(Double.toString(alunoLogado.getBf()));
 		txtcomorbidade.setText(alunoLogado.getComorbidade());
-		txtstatus.setText(alunoLogado.getSituacao());
+		if (alunoLogado.getQtdDiasUltimoPagamento() < 30) {
+			txtstatus.setText("Pago");
+		} else if (alunoLogado.getQtdDiasUltimoPagamento() > 30 || alunoLogado.getQtdDiasUltimoPagamento() < 180) {
+			txtstatus.setText("Inadinplente");
+		} else if (alunoLogado.getQtdDiasUltimoPagamento() >= 180) {
+			txtstatus.setText("Inativo");
+		}
 	}
 }
