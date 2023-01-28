@@ -11,6 +11,8 @@ import javax.swing.UIManager;
 import br.edu.ifpe.paulista.tadala_fit.core.AccessController;
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.Professor;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -172,12 +174,16 @@ public class FrameLogin {
 		lblloginmensagem.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JCheckBox chckbxAdm = new JCheckBox("ADMIN");
-		chckbxAdm.setBounds(402, 513, 74, 22);
+		chckbxAdm.setBounds(323, 513, 115, 22);
 		framelogin.getContentPane().add(chckbxAdm);
 		
 		JCheckBox chckbxAluno = new JCheckBox("ALUNO");
-		chckbxAluno.setBounds(511, 513, 74, 22);
+		chckbxAluno.setBounds(440, 513, 115, 22);
 		framelogin.getContentPane().add(chckbxAluno);
+		
+		JCheckBox chckbxProf = new JCheckBox("PROFESSOR");
+		chckbxProf.setBounds(557, 513, 115, 22);
+		framelogin.getContentPane().add(chckbxProf);
 		
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -187,9 +193,9 @@ public class FrameLogin {
 				String password = new String(txtPassword.getPassword());
 				
 				try {
-					if (chckbxAluno.isSelected() && chckbxAdm.isSelected()) {
+					if (chckbxAluno.isSelected() && chckbxAdm.isSelected() && chckbxProf.isSelected()) {
 						lblloginmensagem.setText("Marque apenas uma caixa.");
-					} else if (!chckbxAluno.isSelected() && !chckbxAdm.isSelected()) {
+					} else if (!chckbxAluno.isSelected() && !chckbxAdm.isSelected() && !chckbxProf.isSelected()) {
 						lblloginmensagem.setText("Marque alguma caixa.");
 					} else if (chckbxAdm.isSelected()) {
 						Administrador admLogado = AccessController.loginAdm(user, password);
@@ -199,8 +205,8 @@ public class FrameLogin {
 							fh.framehome.setVisible(true);
 							fh.getAdm(admLogado);
 							framelogin.dispose();
-					} else {
-						lblloginmensagem.setText("Usuário ou senha incorretos.");
+						} else {
+							lblloginmensagem.setText("Usuário ou senha incorretos.");
 					}
 					
 					} else if (chckbxAluno.isSelected()) { 
@@ -211,11 +217,23 @@ public class FrameLogin {
 							fa.framehomealuno.setVisible(true);
 							fa.getAluno(alunoLogado);
 							framelogin.dispose();
-					} else {
-						lblloginmensagem.setText("Usuário ou senha incorretos.");
+						} else {
+							lblloginmensagem.setText("Usuário ou senha incorretos.");
 						}
 						
+					} else if (chckbxProf.isSelected()) {
+						Professor professorLogado = AccessController.loginProfessor(user, password);
+						if (professorLogado != null) {
+							JOptionPane.showMessageDialog (null, "Login Efetuado");
+							FrameHomeProfessor fp = new FrameHomeProfessor();
+							fp.framehomeprofessor.setVisible(true);
+							fp.getProfessor(professorLogado);
+							framelogin.dispose();
+						} else {
+							lblloginmensagem.setText("Usuário ou senha incorretos.");
 						}
+						
+					}
 		
 				} catch (ClassNotFoundException | SQLException e1) {
 					lblloginmensagem.setText("Erro inesperado, tente novamente.");

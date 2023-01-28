@@ -97,7 +97,7 @@ public class FrameHomeAluno {
 		});
 		btnverperfil.setBackground(new Color(240, 240, 240));
 		btnverperfil.setFont(new Font("Arial", Font.BOLD, 13));
-		btnverperfil.setBounds(57, 256, 151, 33);
+		btnverperfil.setBounds(45, 305, 176, 33);
 		panel.add(btnverperfil);
 		
 		JButton btnconsultartreino = new JButton("Consultar Treino");
@@ -116,31 +116,14 @@ public class FrameHomeAluno {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnconsultartreino.setBounds(57, 344, 151, 33);
+		btnconsultartreino.setBounds(45, 371, 176, 33);
 		panel.add(btnconsultartreino);
 		
 		JButton btnsair = new JButton("Sair");
 		btnsair.setBackground(new Color(255, 255, 255));
 		btnsair.setFont(new Font("Arial", Font.BOLD, 13));
-		btnsair.setBounds(57, 430, 150, 33);
+		btnsair.setBounds(45, 436, 176, 33);
 		panel.add(btnsair);
-		
-		JLabel lblNewLabel_3 = new JLabel("Bem vindo(a):");
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 13));
-		lblNewLabel_3.setBounds(40, 210, 95, 14);
-		panel.add(lblNewLabel_3);
-		
-		txtboasvindas = new JTextField();
-		txtboasvindas.setDisabledTextColor(new Color(255, 255, 255));
-		txtboasvindas.setForeground(new Color(255, 255, 255));
-		txtboasvindas.setBackground(new Color(0, 65, 130));
-		txtboasvindas.setBorder(null);
-		txtboasvindas.setEnabled(false);
-		txtboasvindas.setFont(new Font("Arial Black", Font.BOLD, 13));
-		txtboasvindas.setBounds(133, 207, 97, 20);
-		panel.add(txtboasvindas);
-		txtboasvindas.setColumns(10);
 		btnsair.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -153,12 +136,31 @@ public class FrameHomeAluno {
 			  }
 		    }
 		});
+		
+		JLabel lblNewLabel_3 = new JLabel("Bem vindo(a),");
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 13));
+		lblNewLabel_3.setBounds(40, 226, 95, 14);
+		panel.add(lblNewLabel_3);
+		
+		txtboasvindas = new JTextField();
+		txtboasvindas.setDisabledTextColor(new Color(255, 255, 255));
+		txtboasvindas.setForeground(new Color(255, 255, 255));
+		txtboasvindas.setBackground(new Color(0, 65, 130));
+		txtboasvindas.setBorder(null);
+		txtboasvindas.setEnabled(false);
+		txtboasvindas.setFont(new Font("Arial Black", Font.BOLD, 13));
+		txtboasvindas.setBounds(133, 207, 97, 20);
+		panel.add(txtboasvindas);
+		txtboasvindas.setColumns(10);
+		
+		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(FrameHomeAluno.class.getResource("/assets_loginFrame/Logotipo_academia_personal_trainner__1_-removebg-preview.png")));
 		lblNewLabel_1.setBounds(380, 113, 481, 442);
 		framehomealuno.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2023 Tadalafit  All Rights Reserved");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setBounds(472, 679, 324, 40);

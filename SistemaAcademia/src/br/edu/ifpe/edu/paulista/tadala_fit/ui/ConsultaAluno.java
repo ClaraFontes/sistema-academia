@@ -86,29 +86,22 @@ public class ConsultaAluno extends JDialog {
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 13));
 		btnExcluir.setEnabled(false);
 		btnExcluir.setBackground(Color.WHITE);
-		btnExcluir.setBounds(766, 328, 174, 36);
+		btnExcluir.setBounds(766, 376, 174, 36);
 		panel.add(btnExcluir);
-		
-		JButton btnRenovar = new JButton("Renovar Pagamento");
-		btnRenovar.setFont(new Font("Arial", Font.BOLD, 13));
-		btnRenovar.setEnabled(false);
-		btnRenovar.setBackground(Color.WHITE);
-		btnRenovar.setBounds(766, 398, 174, 36);
-		panel.add(btnRenovar);
 		
 		JButton btnPerfil = new JButton("Ver Perfil");
 		btnPerfil.setFont(new Font("Arial", Font.BOLD, 13));
 		btnPerfil.setEnabled(false);
 		btnPerfil.setBackground(Color.WHITE);
-		btnPerfil.setBounds(766, 473, 174, 36);
+		btnPerfil.setBounds(766, 450, 174, 36);
 		panel.add(btnPerfil);
 		
-		JButton btnCriart = new JButton("Criar Treino");
-		btnCriart.setFont(new Font("Arial", Font.BOLD, 13));
-		btnCriart.setEnabled(false);
-		btnCriart.setBackground(Color.WHITE);
-		btnCriart.setBounds(766, 545, 174, 36);
-		panel.add(btnCriart);
+		JButton btnCriartreinos = new JButton("Criar Treino");
+		btnCriartreinos.setFont(new Font("Arial", Font.BOLD, 13));
+		btnCriartreinos.setEnabled(false);
+		btnCriartreinos.setBackground(Color.WHITE);
+		btnCriartreinos.setBounds(766, 525, 174, 36);
+		panel.add(btnCriartreinos);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -122,9 +115,8 @@ public class ConsultaAluno extends JDialog {
 			@Override
 			public void focusGained(FocusEvent e) {
 				btnExcluir.setEnabled(true);
-				btnRenovar.setEnabled(true);
 				btnPerfil.setEnabled(true);
-				btnCriart.setEnabled(true);
+				btnCriartreinos.setEnabled(true);
 			}
 		});
 		table.setBounds(213, 93, 1, 1);
@@ -220,8 +212,7 @@ public class ConsultaAluno extends JDialog {
 				ArrayList<Aluno> aluno;
 				try {
 					aluno = ReadController.getAllAlunos();
-					for(Aluno a: aluno) {
-						System.out.print(a.getNome());				
+					for(Aluno a: aluno) {				
 						modelo.addRow(new Object[]{
 								a.getMatricula(),
 								a.getNome(),
@@ -240,7 +231,7 @@ public class ConsultaAluno extends JDialog {
 		});
 		btnconsultar.setFont(new Font("Arial", Font.BOLD, 13));
 		btnconsultar.setBackground(Color.WHITE);
-		btnconsultar.setBounds(766, 262, 174, 36);
+		btnconsultar.setBounds(766, 304, 174, 36);
 		panel.add(btnconsultar);
 	}
 }
