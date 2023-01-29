@@ -1,4 +1,4 @@
-package br.edu.ifpe.edu.paulista.tadala_fit.ui;
+package br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -10,12 +10,9 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
-
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -300,7 +297,7 @@ public class PerfilAluno extends JDialog {
 					Double peso = Double.parseDouble(txtpeso.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					Integer matricula = Integer.parseInt(txtmatricula.getText());
-					Aluno updateAluno = UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula);
+					UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula);
 				} catch (NumberFormatException e5) {
 					txtbf.setBorder( new TitledBorder("") );
 					txtaltura.setBorder( new TitledBorder("") );

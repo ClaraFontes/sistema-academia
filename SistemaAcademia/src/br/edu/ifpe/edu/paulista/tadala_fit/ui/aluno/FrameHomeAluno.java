@@ -1,4 +1,4 @@
-package br.edu.ifpe.edu.paulista.tadala_fit.ui;
+package br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno;
 
 import java.awt.EventQueue;
 
@@ -17,6 +17,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.FrameLogin;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -24,7 +26,7 @@ import javax.swing.JTextField;
 
 public class FrameHomeAluno {
 
-	protected JFrame framehomealuno;
+	public JFrame framehomealuno;
 	protected Aluno alunoAtual;
 	protected FrameHomeAluno window;
 	protected JTextField txtboasvindas;
@@ -150,7 +152,7 @@ public class FrameHomeAluno {
 		txtboasvindas.setBorder(null);
 		txtboasvindas.setEnabled(false);
 		txtboasvindas.setFont(new Font("Arial Black", Font.BOLD, 13));
-		txtboasvindas.setBounds(133, 207, 97, 20);
+		txtboasvindas.setBounds(133, 222, 97, 20);
 		panel.add(txtboasvindas);
 		txtboasvindas.setColumns(10);
 		

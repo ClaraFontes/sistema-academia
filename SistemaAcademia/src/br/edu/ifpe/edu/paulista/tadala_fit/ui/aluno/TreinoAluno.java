@@ -1,4 +1,4 @@
-package br.edu.ifpe.edu.paulista.tadala_fit.ui;
+package br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno;
 
 import java.awt.EventQueue;
 import javax.swing.JDialog;

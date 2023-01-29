@@ -8,6 +8,9 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
+
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.FrameHomeAluno;
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.professor.FrameHomeProfessor;
 import br.edu.ifpe.paulista.tadala_fit.core.AccessController;
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
@@ -29,7 +32,7 @@ import java.sql.SQLException;
 import javax.swing.JCheckBox;
 public class FrameLogin {
 
-	protected JFrame framelogin;
+	public JFrame framelogin;
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private JLabel lblloginmensagem = new JLabel("");

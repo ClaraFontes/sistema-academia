@@ -5,32 +5,36 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Desktop;
-
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import javax.swing.SwingConstants;
+
+import com.mysql.cj.jdbc.Blob;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.CreateController;
-import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class CadastroAluno extends JDialog {
-
 	/**
 	 * 
 	 */
@@ -47,7 +51,9 @@ public class CadastroAluno extends JDialog {
 	private JTextField txtuser;
 	private JPasswordField txtpassword;
 	private JTextField txtsexo;
-
+	private static JDialog dialog;
+	private JLabel lblfoto;
+	private JButton btnCarregarFoto;
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -60,8 +66,18 @@ public class CadastroAluno extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CadastroAluno dialog = new CadastroAluno();
-					dialog.setVisible(true);
+					try {
+						dialog = new CadastroAluno();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						dialog.setVisible(true);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -96,10 +112,10 @@ public class CadastroAluno extends JDialog {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon(CadastroAluno.class.getResource("/assets_loginFrame/user.png")));
-		lblNewLabel_3.setBounds(55, 101, 150, 150);
-		panel.add(lblNewLabel_3);
+		lblfoto = new JLabel("");
+		lblfoto.setIcon(new ImageIcon(CadastroAluno.class.getResource("/assets_loginFrame/user.png")));
+		lblfoto.setBounds(55, 101, 150, 150);
+		panel.add(lblfoto);
 		
 		JLabel lblNewLabel = new JLabel("NOME:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -283,6 +299,7 @@ public class CadastroAluno extends JDialog {
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
 					String password = new String(txtpassword.getPassword());
+					Blob resizedImage;
 					Aluno alunoCadastrado = CreateController.createAluno(user, password, nome, sexo, cpf, telefone, email, data, altura, peso, bf, comorbidade);
 					if (alunoCadastrado == null) {
 						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
@@ -307,7 +324,6 @@ public class CadastroAluno extends JDialog {
 				} catch (Exception e3) {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos corretamente.");
 				}
-				
 		   }
 		});
 		btnfinalizar.setFocusPainted(false);
@@ -360,8 +376,51 @@ public class CadastroAluno extends JDialog {
 		lblsexo.setFont(new Font("Arial Black", Font.BOLD, 12));
 		lblsexo.setBounds(556, 278, 72, 24);
 		panel.add(lblsexo);
+		
+		JButton btnfoto = new JButton("Tirar Foto");
+		btnfoto.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				if(txtnome.getText().isEmpty() ||txtnome.getText().isBlank()){
+					JOptionPane.showMessageDialog(null, "Preencha o nome e CPF antes de inserir a foto");
+				}else if (txtcpf.getText().isBlank() || txtcpf.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Preencha o nome e CPF antes de inserir a foto");
+				}else {
+					String nome = txtnome.getText();
+					String cpf = txtcpf.getText();
+					new WebCam(nome,cpf);
+					btnCarregarFoto.setEnabled(true);
+					btnCarregarFoto.setVisible(true);
+				}
+			}
+		});
+		btnfoto.setBorder(null);
+		btnfoto.setBounds(88, 261, 93, 20);
+		panel.add(btnfoto);
+		
+		btnCarregarFoto = new JButton("Carregar Foto");
+		btnCarregarFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String nome = txtnome.getText();
+					String cpf = txtcpf.getText();
+					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem"+nome+cpf+".png"));
+					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
+					Graphics2D g = resizedImage.createGraphics();
+					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
+					g.dispose();
+					lblfoto.setIcon(new ImageIcon(resizedImage));
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnCarregarFoto.setEnabled(false);
+		btnCarregarFoto.setVisible(false);
+		btnCarregarFoto.setBorder(null);
+		btnCarregarFoto.setBounds(88, 292, 93, 20);
+		panel.add(btnCarregarFoto);
 		}
-		public String getTxtnome() {
-		return txtnome.getText();
-	}
 }

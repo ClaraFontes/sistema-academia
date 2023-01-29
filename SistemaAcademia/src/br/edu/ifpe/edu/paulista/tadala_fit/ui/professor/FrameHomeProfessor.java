@@ -1,10 +1,12 @@
-package br.edu.ifpe.edu.paulista.tadala_fit.ui;
+package br.edu.ifpe.edu.paulista.tadala_fit.ui.professor;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.FrameLogin;
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.FrameHomeAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -18,10 +20,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Dimension;
 
 public class FrameHomeProfessor {
 
-	protected JFrame framehomeprofessor;
+	public JFrame framehomeprofessor;
 	protected FrameHomeProfessor window;
 	protected Professor professorAtual;
 	/**
@@ -48,10 +51,11 @@ public class FrameHomeProfessor {
 
 	private void initialize() {
 		framehomeprofessor = new JFrame();
+		framehomeprofessor.setSize(new Dimension(1024, 720));
+		framehomeprofessor.setResizable(false);
 		framehomeprofessor.setTitle("TadalaFit - Versão - 1.0");
 		framehomeprofessor.getContentPane().setForeground(new Color(255, 255, 255));
 		framehomeprofessor.setIconImage(Toolkit.getDefaultToolkit().getImage(FrameHomeAluno.class.getResource("/assets_loginFrame/logotipo200x200.png")));
-		framehomeprofessor.setResizable(false);
 		framehomeprofessor.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -67,7 +71,7 @@ public class FrameHomeProfessor {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 65, 130));
-		panel.setBounds(44, 11, 258, 708);
+		panel.setBounds(44, 11, 270, 660);
 		framehomeprofessor.getContentPane().add(panel);
 		panel.setLayout(null);
 		
