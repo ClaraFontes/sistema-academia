@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Toolkit;
@@ -299,12 +300,22 @@ public class CadastroAluno extends JDialog {
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
 					String password = new String(txtpassword.getPassword());
-					Blob resizedImage;
-					Aluno alunoCadastrado = CreateController.createAluno(user, password, nome, sexo, cpf, telefone, email, data, altura, peso, bf, comorbidade);
+					File image = new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem"+nome+cpf+".png");
+					FileInputStream inputstream = new FileInputStream(image);
+					byte[] imagepronta = new byte[(int) image.length()];
+					inputstream.read(imagepronta);
+					inputstream.close();
+					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
+					Aluno alunoCadastrado = CreateController.createAluno(user, password, nome, sexo, cpf, telefone, email, data, altura, peso, bf, comorbidade,imagemBlob);
 					if (alunoCadastrado == null) {
 						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
 					} else {
 						JOptionPane.showMessageDialog(null, "Aluno(a) " + alunoCadastrado.getNome() +" cadastrado com sucesso!");
+						if (image.delete()) {
+						    System.out.println("Arquivo excluído com sucesso.");
+						} else {
+						    System.out.println("Não foi possível excluir o arquivo.");
+						}
 						dispose();
 					}
 				} catch (NumberFormatException e5) {

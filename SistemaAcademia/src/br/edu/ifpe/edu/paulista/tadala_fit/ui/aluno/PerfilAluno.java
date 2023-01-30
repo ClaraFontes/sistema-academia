@@ -5,8 +5,11 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Graphics2D;
+
 import javax.swing.SwingConstants;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
@@ -14,8 +17,17 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Toolkit;
 import javax.swing.border.TitledBorder;
+
+import com.lowagie.text.Image;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -39,6 +51,7 @@ public class PerfilAluno extends JDialog {
 	protected JTextField txtbf;
 	protected JTextField txtstatus;
 	private JTextField txtmatricula;
+	private JLabel lblfoto;
 
 	/**
 	 * Launch the application.
@@ -80,10 +93,10 @@ public class PerfilAluno extends JDialog {
 		getContentPane().add(perfilaluno);
 		perfilaluno.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(PerfilAluno.class.getResource("/assets_loginFrame/user.png")));
-		lblNewLabel.setBounds(47, 102, 157, 169);
-		perfilaluno.add(lblNewLabel);
+		lblfoto = new JLabel("");
+		lblfoto.setIcon(new ImageIcon(PerfilAluno.class.getResource("/assets_loginFrame/user.png")));
+		lblfoto.setBounds(47, 102, 157, 169);
+		perfilaluno.add(lblfoto);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(null);
@@ -409,8 +422,7 @@ public class PerfilAluno extends JDialog {
 		lblKg_1_1.setBounds(702, 221, 78, 24);
 		perfilaluno.add(lblKg_1_1);
 	}
-	
-	public void getAluno(Aluno alunoLogado) {
+	public void getAluno(Aluno alunoLogado) throws IOException {
 		txtmatricula.setText(Integer.toString(alunoLogado.getMatricula()));
 		txtnome.setText(alunoLogado.getNome());
 		txtcpf.setText(alunoLogado.getCpf());
@@ -421,6 +433,20 @@ public class PerfilAluno extends JDialog {
 		txtpeso.setText(Double.toString(alunoLogado.getPeso()));
 		txtbf.setText(Double.toString(alunoLogado.getBf()));
 		txtcomorbidade.setText(alunoLogado.getComorbidade());
+		Blob foto = alunoLogado.getImage();
+		try {
+			byte[] data = foto.getBytes(1,(int) foto.length());
+			InputStream is = new ByteArrayInputStream(data);
+			BufferedImage image = ImageIO.read(is);
+			BufferedImage resizedImage = new BufferedImage(150, 150, image.getType());
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(image, 0, 0, 150, 150, null);
+			g.dispose();
+			lblfoto.setIcon(new ImageIcon(resizedImage));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (alunoLogado.getQtdDiasUltimoPagamento() < 30) {
 			txtstatus.setText("Pago");
 		} else if (alunoLogado.getQtdDiasUltimoPagamento() > 30 || alunoLogado.getQtdDiasUltimoPagamento() < 180) {

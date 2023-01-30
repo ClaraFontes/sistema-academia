@@ -1,6 +1,9 @@
 package br.edu.ifpe.paulista.tadala_fit.core;
 
+import java.sql.Blob;
+
 import org.json.JSONObject;
+
 
 public class Aluno {
 	protected int matricula;
@@ -22,8 +25,17 @@ public class Aluno {
 	protected JSONObject treino_c;
 	protected JSONObject treino_d;
 	protected int qtdDiasUltimoPagamento;
+	private Blob image;
 	
-	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int qtdDiasUltimoPagamento) {
+	public Blob getImage() {
+		return image;
+	}
+
+	public void setImage(Blob image) {
+		this.image = image;
+	}
+
+	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int qtdDiasUltimoPagamento, Blob image) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -39,9 +51,10 @@ public class Aluno {
 		this.comorbidade = comorbidade;
 		this.qtdDiasUltimoPagamento = qtdDiasUltimoPagamento;
 		//this.treino_a = treino_a;
+		this.image = image;
 	}
 	
-	public Aluno( String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade) {
+	public Aluno( String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade,Blob image) {
 		this.usuario = usuario;
 		this.senha = senha;
 		this.nome = nome;
@@ -54,6 +67,7 @@ public class Aluno {
 		this.peso = peso;
 		this.bf = bf;
 		this.comorbidade = comorbidade;
+		this.image = image;
 	}
 	
 	

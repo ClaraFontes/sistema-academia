@@ -25,7 +25,7 @@ public class WebCam extends JDialog {
     private static final long serialVersionUID = 1L;
     private Webcam webcam = Webcam.getDefault();
     private JButton btntirarfoto;
-
+    
     public WebCam(String nome, String cpf) {
     	setSize(new Dimension(700, 570));
     	setResizable(false);

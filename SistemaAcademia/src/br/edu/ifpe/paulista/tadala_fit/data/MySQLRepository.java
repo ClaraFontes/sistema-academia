@@ -1,25 +1,26 @@
 package br.edu.ifpe.paulista.tadala_fit.data;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
+
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
+	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {
@@ -58,11 +59,11 @@ public class MySQLRepository implements Repository {
 	}
 	
 	
-	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade)  throws SQLException {
+	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade, Blob image)  throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
-			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade,foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario FROM aluno WHERE usuario = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
 			stm2.setString(1, user);
@@ -84,13 +85,14 @@ public class MySQLRepository implements Repository {
 				stm.setDouble(10, peso);
 				stm.setDouble(11, bf);
 				stm.setString(12, comorbidade);
+				stm.setBlob(13, image);
 				stm.execute();
 				
 			}
 			} finally {
 				connection.close();
 			}
-		Aluno alunoCadastrado = new Aluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento,altura, peso, bf, comorbidade);
+		Aluno alunoCadastrado = new Aluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento,altura, peso, bf, comorbidade,image);
 		return alunoCadastrado;
 		}
 
@@ -98,7 +100,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
-			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, dt_pagamento FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, dt_pagamento,foto FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
@@ -120,7 +122,8 @@ public class MySQLRepository implements Repository {
 				DateTime dt = formatter.parseDateTime(dt_pagamento);
 				 int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
 				//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias);
+				 Blob image = resultSet.getBlob("foto");
+				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias,image);
 				return alunoAtual;
 			} else {
 				return null;
@@ -203,14 +206,14 @@ public class MySQLRepository implements Repository {
 					Double peso0 = resultSet.getDouble("peso");
 					Double bf0 = resultSet.getDouble("bf");
 					String comorbidade0 = resultSet.getString("comorbidade");
-					String situacao0 = resultSet.getString("situacao");
 					String dt_pagamento0 = resultSet.getString("dt_pagamento");
 					DateTime dataHoraAtual = new DateTime();
 					DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 					DateTime dt0 = formatter.parseDateTime(dt_pagamento0);
 					 int dias0 = Days.daysBetween(dt0, dataHoraAtual).getDays();
 					//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-					Aluno alunoRecebido0 = new Aluno(matricula0, user0, password0, nome0, sexo0, cpf0,telefone0, email0, data_nascimento0,altura0, peso0, bf0, comorbidade0, dias0);
+					 Blob image = (Blob) resultSet.getBlob("foto");
+					Aluno alunoRecebido0 = new Aluno(matricula0, user0, password0, nome0, sexo0, cpf0,telefone0, email0, data_nascimento0,altura0, peso0, bf0, comorbidade0, dias0,image);
 					alunos.add(alunoRecebido0);
 				 while (resultSet.next()) {
 				 	Integer matricula = resultSet.getInt("matricula");
@@ -226,12 +229,12 @@ public class MySQLRepository implements Repository {
 					Double peso = resultSet.getDouble("peso");
 					Double bf = resultSet.getDouble("bf");
 					String comorbidade = resultSet.getString("comorbidade");
-					String situacao = resultSet.getString("situacao");
 					String dt_pagamento = resultSet.getString("dt_pagamento");
 					DateTime dt = formatter.parseDateTime(dt_pagamento);
 					 int dias = Days.daysBetween(dt, dataHoraAtual).getDays();
 					//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias);
+					 Blob image1 = resultSet.getBlob("foto");
+					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias, image1);
 					alunos.add(alunoRecebido);
 				 }
 				 return alunos;
@@ -270,7 +273,8 @@ public class MySQLRepository implements Repository {
 				DateTime dt = formatter.parseDateTime(dt_pagamento);
 				 int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
 				//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias);
+				 Blob image = resultSet.getBlob("foto");
+				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias,image);
 				return alunoFiltered;
 			} else {
 				return null;

@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
@@ -92,7 +93,12 @@ public class FrameHomeAluno {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PerfilAluno fa = new PerfilAluno();
-				fa.getAluno(alunoAtual);
+				try {
+					fa.getAluno(alunoAtual);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				fa.setModal(true);
 				fa.setVisible(true);
 			}

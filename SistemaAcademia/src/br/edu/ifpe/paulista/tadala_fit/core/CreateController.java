@@ -1,5 +1,6 @@
 package br.edu.ifpe.paulista.tadala_fit.core;
 
+import java.sql.Blob;
 import java.sql.SQLException;
 
 import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
@@ -7,7 +8,7 @@ import br.edu.ifpe.paulista.tadala_fit.data.Repository;
 
 public class CreateController {
 	
-	public static Aluno createAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade) throws ClassNotFoundException, SQLException, Exception {
+	public static Aluno createAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade, Blob image) throws ClassNotFoundException, SQLException, Exception {
 		
 		if(user.isBlank() || password.isBlank() || nome.isBlank() || sexo.isBlank() || cpf.isBlank() || telefone.isBlank() || email.isBlank() || data_nascimento.isBlank() || altura.toString().isBlank() || peso.toString().isBlank() || bf.toString().isBlank() || comorbidade.isBlank()) {
 			throw new RuntimeException("Preencha todos os campos");
@@ -26,7 +27,7 @@ public class CreateController {
 		}
 		
 		Repository repository = new MySQLRepository();
-		return repository.cadastroAluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade);
+		return repository.cadastroAluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, image);
 	}
 	
 	public static Professor createProfessor(String user, String password, String nome, String telefone, String email, String cref) throws ClassNotFoundException, SQLException, Exception {
