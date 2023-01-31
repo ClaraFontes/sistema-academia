@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import javax.swing.SwingConstants;
+
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.WebCam;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
 import javax.swing.JTextField;
@@ -25,6 +27,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -52,7 +55,7 @@ public class PerfilAluno extends JDialog {
 	protected JTextField txtstatus;
 	private JTextField txtmatricula;
 	private JLabel lblfoto;
-
+	private JButton btncarregarfoto;
 	/**
 	 * Launch the application.
 	 */
@@ -310,7 +313,13 @@ public class PerfilAluno extends JDialog {
 					Double peso = Double.parseDouble(txtpeso.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					Integer matricula = Integer.parseInt(txtmatricula.getText());
-					UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula);
+					File image = new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png");
+					FileInputStream inputstream = new FileInputStream(image);
+					byte[] imagepronta = new byte[(int) image.length()];
+					inputstream.read(imagepronta);
+					inputstream.close();
+					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
+					UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula,imagemBlob);
 				} catch (NumberFormatException e5) {
 					txtbf.setBorder( new TitledBorder("") );
 					txtaltura.setBorder( new TitledBorder("") );
@@ -421,6 +430,41 @@ public class PerfilAluno extends JDialog {
 		lblKg_1_1.setFont(new Font("Arial Black", Font.BOLD, 12));
 		lblKg_1_1.setBounds(702, 221, 78, 24);
 		perfilaluno.add(lblKg_1_1);
+		
+		JButton btnfoto = new JButton("Tirar Foto");
+		btnfoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new WebCam();
+				btncarregarfoto.setEnabled(true);
+				btncarregarfoto.setVisible(true);
+			}
+		});
+		btnfoto.setBorder(null);
+		btnfoto.setBounds(78, 269, 93, 20);
+		perfilaluno.add(btnfoto);
+		
+		btncarregarfoto = new JButton("Carregar Foto");
+		btncarregarfoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png"));
+					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
+					Graphics2D g = resizedImage.createGraphics();
+					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
+					g.dispose();
+					lblfoto.setIcon(new ImageIcon(resizedImage));
+					btncarregarfoto.setEnabled(false);
+					btncarregarfoto.setVisible(false);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btncarregarfoto.setEnabled(false);
+		btncarregarfoto.setBorder(null);
+		btncarregarfoto.setBounds(78, 300, 93, 20);
+		perfilaluno.add(btncarregarfoto);
 	}
 	public void getAluno(Aluno alunoLogado) throws IOException {
 		txtmatricula.setText(Integer.toString(alunoLogado.getMatricula()));

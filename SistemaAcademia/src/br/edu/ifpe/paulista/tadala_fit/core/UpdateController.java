@@ -1,12 +1,13 @@
 package br.edu.ifpe.paulista.tadala_fit.core;
 
+import java.sql.Blob;
 import java.sql.SQLException;
 
 import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
 import br.edu.ifpe.paulista.tadala_fit.data.Repository;
 
 public class UpdateController {
-	public static Aluno UpdateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula) throws ClassNotFoundException, SQLException, Exception {
+	public static Aluno UpdateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob imagemBlob) throws ClassNotFoundException, SQLException, Exception {
 		if( telefone.isBlank() || email.isBlank() || altura.toString().isBlank() || peso.toString().isBlank() || bf.toString().isBlank()) {
 			throw new RuntimeException("Preencha todos os campos");
 		}
@@ -20,7 +21,7 @@ public class UpdateController {
 		}
 		
 		Repository repository = new MySQLRepository();
-		return repository.updateAluno(telefone, email, altura, peso, bf,matricula);
+		return repository.updateAluno(telefone, email, altura, peso, bf,matricula,imagemBlob);
 	}
 	
 	public static Professor UpdateProfessor(String telefone, String email,Integer matricula) throws ClassNotFoundException, SQLException, Exception {
