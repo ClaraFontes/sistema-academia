@@ -26,7 +26,7 @@ public class WebCam extends JDialog {
     private Webcam webcam = Webcam.getDefault();
     private JButton btntirarfoto;
     
-    public WebCam(String nome, String cpf) {
+    public WebCam() {
     	setSize(new Dimension(700, 570));
     	setResizable(false);
     	addWindowListener(new WindowAdapter() {
@@ -61,7 +61,7 @@ public class WebCam extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    ImageIO.write(webcam.getImage(),"PNG", new File("imagem"+nome+cpf+".png"));
+                    ImageIO.write(webcam.getImage(),"PNG", new File("imagem.png"));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }finally {

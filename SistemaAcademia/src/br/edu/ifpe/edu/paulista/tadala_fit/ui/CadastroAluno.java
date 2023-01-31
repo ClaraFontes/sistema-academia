@@ -51,10 +51,10 @@ public class CadastroAluno extends JDialog {
 	private JTextField txtcomorbidade;
 	private JTextField txtuser;
 	private JPasswordField txtpassword;
-	private JTextField txtsexo;
 	private static JDialog dialog;
 	private JLabel lblfoto;
 	private JButton btnCarregarFoto;
+	private JTextField txtsexo;
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -300,7 +300,7 @@ public class CadastroAluno extends JDialog {
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
 					String password = new String(txtpassword.getPassword());
-					File image = new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem"+nome+cpf+".png");
+					File image = new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png");
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);
@@ -376,11 +376,6 @@ public class CadastroAluno extends JDialog {
 		txtpassword.setBounds(637, 400, 210, 23);
 		panel.add(txtpassword);
 		
-		txtsexo = new JTextField();
-		txtsexo.setBounds(636, 281, 121, 20);
-		panel.add(txtsexo);
-		txtsexo.setColumns(10);
-		
 		JLabel lblsexo = new JLabel("SEXO:");
 		lblsexo.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblsexo.setForeground(Color.WHITE);
@@ -392,17 +387,9 @@ public class CadastroAluno extends JDialog {
 		btnfoto.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if(txtnome.getText().isEmpty() ||txtnome.getText().isBlank()){
-					JOptionPane.showMessageDialog(null, "Preencha o nome e CPF antes de inserir a foto");
-				}else if (txtcpf.getText().isBlank() || txtcpf.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Preencha o nome e CPF antes de inserir a foto");
-				}else {
-					String nome = txtnome.getText();
-					String cpf = txtcpf.getText();
-					new WebCam(nome,cpf);
-					btnCarregarFoto.setEnabled(true);
-					btnCarregarFoto.setVisible(true);
-				}
+				new WebCam();
+				btnCarregarFoto.setEnabled(true);
+				btnCarregarFoto.setVisible(true);
 			}
 		});
 		btnfoto.setBorder(null);
@@ -413,15 +400,14 @@ public class CadastroAluno extends JDialog {
 		btnCarregarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String nome = txtnome.getText();
-					String cpf = txtcpf.getText();
-					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem"+nome+cpf+".png"));
+					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png"));
 					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
 					Graphics2D g = resizedImage.createGraphics();
 					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
 					g.dispose();
 					lblfoto.setIcon(new ImageIcon(resizedImage));
-					
+					btnCarregarFoto.setEnabled(false);
+					btnCarregarFoto.setVisible(false);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -433,5 +419,12 @@ public class CadastroAluno extends JDialog {
 		btnCarregarFoto.setBorder(null);
 		btnCarregarFoto.setBounds(88, 292, 93, 20);
 		panel.add(btnCarregarFoto);
+		
+		txtsexo = new JTextField();
+		txtsexo.setFont(new Font("Arial Black", Font.BOLD, 13));
+		txtsexo.setColumns(10);
+		txtsexo.setBorder(null);
+		txtsexo.setBounds(636, 277, 121, 25);
+		panel.add(txtsexo);
 		}
 }
