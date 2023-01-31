@@ -35,7 +35,7 @@ public class Aluno {
 		this.image = image;
 	}
 
-	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int qtdDiasUltimoPagamento, Blob image) {
+	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int qtdDiasUltimoPagamento,JSONObject treino_a, Blob image) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -50,7 +50,7 @@ public class Aluno {
 		this.bf = bf;
 		this.comorbidade = comorbidade;
 		this.qtdDiasUltimoPagamento = qtdDiasUltimoPagamento;
-		//this.treino_a = treino_a;
+		this.treino_a = treino_a;
 		this.image = image;
 	}
 	

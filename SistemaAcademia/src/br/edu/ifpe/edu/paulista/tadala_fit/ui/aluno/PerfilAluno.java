@@ -434,7 +434,8 @@ public class PerfilAluno extends JDialog {
 		txtbf.setText(Double.toString(alunoLogado.getBf()));
 		txtcomorbidade.setText(alunoLogado.getComorbidade());
 		Blob foto = alunoLogado.getImage();
-		try {
+		if (foto != null) {
+			try {
 			byte[] data = foto.getBytes(1,(int) foto.length());
 			InputStream is = new ByteArrayInputStream(data);
 			BufferedImage image = ImageIO.read(is);
@@ -447,6 +448,10 @@ public class PerfilAluno extends JDialog {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		} else {
+			
+		}
+		
 		if (alunoLogado.getQtdDiasUltimoPagamento() < 30) {
 			txtstatus.setText("Pago");
 		} else if (alunoLogado.getQtdDiasUltimoPagamento() > 30 || alunoLogado.getQtdDiasUltimoPagamento() < 180) {

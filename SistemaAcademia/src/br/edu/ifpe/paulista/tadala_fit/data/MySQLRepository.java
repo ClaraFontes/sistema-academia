@@ -12,6 +12,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -96,10 +98,10 @@ public class MySQLRepository implements Repository {
 		return alunoCadastrado;
 		}
 
-	public Aluno loginAluno(String user, String password) throws SQLException {
+	public Aluno loginAluno(String user, String password) throws SQLException, JSONException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, dt_pagamento,foto FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -120,10 +122,31 @@ public class MySQLRepository implements Repository {
 				DateTime dataHoraAtual = new DateTime();
 				DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 				DateTime dt = formatter.parseDateTime(dt_pagamento);
-				 int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
-				//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-				 Blob image = resultSet.getBlob("foto");
-				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias,image);
+				int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
+				Object treino_a = resultSet.getObject("treino_a");
+				JSONObject treino_a_JSON = new JSONObject(treino_a.toString());
+				Blob image = resultSet.getBlob("foto");
+				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias,treino_a_JSON, image);
+				JSONArray keys = treino_a_JSON.names();
+				for (int i = 0; i < treino_a_JSON.names().length(); i++) {
+					
+					String key = treino_a_JSON.names().getString(i);
+					System.out.print(key + ": ");
+					for (int v = 0; v < treino_a_JSON.getJSONArray(key).length(); v++) {
+						if (treino_a_JSON.getJSONArray(key).length() == 2) {
+							String value = treino_a_JSON.getJSONArray(key).getString(v);
+							System.out.print(value + " ");
+						} else if(treino_a_JSON.getJSONArray(key).length() == 0) {
+							System.out.print("Não tem treino ainda");
+						}
+						else {
+							String value = treino_a_JSON.getJSONArray(key).getString(v);
+							System.out.println(value);
+						}
+						
+						
+					}
+				}
 				return alunoAtual;
 			} else {
 				return null;
@@ -162,7 +185,7 @@ public class MySQLRepository implements Repository {
 	public Administrador loginAdm(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, cpf, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -187,7 +210,7 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Aluno> getAllAluno()throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno");
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -210,10 +233,15 @@ public class MySQLRepository implements Repository {
 					DateTime dataHoraAtual = new DateTime();
 					DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 					DateTime dt0 = formatter.parseDateTime(dt_pagamento0);
-					 int dias0 = Days.daysBetween(dt0, dataHoraAtual).getDays();
-					//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
-					 Blob image = (Blob) resultSet.getBlob("foto");
-					Aluno alunoRecebido0 = new Aluno(matricula0, user0, password0, nome0, sexo0, cpf0,telefone0, email0, data_nascimento0,altura0, peso0, bf0, comorbidade0, dias0,image);
+					int dias0 = Days.daysBetween(dt0, dataHoraAtual).getDays();
+					Object treino_a0 = resultSet.getObject("treino_a");
+					JSONObject treino_a0_JSON = null;
+					if (treino_a0 != null) {
+						treino_a0_JSON = new JSONObject(treino_a0.toString());
+					}
+					
+					Blob image = (Blob) resultSet.getBlob("foto");
+					Aluno alunoRecebido0 = new Aluno(matricula0, user0, password0, nome0, sexo0, cpf0,telefone0, email0, data_nascimento0,altura0, peso0, bf0, comorbidade0, dias0, treino_a0_JSON,image);
 					alunos.add(alunoRecebido0);
 				 while (resultSet.next()) {
 				 	Integer matricula = resultSet.getInt("matricula");
@@ -231,10 +259,14 @@ public class MySQLRepository implements Repository {
 					String comorbidade = resultSet.getString("comorbidade");
 					String dt_pagamento = resultSet.getString("dt_pagamento");
 					DateTime dt = formatter.parseDateTime(dt_pagamento);
-					 int dias = Days.daysBetween(dt, dataHoraAtual).getDays();
-					//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
+					int dias = Days.daysBetween(dt, dataHoraAtual).getDays();
+					Object treino_a = resultSet.getObject("treino_a");
+					JSONObject treino_a_JSON = null;
+					if (treino_a_JSON != null)  {
+						treino_a_JSON = new JSONObject(treino_a.toString());
+					}
 					 Blob image1 = resultSet.getBlob("foto");
-					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias, image1);
+					Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias, treino_a_JSON, image1);
 					alunos.add(alunoRecebido);
 				 }
 				 return alunos;
@@ -271,10 +303,11 @@ public class MySQLRepository implements Repository {
 				DateTime dataHoraAtual = new DateTime();
 				DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 				DateTime dt = formatter.parseDateTime(dt_pagamento);
-				 int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
-				//JSONObject treino_a = (JSONObject) resultSet.getArray("treino_a");
+				int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
+				Object treino_a = resultSet.getObject("treino_a");
+				JSONObject treino_a_JSON = new JSONObject(treino_a.toString());
 				 Blob image = resultSet.getBlob("foto");
-				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias,image);
+				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias, treino_a_JSON, image);
 				return alunoFiltered;
 			} else {
 				return null;

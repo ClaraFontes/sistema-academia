@@ -165,6 +165,8 @@ public class TreinoAluno extends JDialog {
 				public void mouseClicked(MouseEvent e) {
 					//txttreinos.setText(alunoLogado.getTreino_a());
 					//System.out.println(alunoLogado.getTreino_a());
+					//alunoLogado.getTreino_a().names() -> retorna um JSONArray para ser iterado
+					alunoLogado.getTreino_a().keys();
 				}
 			});
 		}
