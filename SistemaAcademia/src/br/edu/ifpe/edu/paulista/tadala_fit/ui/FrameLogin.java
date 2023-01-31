@@ -262,7 +262,7 @@ public class FrameLogin {
 		lblloginmensagem.setBounds(295, 619, 414, 22);
 		framelogin.getContentPane().add(lblloginmensagem);
 		
-		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2023 Tadalafit  All Rights Reserved");
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setBounds(348, 678, 324, 40);

@@ -21,5 +21,5 @@ public interface Repository {
 		public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula) throws SQLException;
 		public ArrayList<Professor> getAllProfessor() throws SQLException;
 		public Professor getProfessorFiltered(Integer pesquisa) throws SQLException;
-		//public Professor updateProfessor(String nome, String cref, String telefone, String email, Integer matricula) throws SQLException;
+		public Professor updateProfessor(String telefone, String email,Integer matricula) throws SQLException;
 }

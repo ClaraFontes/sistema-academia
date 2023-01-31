@@ -300,7 +300,7 @@ public class CadastroAluno extends JDialog {
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
 					String password = new String(txtpassword.getPassword());
-					File image = new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem"+nome+cpf+".png");
+					File image = new File("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem"+nome+cpf+".png");
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);
@@ -415,7 +415,7 @@ public class CadastroAluno extends JDialog {
 				try {
 					String nome = txtnome.getText();
 					String cpf = txtcpf.getText();
-					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem"+nome+cpf+".png"));
+					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem"+nome+cpf+".png"));
 					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
 					Graphics2D g = resizedImage.createGraphics();
 					g.drawImage(fotoperfil, 0, 0, 150, 150, null);

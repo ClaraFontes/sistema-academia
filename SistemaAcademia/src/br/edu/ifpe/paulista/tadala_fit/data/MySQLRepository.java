@@ -33,7 +33,7 @@ public class MySQLRepository implements Repository {
 	public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			String sql = ("INSERT INTO professor(usuario, senha, nome, telefone, email, cref) VALUES (?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario FROM professor a WHERE a.usuario = ? and a.cref = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -64,7 +64,7 @@ public class MySQLRepository implements Repository {
 	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade, Blob image)  throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade,foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario FROM aluno WHERE usuario = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -101,7 +101,7 @@ public class MySQLRepository implements Repository {
 	public Aluno loginAluno(String user, String password) throws SQLException, JSONException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, dt_pagamento,foto FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -124,10 +124,13 @@ public class MySQLRepository implements Repository {
 				DateTime dt = formatter.parseDateTime(dt_pagamento);
 				int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
 				Object treino_a = resultSet.getObject("treino_a");
-				JSONObject treino_a_JSON = new JSONObject(treino_a.toString());
+				JSONObject treino_a_JSON = null;
+				if (treino_a != null){
+					 treino_a_JSON = new JSONObject(treino_a.toString());
+				}			
 				Blob image = resultSet.getBlob("foto");
 				Aluno alunoAtual = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias,treino_a_JSON, image);
-				JSONArray keys = treino_a_JSON.names();
+				/*JSONArray keys = treino_a_JSON.names();
 				for (int i = 0; i < treino_a_JSON.names().length(); i++) {
 					
 					String key = treino_a_JSON.names().getString(i);
@@ -146,7 +149,7 @@ public class MySQLRepository implements Repository {
 						
 						
 					}
-				}
+				} */
 				return alunoAtual;
 			} else {
 				return null;
@@ -160,7 +163,7 @@ public class MySQLRepository implements Repository {
 	public Professor loginProfessor(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, telefone, email, cref, usuario, senha FROM professor a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -185,7 +188,7 @@ public class MySQLRepository implements Repository {
 	public Administrador loginAdm(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, cpf, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -210,7 +213,7 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Aluno> getAllAluno()throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "Stormchadow123");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno");
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -281,7 +284,7 @@ public class MySQLRepository implements Repository {
 	public Aluno getAlunoFiltered(Integer pesquisa) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno a WHERE a.matricula = ?");
 			statement.setInt(1, pesquisa);
 			ResultSet resultSet = statement.executeQuery();
@@ -320,7 +323,7 @@ public class MySQLRepository implements Repository {
 	public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ? WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setString(1, telefone);
@@ -340,7 +343,7 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Professor> getAllProfessor() throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM professor");
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -378,7 +381,7 @@ public class MySQLRepository implements Repository {
 	public Professor getProfessorFiltered(Integer pesquisa) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "123456");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM professor a WHERE a.matricula = ?");
 			statement.setInt(1, pesquisa);
 			ResultSet resultSet = statement.executeQuery();
@@ -398,6 +401,23 @@ public class MySQLRepository implements Repository {
 		} finally {
 			connection.close();
 		}
+	}
+
+	public Professor updateProfessor(String telefone, String email,Integer matricula) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", "@Clara123");
+			String sql1 = ("UPDATE professor a SET telefone = ?, email = ? WHERE matricula = ?");
+			PreparedStatement statement1 = connection.prepareStatement(sql1);
+			statement1.setString(1, telefone);
+			statement1.setString(2, email);
+			statement1.setInt(3, matricula);
+			statement1.execute();
+			JOptionPane.showMessageDialog(null, "Atualização feita com Sucesso, reinicie a sessão para ver as alterações!");
+		} finally {
+			connection.close();
+		}
+		return null;
 	}
 
 

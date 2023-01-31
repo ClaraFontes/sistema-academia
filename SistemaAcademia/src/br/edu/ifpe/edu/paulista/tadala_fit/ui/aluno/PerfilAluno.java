@@ -134,10 +134,10 @@ public class PerfilAluno extends JDialog {
 		perfilaluno.add(txtnome);
 		txtnome.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2023 Tadalafit All Rights Reserved");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setFont(new Font("Arial Black", Font.BOLD, 12));
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2.setBounds(342, 630, 342, 40);
 		perfilaluno.add(lblNewLabel_2);
 		

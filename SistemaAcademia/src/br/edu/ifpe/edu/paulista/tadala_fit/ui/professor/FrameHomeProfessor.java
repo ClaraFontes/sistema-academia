@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.FrameLogin;
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.FrameHomeAluno;
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.PerfilAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
@@ -98,6 +100,20 @@ public class FrameHomeProfessor {
 		panel.add(btnSair);
 		
 		JButton btnMeuperfil = new JButton("Meu Perfil");
+		btnMeuperfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PerfilProfessor fp = new PerfilProfessor();
+				try {
+					fp.getProfessor(professorAtual);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				fp.setModal(true);
+				fp.setVisible(true);
+				
+			}
+		});
 		btnMeuperfil.setFont(new Font("Arial", Font.BOLD, 13));
 		btnMeuperfil.setBackground(Color.WHITE);
 		btnMeuperfil.setBounds(45, 371, 176, 33);
@@ -124,6 +140,7 @@ public class FrameHomeProfessor {
 
 	public void getProfessor(Professor professorLogado) {
 		// TODO Auto-generated method stub
+		professorAtual = professorLogado;
 		
 	}
 }

@@ -22,4 +22,21 @@ public class UpdateController {
 		Repository repository = new MySQLRepository();
 		return repository.updateAluno(telefone, email, altura, peso, bf,matricula);
 	}
+	
+	public static Professor UpdateProfessor(String telefone, String email,Integer matricula) throws ClassNotFoundException, SQLException, Exception {
+		if( telefone.isBlank() || email.isBlank()) {
+			throw new RuntimeException("Preencha todos os campos");
+		}
+		
+		else if(telefone.matches("^[a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü]*$")) {
+			throw new Exception("Preencha os campos corretamente");
+		}
+		
+		else if( telefone.isEmpty() || email.isEmpty()) {
+			throw new RuntimeException("Preencha todos os campos");
+		}
+		
+		Repository repository = new MySQLRepository();
+		return repository.updateProfessor(telefone, email, matricula);
+	}
 }
