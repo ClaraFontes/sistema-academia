@@ -30,7 +30,7 @@ public class CreateController {
 		return repository.cadastroAluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, image);
 	}
 	
-	public static Professor createProfessor(String user, String password, String nome, String telefone, String email, String cref) throws ClassNotFoundException, SQLException, Exception {
+	public static Professor createProfessor(String user, String password, String nome, String telefone, String email, String cref, Blob image) throws ClassNotFoundException, SQLException, Exception {
 		if(user.isBlank() || password.isBlank() || nome.isBlank() || telefone.isBlank() || email.isBlank() || cref.isBlank()) {
 			throw new RuntimeException("Preencha todos os campos");
 		}
@@ -48,6 +48,6 @@ public class CreateController {
 		}
 		
 		Repository repository = new MySQLRepository();
-		return repository.cadastroProfessor(user, password, nome, telefone, email, cref);
+		return repository.cadastroProfessor(user, password, nome, telefone, email, cref, image);
 	}
 }

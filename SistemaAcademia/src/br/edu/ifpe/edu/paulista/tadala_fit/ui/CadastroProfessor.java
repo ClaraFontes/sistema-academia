@@ -14,11 +14,18 @@ import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Graphics2D;
+
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
@@ -40,6 +47,9 @@ public class CadastroProfessor extends JDialog {
 	protected JTextField txtcref;
 	protected JTextField txtuser;
 	protected JPasswordField txtpassword;
+	private JButton btncarregarfoto;
+	private JButton btntirarfoto;
+	private JLabel lblfoto;
 
 	/**
 	 * Launch the application.
@@ -88,10 +98,10 @@ public class CadastroProfessor extends JDialog {
 		panel_1.setBounds(10, 361, 988, 10);
 		panel.add(panel_1);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(CadastroProfessor.class.getResource("/assets_loginFrame/user.png")));
-		lblNewLabel.setBounds(72, 79, 161, 207);
-		panel.add(lblNewLabel);
+		lblfoto = new JLabel("");
+		lblfoto.setIcon(new ImageIcon(CadastroProfessor.class.getResource("/assets_loginFrame/user.png")));
+		lblfoto.setBounds(73, 74, 161, 179);
+		panel.add(lblfoto);
 		
 		JLabel lblnome = new JLabel("NOME:");
 		lblnome.setForeground(Color.WHITE);
@@ -173,12 +183,24 @@ public class CadastroProfessor extends JDialog {
 					String cref = txtcref.getText();
 					String nome = txtnome.getText();
 					String telefone = txttelefone.getText();
-					Professor professorCadastrado = CreateController.createProfessor(user, password, nome, telefone, telefone, cref);
+					File image = new File ("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png");
+					FileInputStream inputstream = new FileInputStream(image);
+					byte[] imagepronta = new byte[(int) image.length()];
+					inputstream.read(imagepronta);
+					inputstream.close();
+					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
+					Professor professorCadastrado = CreateController.createProfessor(user, password, nome, telefone, telefone, cref,imagemBlob);
 					if (professorCadastrado == null) {
 						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
 					} else {
 						JOptionPane.showMessageDialog(null, "Professor " + professorCadastrado.getNome() +" cadastrado com sucesso!");
+						if (image.delete()) {
+						    System.out.println("Arquivo excluído com sucesso.");
+						} else {
+						    System.out.println("Não foi possível excluir o arquivo.");
+						}
 					}
+					
 				} catch (RuntimeException e2) {
 					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
 				} catch (SQLException e1) {
@@ -213,5 +235,41 @@ public class CadastroProfessor extends JDialog {
 		txtpassword.setBorder(null);
 		txtpassword.setBounds(613, 417, 185, 19);
 		panel.add(txtpassword);
+		
+		btntirarfoto = new JButton("Tirar Foto");
+		btntirarfoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new WebCam();
+				btncarregarfoto.setEnabled(true);
+				btncarregarfoto.setVisible(true);
+			}
+		});
+		btntirarfoto.setBorder(null);
+		btntirarfoto.setBounds(103, 266, 93, 20);
+		panel.add(btntirarfoto);
+		
+		btncarregarfoto = new JButton("Carregar Foto");
+		btncarregarfoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png"));
+					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
+					Graphics2D g = resizedImage.createGraphics();
+					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
+					g.dispose();
+					lblfoto.setIcon(new ImageIcon(resizedImage));
+					btncarregarfoto.setEnabled(false);
+					btncarregarfoto.setVisible(false);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btncarregarfoto.setBorder(null);
+		btncarregarfoto.setEnabled(false);
+		btncarregarfoto.setVisible(false);
+		btncarregarfoto.setBounds(103, 297, 93, 20);
+		panel.add(btncarregarfoto);
 	}
 }

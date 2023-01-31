@@ -1,5 +1,7 @@
 package br.edu.ifpe.paulista.tadala_fit.core;
 
+import java.sql.Blob;
+
 public class Professor {
 	protected int matricula;
 	protected String usuario;
@@ -8,9 +10,14 @@ public class Professor {
 	protected String telefone;
 	protected String email;
 	protected String cref;
+	private Blob image;
 	
 	
-	public Professor(int matricula, String usuario, String senha, String nome, String telefone, String email, String cref) {
+	public Blob getImage() {
+		return image;
+	}
+
+	public Professor(int matricula, String usuario, String senha, String nome, String telefone, String email, String cref, Blob image) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -18,15 +25,17 @@ public class Professor {
 		this.telefone = telefone;
 		this.email = email;
 		this.cref = cref;
+		this.image = image;
 	}
 	
-	public Professor(String usuario, String senha, String nome, String telefone, String email, String cref) {
+	public Professor(String usuario, String senha, String nome, String telefone, String email, String cref, Blob image) {
 		this.usuario = usuario;
 		this.senha = senha;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
 		this.cref = cref;
+		this.image = image;
 	}
 	
 	

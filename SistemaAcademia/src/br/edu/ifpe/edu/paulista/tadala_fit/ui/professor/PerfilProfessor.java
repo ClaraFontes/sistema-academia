@@ -9,15 +9,23 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.WebCam;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
 
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
@@ -25,6 +33,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 
 public class PerfilProfessor extends JDialog {
@@ -35,6 +44,10 @@ public class PerfilProfessor extends JDialog {
 	private JTextField texttelefone;
 	private JTextField textEmail;
 	private JTextField textCref;
+	private JLabel lblfoto;
+	private JButton btncarregarfoto;
+	private JButton btntirarfoto;
+	
 
 	/**
 	 * Launch the application.
@@ -69,9 +82,9 @@ public class PerfilProfessor extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lblfoto = new JLabel("");
+		lblfoto = new JLabel("");
 		lblfoto.setIcon(new ImageIcon(PerfilProfessor.class.getResource("/assets_loginFrame/user.png")));
-		lblfoto.setBounds(47, 102, 157, 169);
+		lblfoto.setBounds(54, 99, 157, 169);
 		contentPanel.add(lblfoto);
 		
 		JLabel lblmatricula = new JLabel("MATRICULA:");
@@ -172,7 +185,13 @@ public class PerfilProfessor extends JDialog {
 					String telefone = texttelefone.getText();
 					String email = textEmail.getText();
 					Integer matricula = Integer.parseInt(textmatricula.getText());
-					UpdateController.UpdateProfessor(telefone,email,matricula);
+					File image = new File ("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png");
+					FileInputStream inputstream = new FileInputStream(image);
+					byte[] imagepronta = new byte[(int) image.length()];
+					inputstream.read(imagepronta);
+					inputstream.close();
+					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
+					UpdateController.UpdateProfessor(telefone,email,matricula,imagemBlob);
 				} catch (RuntimeException e1) {
 					e1.printStackTrace();
 					textEmail.setBorder( new TitledBorder("") );
@@ -241,6 +260,40 @@ public class PerfilProfessor extends JDialog {
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2.setBounds(342, 630, 342, 40);
 		contentPanel.add(lblNewLabel_2);
+		
+		btntirarfoto = new JButton("Tirar Foto");
+		btntirarfoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new WebCam();
+				btncarregarfoto.setEnabled(true);
+				btncarregarfoto.setVisible(true);
+			}
+		});
+		btntirarfoto.setBorder(null);
+		btntirarfoto.setBounds(79, 265, 93, 20);
+		contentPanel.add(btntirarfoto);
+		
+		btncarregarfoto = new JButton("Carregar Foto");
+		btncarregarfoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png"));
+					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
+					Graphics2D g = resizedImage.createGraphics();
+					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
+					g.dispose();
+					lblfoto.setIcon(new ImageIcon(resizedImage));
+					btncarregarfoto.setEnabled(false);
+					btncarregarfoto.setVisible(false);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btncarregarfoto.setBorder(null);
+		btncarregarfoto.setBounds(79, 296, 93, 20);
+		contentPanel.add(btncarregarfoto);
 	}
 
 	public void getProfessor(Professor professorLogado) throws IOException {
@@ -249,6 +302,24 @@ public class PerfilProfessor extends JDialog {
 		texttelefone.setText(professorLogado.getTelefone());
 		textEmail.setText(professorLogado.getEmail());
 		textCref.setText(professorLogado.getCref());
+		Blob foto = professorLogado.getImage();
+		if (foto != null) {
+			try {
+			byte[] data = foto.getBytes(1,(int) foto.length());
+			InputStream is = new ByteArrayInputStream(data);
+			BufferedImage image = ImageIO.read(is);
+			BufferedImage resizedImage = new BufferedImage(150, 150, image.getType());
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(image, 0, 0, 150, 150, null);
+			g.dispose();
+			lblfoto.setIcon(new ImageIcon(resizedImage));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		} else {
+			
+		}
 		
 		
 	}

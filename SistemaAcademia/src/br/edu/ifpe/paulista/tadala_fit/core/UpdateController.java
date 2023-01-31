@@ -21,10 +21,10 @@ public class UpdateController {
 		}
 		
 		Repository repository = new MySQLRepository();
-		return repository.updateAluno(telefone, email, altura, peso, bf,matricula,imagemBlob);
+		return repository.updateAluno(telefone, email, altura, peso, bf,matricula, imagemBlob);
 	}
 	
-	public static Professor UpdateProfessor(String telefone, String email,Integer matricula) throws ClassNotFoundException, SQLException, Exception {
+	public static Professor UpdateProfessor(String telefone, String email,Integer matricula, Blob image) throws ClassNotFoundException, SQLException, Exception {
 		if( telefone.isBlank() || email.isBlank()) {
 			throw new RuntimeException("Preencha todos os campos");
 		}
@@ -38,6 +38,6 @@ public class UpdateController {
 		}
 		
 		Repository repository = new MySQLRepository();
-		return repository.updateProfessor(telefone, email, matricula);
+		return repository.updateProfessor(telefone, email, matricula,image);
 	}
 }
