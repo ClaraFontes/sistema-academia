@@ -27,6 +27,8 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.ScrollPaneConstants;
 
 public class ConsultaAluno extends JDialog {
@@ -39,6 +41,11 @@ public class ConsultaAluno extends JDialog {
 	public JTable table;
 	private JTextField Pesquisar;
 	protected Aluno alunoatual;
+	private Object matricula;
+
+	public Object getMatricula() {
+		return matricula;
+	}
 
 	/**
 	 * Launch the application.
@@ -90,6 +97,15 @@ public class ConsultaAluno extends JDialog {
 		panel.add(btnExcluir);
 		
 		JButton btnPerfil = new JButton("Ver Perfil");
+		btnPerfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer matriculafiltered = (Integer) matricula;
+				Integer matricula = matriculafiltered.intValue();
+				ConsultaAlunoPerfil cap = new ConsultaAlunoPerfil(matricula);
+				cap.setModal(true);
+				cap.setVisible(true);
+			}
+		});
 		btnPerfil.setFont(new Font("Arial", Font.BOLD, 13));
 		btnPerfil.setEnabled(false);
 		btnPerfil.setBackground(Color.WHITE);
@@ -104,12 +120,27 @@ public class ConsultaAluno extends JDialog {
 		panel.add(btnCriartreinos);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setInheritsPopupMenu(true);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBorder(null);
 		scrollPane.setBounds(78, 99, 592, 592);
 		panel.add(scrollPane);
 		
 		table = new JTable();
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) {
+		            int linha = table.getSelectedRow();
+		            if (linha >= 0) {
+		                DefaultTableModel model = (DefaultTableModel) table.getModel();
+		                int coluna= 0; 
+		                matricula = model.getValueAt(linha, coluna);
+		                System.out.print(matricula+"\n");
+		            }
+		        }
+		    }
+		});
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.addFocusListener(new FocusAdapter() {
 			@Override
@@ -212,7 +243,7 @@ public class ConsultaAluno extends JDialog {
 				ArrayList<Aluno> aluno;
 				try {
 					aluno = ReadController.getAllAlunos();
-					for(Aluno a: aluno) {				
+					for(Aluno a: aluno) {
 						modelo.addRow(new Object[]{
 								a.getMatricula(),
 								a.getNome(),

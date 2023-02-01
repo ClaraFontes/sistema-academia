@@ -1,27 +1,13 @@
-package br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno;
+package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
-
-import javax.swing.SwingConstants;
-
-import br.edu.ifpe.edu.paulista.tadala_fit.ui.WebCam;
-import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
-import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.Toolkit;
-import javax.swing.border.TitledBorder;
-
-import com.lowagie.text.Image;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -32,37 +18,52 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
-public class PerfilAluno extends JDialog {
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.PerfilAluno;
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.ReadController;
+import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
+
+public class ConsultaAlunoPerfil extends JDialog {
+	private JPanel perfilaluno = new JPanel();
+	private JTextField txtnome;
+	private JTextField txttelefone;
+	private JTextField txtdata;
+	private JTextField txtpeso;
+	private JTextField txtcomorbidade;
+	private JTextField txtcpf;
+	private JTextField txtemail;
+	private JTextField txtaltura;
+	private JTextField txtbf;
+	private JTextField txtstatus;
+	private JTextField txtmatricula;
+	private JLabel lblfoto;
+	private JButton btncarregarfoto;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected JPanel perfilaluno = new JPanel();
-	protected JTextField txtnome;
-	protected JTextField txttelefone;
-	protected JTextField txtdata;
-	protected JTextField txtpeso;
-	protected JTextField txtcomorbidade;
-	protected JTextField txtcpf;
-	protected JTextField txtemail;
-	protected JTextField txtaltura;
-	protected JTextField txtbf;
-	protected JTextField txtstatus;
-	private JTextField txtmatricula;
-	private JLabel lblfoto;
-	private JButton btncarregarfoto;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			PerfilAluno dialog = new PerfilAluno();
-			//dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			Integer matricula = null;
+			ConsultaAlunoPerfil dialog = new ConsultaAlunoPerfil(matricula);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,7 +73,8 @@ public class PerfilAluno extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public PerfilAluno() {
+	public ConsultaAlunoPerfil(Integer matricula) {
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -227,7 +229,7 @@ public class PerfilAluno extends JDialog {
 		txtpeso.setColumns(10);
 		txtpeso.setBorder(null);
 		txtpeso.setBackground(new Color(0, 79, 157));
-		txtpeso.setBounds(324, 224, 51, 20);
+		txtpeso.setBounds(324, 224, 31, 20);
 		perfilaluno.add(txtpeso);
 		
 		txtcomorbidade = new JTextField();
@@ -257,7 +259,7 @@ public class PerfilAluno extends JDialog {
 		txtemail.setColumns(10);
 		txtemail.setBorder(null);
 		txtemail.setBackground(new Color(0, 79, 157));
-		txtemail.setBounds(556, 189, 139, 20);
+		txtemail.setBounds(561, 188, 139, 20);
 		perfilaluno.add(txtemail);
 		
 		txtaltura = new JTextField();
@@ -267,7 +269,7 @@ public class PerfilAluno extends JDialog {
 		txtaltura.setColumns(10);
 		txtaltura.setBorder(null);
 		txtaltura.setBackground(new Color(0, 79, 157));
-		txtaltura.setBounds(556, 224, 44, 20);
+		txtaltura.setBounds(556, 224, 36, 20);
 		perfilaluno.add(txtaltura);
 		
 		txtbf = new JTextField();
@@ -360,6 +362,7 @@ public class PerfilAluno extends JDialog {
 				}
 			}
 		});
+		
 		btnenviar.setFocusPainted(false);
 		btnenviar.setVisible(false);
 		btnenviar.setEnabled(false);
@@ -386,6 +389,7 @@ public class PerfilAluno extends JDialog {
 				btnenviar.setVisible(true);
 			}
 		});
+		
 		btneditar.setFocusPainted(false);
 		btneditar.setForeground(Color.WHITE);
 		btneditar.setFont(new Font("Arial", Font.BOLD, 16));
@@ -414,14 +418,14 @@ public class PerfilAluno extends JDialog {
 		lblKg.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblKg.setForeground(Color.WHITE);
 		lblKg.setFont(new Font("Arial Black", Font.BOLD, 12));
-		lblKg.setBounds(324, 221, 72, 24);
+		lblKg.setBounds(300, 221, 85, 24);
 		perfilaluno.add(lblKg);
 		
 		JLabel lblKg_1 = new JLabel("m");
 		lblKg_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblKg_1.setForeground(Color.WHITE);
 		lblKg_1.setFont(new Font("Arial Black", Font.BOLD, 12));
-		lblKg_1.setBounds(545, 221, 78, 24);
+		lblKg_1.setBounds(530, 221, 78, 24);
 		perfilaluno.add(lblKg_1);
 		
 		JLabel lblKg_1_1 = new JLabel("%");
@@ -465,42 +469,46 @@ public class PerfilAluno extends JDialog {
 		btncarregarfoto.setBorder(null);
 		btncarregarfoto.setBounds(78, 300, 93, 20);
 		perfilaluno.add(btncarregarfoto);
-	}
-	public void getAluno(Aluno alunoLogado) throws IOException {
-		txtmatricula.setText(Integer.toString(alunoLogado.getMatricula()));
-		txtnome.setText(alunoLogado.getNome());
-		txtcpf.setText(alunoLogado.getCpf());
-		txttelefone.setText(alunoLogado.getTelefone());
-		txtemail.setText(alunoLogado.getEmail());
-		txtdata.setText(alunoLogado.getData_nascimento());
-		txtaltura.setText(Double.toString(alunoLogado.getAltura()));
-		txtpeso.setText(Double.toString(alunoLogado.getPeso()));
-		txtbf.setText(Double.toString(alunoLogado.getBf()));
-		txtcomorbidade.setText(alunoLogado.getComorbidade());
-		Blob foto = alunoLogado.getImage();
-		if (foto != null) {
-			try {
-			byte[] data = foto.getBytes(1,(int) foto.length());
-			InputStream is = new ByteArrayInputStream(data);
-			BufferedImage image = ImageIO.read(is);
-			BufferedImage resizedImage = new BufferedImage(150, 150, image.getType());
-			Graphics2D g = resizedImage.createGraphics();
-			g.drawImage(image, 0, 0, 150, 150, null);
-			g.dispose();
-			lblfoto.setIcon(new ImageIcon(resizedImage));
-		} catch (SQLException e) {
+		
+		try {
+			Aluno pesquisaAluno = ReadController.getAlunoFiltered(matricula);
+			txtmatricula.setText(Integer.toString(pesquisaAluno.getMatricula()));
+			txtnome.setText(pesquisaAluno.getNome());
+			txtcpf.setText(pesquisaAluno.getCpf());
+			txttelefone.setText(pesquisaAluno.getTelefone());
+			txtemail.setText(pesquisaAluno.getEmail());
+			txtdata.setText(pesquisaAluno.getData_nascimento());
+			txtaltura.setText(Double.toString(pesquisaAluno.getAltura()));
+			txtpeso.setText(Double.toString(pesquisaAluno.getPeso()));
+			txtbf.setText(Double.toString(pesquisaAluno.getBf()));
+			txtcomorbidade.setText(pesquisaAluno.getComorbidade());
+			Blob foto = pesquisaAluno.getImage();
+			if (foto != null) {
+				byte[] data = foto.getBytes(1,(int) foto.length());
+				InputStream is = new ByteArrayInputStream(data);
+				BufferedImage image = ImageIO.read(is);
+				BufferedImage resizedImage = new BufferedImage(150, 150, image.getType());
+				Graphics2D g = resizedImage.createGraphics();
+				g.drawImage(image, 0, 0, 150, 150, null);
+				g.dispose();
+				lblfoto.setIcon(new ImageIcon(resizedImage));
+			}
+			if (pesquisaAluno.getQtdDiasUltimoPagamento() < 30) {
+				txtstatus.setText("Pago");
+			} else if (pesquisaAluno.getQtdDiasUltimoPagamento() > 30 || pesquisaAluno.getQtdDiasUltimoPagamento() < 180) {
+				txtstatus.setText("Inadinplente");
+			} else if (pesquisaAluno.getQtdDiasUltimoPagamento() >= 180) {
+				txtstatus.setText("Inativo");
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		} else {
 			
-		}
-		if (alunoLogado.getQtdDiasUltimoPagamento() < 30) {
-			txtstatus.setText("Pago");
-		} else if (alunoLogado.getQtdDiasUltimoPagamento() > 30 || alunoLogado.getQtdDiasUltimoPagamento() < 180) {
-			txtstatus.setText("Inadinplente");
-		} else if (alunoLogado.getQtdDiasUltimoPagamento() >= 180) {
-			txtstatus.setText("Inativo");
-		}
 	}
+
 }
+

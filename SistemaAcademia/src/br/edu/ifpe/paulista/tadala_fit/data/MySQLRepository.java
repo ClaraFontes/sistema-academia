@@ -267,7 +267,7 @@ public class MySQLRepository implements Repository {
 					int dias = Days.daysBetween(dt, dataHoraAtual).getDays();
 					Object treino_a = resultSet.getObject("treino_a");
 					JSONObject treino_a_JSON = null;
-					if (treino_a_JSON != null)  {
+					if (treino_a != null)  {
 						treino_a_JSON = new JSONObject(treino_a.toString());
 					}
 					 Blob image1 = resultSet.getBlob("foto");
@@ -310,8 +310,11 @@ public class MySQLRepository implements Repository {
 				DateTime dt = formatter.parseDateTime(dt_pagamento);
 				int dias = Days.daysBetween(dt, dataHoraAtual).getDays(); 
 				Object treino_a = resultSet.getObject("treino_a");
-				JSONObject treino_a_JSON = new JSONObject(treino_a.toString());
-				 Blob image = resultSet.getBlob("foto");
+				JSONObject treino_a_JSON = null;
+				if (treino_a != null)  {
+					treino_a_JSON = new JSONObject(treino_a.toString());
+				}
+				Blob image = resultSet.getBlob("foto");
 				Aluno alunoFiltered = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias, treino_a_JSON, image);
 				return alunoFiltered;
 			} else {
