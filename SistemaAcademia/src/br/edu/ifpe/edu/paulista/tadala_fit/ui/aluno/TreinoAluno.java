@@ -10,6 +10,10 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import javax.swing.JButton;
 import java.awt.event.WindowAdapter;
@@ -28,7 +32,10 @@ public class TreinoAluno extends JDialog {
 	protected JButton btnA;
 	protected JTextArea txttreinos;
 	protected JTextField txtboasvindas;
-
+	protected Aluno alunoAtual;
+	private String chave;
+	private String valor1;
+	private String valor2;
 	/**
 	 * Launch the application.
 	 */
@@ -156,9 +163,41 @@ public class TreinoAluno extends JDialog {
 		btnA.setBackground(Color.WHITE);
 		btnA.setBounds(189, 129, 121, 40);
 		panel.add(btnA);
+		
+		btnA.addActionListener(e -> {
+			if (alunoAtual.getTreino_a() != null) {
+				JSONObject treino_a_JSON = alunoAtual.getTreino_a();
+			JSONArray keys = treino_a_JSON.names();
+			for (int i = 0; i < treino_a_JSON.names().length(); i++) {
+				
+				String key = treino_a_JSON.names().getString(i);
+				
+				chave = key;
+				for (int v = 0; v < treino_a_JSON.getJSONArray(key).length(); v++) {
+					if (treino_a_JSON.getJSONArray(key).length() == 2) {
+						
+						valor1 = treino_a_JSON.getJSONArray(key).getString(0) + " ";
+						valor2 = treino_a_JSON.getJSONArray(key).getString(1) + " ";
+					} else if(treino_a_JSON.getJSONArray(key).length() == 0) {
+						txttreinos.setText("Você ainda não tem treino");
+					}
+					else {
+						String value = treino_a_JSON.getJSONArray(key).getString(v);
+						
+					}
+					
+					txttreinos.setText(chave.replaceAll("_", " ") + ": " + valor1 + " " + valor2);
+				}
+			}
+			} else {
+				txttreinos.setText("Você ainda não treino");
+			}
+			
+		});
 
 	}
 		public void getAluno(Aluno alunoLogado) {
+			alunoAtual = alunoLogado;
 			txtboasvindas.setText(alunoLogado.getNome());
 			btnA.addMouseListener(new MouseAdapter() {
 				@Override
@@ -166,7 +205,7 @@ public class TreinoAluno extends JDialog {
 					//txttreinos.setText(alunoLogado.getTreino_a());
 					//System.out.println(alunoLogado.getTreino_a());
 					//alunoLogado.getTreino_a().names() -> retorna um JSONArray para ser iterado
-					alunoLogado.getTreino_a().keys();
+					
 				}
 			});
 		}
