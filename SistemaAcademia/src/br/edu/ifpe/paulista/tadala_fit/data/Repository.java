@@ -3,6 +3,7 @@ package br.edu.ifpe.paulista.tadala_fit.data;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
@@ -24,4 +25,5 @@ public interface Repository {
 		public Professor updateProfessor(String telefone, String email,Integer matricula, Blob image) throws SQLException;
 		public Aluno deleteAluno(int matricula)  throws SQLException;
 		public Professor deleteProfessor(int matricula)  throws SQLException;
+		public Aluno updatePagmento(String data, int matricula) throws SQLException;
 }

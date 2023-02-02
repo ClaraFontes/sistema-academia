@@ -40,4 +40,8 @@ public class UpdateController {
 		Repository repository = new MySQLRepository();
 		return repository.updateProfessor(telefone, email, matricula,image);
 	}
+	public static Aluno updatePagamento(String date, int matricula)throws ClassNotFoundException, SQLException, Exception {
+		Repository repository = new MySQLRepository();
+		return repository.updatePagmento(date, matricula);
+	}
 }

@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -51,6 +53,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 	private JTextField txtmatricula;
 	private JLabel lblfoto;
 	private JButton btncarregarfoto;
+	private JButton btnpagamento;
 
 	/**
 	 * 
@@ -470,6 +473,35 @@ public class ConsultaAlunoPerfil extends JDialog {
 		btncarregarfoto.setBounds(78, 300, 93, 20);
 		perfilaluno.add(btncarregarfoto);
 		
+		btnpagamento = new JButton("Gerar Pagamento");
+		btnpagamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "deseja confirmar pagamento do Aluno?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+					Date hoje = new Date();
+					SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					String dataFormatada = formato.format(hoje);
+					try {
+						UpdateController.updatePagamento(dataFormatada,matricula);
+						btnpagamento.setVisible(false);
+						btnpagamento.setEnabled(false);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+				}
+				
+			}
+		});
+		btnpagamento.setEnabled(false);
+		btnpagamento.setVisible(false);
+		btnpagamento.setForeground(Color.WHITE);
+		btnpagamento.setFont(new Font("Arial", Font.BOLD, 16));
+		btnpagamento.setFocusPainted(false);
+		btnpagamento.setBackground(new Color(0, 69, 130));
+		btnpagamento.setBounds(399, 471, 200, 40);
+		perfilaluno.add(btnpagamento);
+		
 		try {
 			Aluno pesquisaAluno = ReadController.getAlunoFiltered(matricula);
 			txtmatricula.setText(Integer.toString(pesquisaAluno.getMatricula()));
@@ -497,6 +529,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 				txtstatus.setText("Pago");
 			} else if (pesquisaAluno.getQtdDiasUltimoPagamento() > 30 || pesquisaAluno.getQtdDiasUltimoPagamento() < 180) {
 				txtstatus.setText("Inadinplente");
+				btnpagamento.setVisible(true);
+				btnpagamento.setEnabled(true);
 			} else if (pesquisaAluno.getQtdDiasUltimoPagamento() >= 180) {
 				txtstatus.setText("Inativo");
 			}
@@ -509,6 +543,5 @@ public class ConsultaAlunoPerfil extends JDialog {
 		}
 			
 	}
-
 }
 

@@ -94,7 +94,7 @@ public class FrameHome {
 
 			}
 		});
-		btnCadastro.setBounds(43, 250, 176, 33);
+		btnCadastro.setBounds(43, 241, 176, 33);
 		panel.add(btnCadastro);
 		
 		JButton btnConsultaAluno = new JButton("Consultar Aluno");
@@ -107,21 +107,10 @@ public class FrameHome {
 			});
 		btnConsultaAluno.setFont(new Font("Arial", Font.BOLD, 13));
 		btnConsultaAluno.setBackground(new Color(255, 255, 255));
-		btnConsultaAluno.setBounds(43, 369, 151, 33);
+		btnConsultaAluno.setBounds(43, 372, 151, 33);
 		btnConsultaAluno.setBounds(43, 385, 176, 33);
 
 		panel.add(btnConsultaAluno);
-		
-		JButton btnBoleto = new JButton("Novo boleto");
-		btnBoleto.setFont(new Font("Arial", Font.BOLD, 13));
-		btnBoleto.setBackground(new Color(255, 255, 255));
-		btnBoleto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnBoleto.setBorder(UIManager.getBorder("Button.border"));
-		btnBoleto.setBounds(43, 523, 176, 33);
-		panel.add(btnBoleto);
 		
 		JButton btnSair = new JButton("Sair");
 		btnSair.setFont(new Font("Arial", Font.BOLD, 13));
@@ -134,10 +123,10 @@ public class FrameHome {
 				framehome.dispose();
 			}
 		});
-		btnSair.setBounds(43, 649, 176, 33);
+		btnSair.setBounds(43, 533, 176, 33);
 		panel.add(btnSair);
 		
-		JButton btnCadastroProf = new JButton("Cadastrar Professor");
+		JButton btnCadastroProf = new JButton("Matricular Professor");
 		btnCadastroProf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -152,13 +141,6 @@ public class FrameHome {
 		btnCadastroProf.setBounds(43, 323, 151, 33);
 		btnCadastroProf.setBounds(43, 312, 176, 33);
 		panel.add(btnCadastroProf);
-		
-		JButton btnQrCode = new JButton("Novo QrCode");
-		btnQrCode.setFont(new Font("Arial", Font.BOLD, 13));
-		btnQrCode.setBorder(UIManager.getBorder("Button.border"));
-		btnQrCode.setBackground(Color.WHITE);
-		btnQrCode.setBounds(43, 583, 176, 33);
-		panel.add(btnQrCode);
 		
 		JButton btnConsultaProf = new JButton("Consultar Professor");
 		btnConsultaProf.addActionListener(new ActionListener() {

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.DeleteController;
 import br.edu.ifpe.paulista.tadala_fit.core.ReadController;
 
 import java.awt.Toolkit;
@@ -90,6 +91,24 @@ public class ConsultaAluno extends JDialog {
 		panel.setLayout(null);
 		
 		JButton btnExcluir = new JButton("Excluir Matrícula");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Tem certeza que gostaria de Excluir esse Aluno?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+					JOptionPane.showMessageDialog(null, "Aluno Excluido com sucesso!\n"
+							+ "realize a consulta novamente para listar os dados atualizados");
+					Integer matriculafiltered = (Integer) matricula;
+					Integer matricula = matriculafiltered.intValue();
+					try {
+						DeleteController.deleteAluno(matricula);
+					} catch (ClassNotFoundException | RuntimeException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					
+				}
+			}
+		});
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 13));
 		btnExcluir.setEnabled(false);
 		btnExcluir.setBackground(Color.WHITE);
