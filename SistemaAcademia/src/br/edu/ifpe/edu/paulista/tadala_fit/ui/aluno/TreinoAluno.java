@@ -180,9 +180,15 @@ public class TreinoAluno extends JDialog {
 		lblSemTreino.setBackground(new Color(0, 0, 0));
 		
 		btnA.addActionListener(e -> {
+			table.setModel(new DefaultTableModel(
+					new Object[][] {
+					},
+					new String[] {
+						"Nome do exerc\u00EDcio", "Repeti\u00E7\u00F5es", "Observa\u00E7\u00F5es"
+					}
+				));
 			if (alunoAtual.getTreino_a() != null) {
 				JSONObject treino_a_JSON = alunoAtual.getTreino_a();
-			JSONArray keys = treino_a_JSON.names();
 			DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 			for (int i = 0; i < treino_a_JSON.names().length(); i++) {
 				
@@ -202,8 +208,7 @@ public class TreinoAluno extends JDialog {
 							});
 					} else if(treino_a_JSON.getJSONArray(key).length() == 0) {
 						lblSemTreino.setText("Você ainda não tem treino");
-					}
-					else {
+					}else {
 						String value = treino_a_JSON.getJSONArray(key).getString(v);
 						modelo.addRow(new Object []{
 								chave,
@@ -222,9 +227,15 @@ public class TreinoAluno extends JDialog {
 		});
 		
 		btnB.addActionListener(e -> {
+			table.setModel(new DefaultTableModel(
+					new Object[][] {
+					},
+					new String[] {
+						"Nome do exerc\u00EDcio", "Repeti\u00E7\u00F5es", "Observa\u00E7\u00F5es"
+					}
+				));
 			if (alunoAtual.getTreino_b() != null) {
 				JSONObject treino_b_JSON = alunoAtual.getTreino_b();
-			JSONArray keys = treino_b_JSON.names();
 			DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 			for (int i = 0; i < treino_b_JSON.names().length(); i++) {
 				
@@ -256,7 +267,7 @@ public class TreinoAluno extends JDialog {
 					//txttreinos.setText(chave.replaceAll("_", " ") + ": " + valor1 + " " + valor2);	
 				}
 			}
-			modelo.removeRow(modelo.getRowCount()-1);
+			//modelo.removeRow(modelo.getRowCount()-1);
 			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino B");
