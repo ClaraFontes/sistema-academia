@@ -123,10 +123,10 @@ public class FrameHome {
 				framehome.dispose();
 			}
 		});
-		btnSair.setBounds(43, 533, 176, 33);
+		btnSair.setBounds(43, 527, 176, 33);
 		panel.add(btnSair);
 		
-		JButton btnCadastroProf = new JButton("Matricular Professor");
+		JButton btnCadastroProf = new JButton("Cadastrar Professor");
 		btnCadastroProf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

@@ -22,6 +22,9 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class TreinoAluno extends JDialog {
 
@@ -30,12 +33,12 @@ public class TreinoAluno extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected JButton btnA;
-	protected JTextArea txttreinos;
 	protected JTextField txtboasvindas;
 	protected Aluno alunoAtual;
 	private String chave;
 	private String valor1;
 	private String valor2;
+	private JTable table;
 	/**
 	 * Launch the application.
 	 */
@@ -83,7 +86,7 @@ public class TreinoAluno extends JDialog {
 		lblNewLabel.setBounds(22, 518, 204, 200);
 		panel.add(lblNewLabel);
 		
-		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2023 Tadalafit  All Rights Reserved");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setFont(new Font("Arial Black", Font.BOLD, 12));
@@ -94,28 +97,28 @@ public class TreinoAluno extends JDialog {
 		btnB.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnB.setFocusPainted(false);
 		btnB.setBackground(Color.WHITE);
-		btnB.setBounds(320, 129, 121, 40);
+		btnB.setBounds(320, 117, 121, 40);
 		panel.add(btnB);
 		
 		JButton btnC = new JButton("C");
 		btnC.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnC.setFocusPainted(false);
 		btnC.setBackground(Color.WHITE);
-		btnC.setBounds(451, 129, 121, 40);
+		btnC.setBounds(451, 117, 121, 40);
 		panel.add(btnC);
 		
 		JButton btnD = new JButton("D");
 		btnD.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnD.setFocusPainted(false);
 		btnD.setBackground(Color.WHITE);
-		btnD.setBounds(585, 129, 121, 40);
+		btnD.setBounds(585, 117, 121, 40);
 		panel.add(btnD);
 		
 		JButton btnE = new JButton("E");
 		btnE.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnE.setFocusPainted(false);
 		btnE.setBackground(Color.WHITE);
-		btnE.setBounds(716, 129, 121, 40);
+		btnE.setBounds(716, 117, 121, 40);
 		panel.add(btnE);
 		
 		JLabel lblNewLabel_1 = new JLabel("TREINOS");
@@ -131,14 +134,19 @@ public class TreinoAluno extends JDialog {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		txttreinos = new JTextArea();
-		txttreinos.setBounds(134, 34, 376, 388);
-		panel_1.add(txttreinos);
-		txttreinos.setForeground(new Color(255, 255, 255));
-		txttreinos.setBackground(new Color(0, 65, 130));
-		txttreinos.setFont(new Font("Arial Black", Font.BOLD, 19));
-		txttreinos.setDisabledTextColor(new Color(0, 0, 0));
-		txttreinos.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(84, 10, 487, 402);
+		panel_1.add(scrollPane);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nome do exerc\u00EDcio", "Repeti\u00E7\u00F5es", "Observa\u00E7\u00F5es"
+			}
+		));
+		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_3 = new JLabel("Bem vindo(a):");
 		lblNewLabel_3.setForeground(Color.WHITE);
@@ -161,38 +169,98 @@ public class TreinoAluno extends JDialog {
 		btnA.setFont(new Font("Arial Black", Font.BOLD, 16));
 		btnA.setFocusPainted(false);
 		btnA.setBackground(Color.WHITE);
-		btnA.setBounds(189, 129, 121, 40);
+		btnA.setBounds(189, 117, 121, 40);
 		panel.add(btnA);
+		
+		JLabel lblSemTreino = new JLabel("");
+		lblSemTreino.setForeground(new Color(255, 255, 255));
+		lblSemTreino.setFont(new Font("Arial", Font.BOLD, 14));
+		lblSemTreino.setBounds(330, 167, 354, 20);
+		panel.add(lblSemTreino);
+		lblSemTreino.setBackground(new Color(0, 0, 0));
 		
 		btnA.addActionListener(e -> {
 			if (alunoAtual.getTreino_a() != null) {
 				JSONObject treino_a_JSON = alunoAtual.getTreino_a();
 			JSONArray keys = treino_a_JSON.names();
+			DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 			for (int i = 0; i < treino_a_JSON.names().length(); i++) {
 				
 				String key = treino_a_JSON.names().getString(i);
 				
 				chave = key;
+				
 				for (int v = 0; v < treino_a_JSON.getJSONArray(key).length(); v++) {
 					if (treino_a_JSON.getJSONArray(key).length() == 2) {
 						
 						valor1 = treino_a_JSON.getJSONArray(key).getString(0) + " ";
 						valor2 = treino_a_JSON.getJSONArray(key).getString(1) + " ";
+						modelo.addRow(new Object []{
+								chave,
+								valor1,
+								valor2
+							});
 					} else if(treino_a_JSON.getJSONArray(key).length() == 0) {
-						txttreinos.setText("Você ainda não tem treino");
+						lblSemTreino.setText("Você ainda não tem treino");
 					}
 					else {
 						String value = treino_a_JSON.getJSONArray(key).getString(v);
-						
-					}
-					
-					txttreinos.setText(chave.replaceAll("_", " ") + ": " + valor1 + " " + valor2);
+						modelo.addRow(new Object []{
+								chave,
+								value,
+								" "
+							});
+					}				
+					//txttreinos.setText(chave.replaceAll("_", " ") + ": " + valor1 + " " + valor2);	
 				}
 			}
-			} else {
-				txttreinos.setText("Você ainda não treino");
-			}
+			modelo.removeRow(modelo.getRowCount()-1);
 			
+			} else {
+				lblSemTreino.setText("Você ainda não tem treino A");
+			}			
+		});
+		
+		btnB.addActionListener(e -> {
+			if (alunoAtual.getTreino_b() != null) {
+				JSONObject treino_b_JSON = alunoAtual.getTreino_b();
+			JSONArray keys = treino_b_JSON.names();
+			DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+			for (int i = 0; i < treino_b_JSON.names().length(); i++) {
+				
+				String key = treino_b_JSON.names().getString(i);
+				
+				chave = key;
+				
+				for (int v = 0; v < treino_b_JSON.getJSONArray(key).length(); v++) {
+					if (treino_b_JSON.getJSONArray(key).length() == 2) {
+						
+						valor1 = treino_b_JSON.getJSONArray(key).getString(0) + " ";
+						valor2 = treino_b_JSON.getJSONArray(key).getString(1) + " ";
+						modelo.addRow(new Object []{
+								chave,
+								valor1,
+								valor2
+							});
+					} else if(treino_b_JSON.getJSONArray(key).length() == 0) {
+						lblSemTreino.setText("Você ainda não tem treino");
+					}
+					else {
+						String value = treino_b_JSON.getJSONArray(key).getString(v);
+						modelo.addRow(new Object []{
+								chave,
+								value,
+								" "
+							});
+					}				
+					//txttreinos.setText(chave.replaceAll("_", " ") + ": " + valor1 + " " + valor2);	
+				}
+			}
+			modelo.removeRow(modelo.getRowCount()-1);
+			
+			} else {
+				lblSemTreino.setText("Você ainda não tem treino B");
+			}			
 		});
 
 	}

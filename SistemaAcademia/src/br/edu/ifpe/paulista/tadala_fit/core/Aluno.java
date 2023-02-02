@@ -24,6 +24,7 @@ public class Aluno {
 	protected JSONObject treino_b;
 	protected JSONObject treino_c;
 	protected JSONObject treino_d;
+	protected JSONObject treino_e;
 	protected int qtdDiasUltimoPagamento;
 	private Blob image;
 	
@@ -35,7 +36,7 @@ public class Aluno {
 		this.image = image;
 	}
 
-	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int qtdDiasUltimoPagamento,JSONObject treino_a, Blob image) {
+	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int qtdDiasUltimoPagamento,JSONObject treino_a, JSONObject treino_b,JSONObject treino_c, JSONObject treino_d, JSONObject treino_e, Blob image) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -51,6 +52,10 @@ public class Aluno {
 		this.comorbidade = comorbidade;
 		this.qtdDiasUltimoPagamento = qtdDiasUltimoPagamento;
 		this.treino_a = treino_a;
+		this.treino_b = treino_b;
+		this.treino_c = treino_c;
+		this.treino_d = treino_d;
+		this.treino_e = treino_e;
 		this.image = image;
 	}
 	
@@ -165,6 +170,14 @@ public class Aluno {
 
 	public void setTreino_d(JSONObject treino_d) {
 		this.treino_d = treino_d;
+	}
+	
+	public JSONObject getTreino_e() {
+		return treino_e;
+	}
+
+	public void setTreino_e(JSONObject treino_e) {
+		this.treino_e = treino_e;
 	}
 
 	public int getQtdDiasUltimoPagamento() {

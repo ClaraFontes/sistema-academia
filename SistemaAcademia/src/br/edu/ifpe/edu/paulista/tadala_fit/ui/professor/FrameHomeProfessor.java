@@ -96,7 +96,7 @@ public class FrameHomeProfessor {
 		});
 		btnSair.setFont(new Font("Arial", Font.BOLD, 13));
 		btnSair.setBackground(Color.WHITE);
-		btnSair.setBounds(45, 436, 176, 33);
+		btnSair.setBounds(45, 443, 176, 33);
 		panel.add(btnSair);
 		
 		JButton btnMeuperfil = new JButton("Meu Perfil");
@@ -116,14 +116,20 @@ public class FrameHomeProfessor {
 		});
 		btnMeuperfil.setFont(new Font("Arial", Font.BOLD, 13));
 		btnMeuperfil.setBackground(Color.WHITE);
-		btnMeuperfil.setBounds(45, 371, 176, 33);
+		btnMeuperfil.setBounds(45, 378, 176, 33);
 		panel.add(btnMeuperfil);
 		
-		JButton btnMeusaluno = new JButton("Meus Alunos");
-		btnMeusaluno.setFont(new Font("Arial", Font.BOLD, 13));
-		btnMeusaluno.setBackground(Color.WHITE);
-		btnMeusaluno.setBounds(45, 305, 176, 33);
-		panel.add(btnMeusaluno);
+		JButton btnAlunosSem = new JButton("Alunos sem professor");
+		btnAlunosSem.setFont(new Font("Arial", Font.BOLD, 13));
+		btnAlunosSem.setBackground(Color.WHITE);
+		btnAlunosSem.setBounds(45, 312, 176, 33);
+		panel.add(btnAlunosSem);
+		
+		JButton btnMeusaluno_1 = new JButton("Meus Alunos");
+		btnMeusaluno_1.setFont(new Font("Arial", Font.BOLD, 13));
+		btnMeusaluno_1.setBackground(Color.WHITE);
+		btnMeusaluno_1.setBounds(45, 247, 176, 33);
+		panel.add(btnMeusaluno_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(FrameHomeProfessor.class.getResource("/assets_loginFrame/Logotipo_academia_personal_trainner__1_-removebg-preview.png")));
