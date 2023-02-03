@@ -19,7 +19,8 @@ import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
-	private String rootsenha = "123456";	
+
+	private String rootsenha = "Stormchadow123";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {
@@ -333,6 +334,60 @@ public class MySQLRepository implements Repository {
 		}
 		return null;
 	}
+	
+	public ArrayList<Aluno> getAlunosWithoutProf(int matriculaProf) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			String  sql = ("SELECT * FROM aluno a WHERE matricula_prof_encarregado != ?");
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, matriculaProf);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				 ArrayList<Aluno> alunosWithoutProf = new ArrayList<Aluno>();
+				 	Aluno alunoRecebido = getAluno(resultSet);
+					alunosWithoutProf.add(alunoRecebido);
+				 while (resultSet.next()) {
+					 Aluno alunoRecebido1 = getAluno(resultSet);
+					alunosWithoutProf.add(alunoRecebido1);
+				 }
+				 return alunosWithoutProf;
+			} else {
+				return null;
+			}
+		} finally {
+			connection.close();
+		}
+
+		}
+	
+	public ArrayList<Aluno> getMyAlunos(int matriculaProf) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			String  sql = ("SELECT * FROM aluno a WHERE matricula_prof_encarregado = ?");
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, matriculaProf);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				 ArrayList<Aluno> myAlunos = new ArrayList<Aluno>();
+				 	Aluno alunoRecebido = getAluno(resultSet);
+				 	myAlunos.add(alunoRecebido);
+				 while (resultSet.next()) {
+					 Aluno alunoRecebido1 = getAluno(resultSet);
+					 myAlunos.add(alunoRecebido1);
+				 }
+				 return myAlunos;
+			} else {
+				return null;
+			}
+		} finally {
+			connection.close();
+		}
+
+		}
+	
+	
 	private Aluno getAluno(ResultSet resultSet) throws SQLException, JSONException {
 		Integer matricula = resultSet.getInt("matricula");
 		String user = resultSet.getString("usuario");
@@ -347,6 +402,7 @@ public class MySQLRepository implements Repository {
 		Double peso = resultSet.getDouble("peso");
 		Double bf = resultSet.getDouble("bf");
 		String comorbidade = resultSet.getString("comorbidade");
+		int matricula_prof_encarregado = resultSet.getInt("matricula_prof_encarregado");
 		String dt_pagamento = resultSet.getString("dt_pagamento");
 		DateTime dataHoraAtual = new DateTime();
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
@@ -386,7 +442,7 @@ public class MySQLRepository implements Repository {
 		}
 		
 		Blob image = (Blob) resultSet.getBlob("foto");
-		Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias, treino_a_JSON, treino_b_JSON, treino_c_JSON, treino_d_JSON, treino_e_JSON, image);
+		Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, matricula_prof_encarregado, dias, treino_a_JSON, treino_b_JSON, treino_c_JSON, treino_d_JSON, treino_e_JSON, image);
 		return alunoRecebido;
 	}
 	private Professor getProfessor(ResultSet resultSet) throws SQLException {
