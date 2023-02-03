@@ -234,9 +234,13 @@ public class CadastroProfessor extends JDialog {
 		btntirarfoto = new JButton("Tirar Foto");
 		btntirarfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new WebCam();
-				btncarregarfoto.setEnabled(true);
-				btncarregarfoto.setVisible(true);
+				WebCam webcam = new WebCam();
+				if(webcam.getWebcam() != null) {
+					webcam.setModal(true);
+					webcam.setVisible(true);
+					btncarregarfoto.setEnabled(true);
+					btncarregarfoto.setVisible(true);
+				}
 			}
 		});
 		btntirarfoto.setBorder(null);
@@ -244,6 +248,7 @@ public class CadastroProfessor extends JDialog {
 		panel.add(btntirarfoto);
 		
 		btncarregarfoto = new JButton("Carregar Foto");
+		btncarregarfoto.setVisible(false);
 		btncarregarfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {

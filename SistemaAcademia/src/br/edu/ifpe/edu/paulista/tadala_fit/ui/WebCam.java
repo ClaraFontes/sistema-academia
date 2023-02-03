@@ -24,62 +24,74 @@ public class WebCam extends JDialog {
 
     private static final long serialVersionUID = 1L;
     private Webcam webcam = Webcam.getDefault();
-    private JButton btntirarfoto;
+    
+    public  Webcam getWebcam() {
+		return webcam;
+	}
+
+	private JButton btntirarfoto;
     protected static String caminhofoto;
     
     public WebCam() {
-    	setSize(new Dimension(700, 570));
-    	setResizable(false);
-    	addWindowListener(new WindowAdapter() {
-    		@Override
-    		public void windowClosing(WindowEvent e) {
-    			if (JOptionPane.showConfirmDialog(null, "deseja fechar camera?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
-    				webcam.close();
-					setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				}else {
-					setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-				}
-    		}
-    	});
-    	getContentPane().setBackground(new Color(0, 79, 157));
-    	setIconImage(Toolkit.getDefaultToolkit().getImage(WebCam.class.getResource("/assets_loginFrame/logotipo200x200.png")));
-    	setTitle("Tadalafit - Webcam");
-        Dimension size = WebcamResolution.VGA.getSize();
-        webcam.setViewSize(size);
-        if (webcam != null && webcam.isOpen()) {
+        if (webcam != null) {
+        	   if (webcam.isOpen()) {
+               	webcam.close();
+               }
+        	 setSize(new Dimension(700, 570));
+           	setResizable(false);
+           	addWindowListener(new WindowAdapter() {
+           		@Override
+           		public void windowClosing(WindowEvent e) {
+           			if (JOptionPane.showConfirmDialog(null, "deseja fechar camera?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+           				if (webcam != null) {
+           					webcam.close();
+           				}
+       					setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+       				}else {
+       					setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+       				}
+           		}
+           	});
+           	getContentPane().setBackground(new Color(0, 79, 157));
+           	setIconImage(Toolkit.getDefaultToolkit().getImage(WebCam.class.getResource("/assets_loginFrame/logotipo200x200.png")));
+           	setTitle("Tadalafit - Webcam");
+        	Dimension size = WebcamResolution.VGA.getSize();
+        	webcam.setViewSize(size);
             webcam.close();
-        }
-        webcam.open();
-        WebcamPanel webcamPanel = new WebcamPanel(webcam);
-        webcamPanel.setFPSDisplayed(true);
-        webcamPanel.setLayout(null);
-        btntirarfoto = new JButton("Tirar Foto");
-        btntirarfoto.setFont(new Font("Tahoma", Font.BOLD, 13));
-        getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        getContentPane().add(webcamPanel);
-        getContentPane().add(btntirarfoto);
-        btntirarfoto.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Boolean sucesso = ImageIO.write(webcam.getImage(),"PNG", new File("imagem.png"));
-                    if (sucesso) {
-                    	File foto = new File("imagem.png");
-                    	caminhofoto = foto.getAbsolutePath();
-                    	System.out.print(caminhofoto);
+            webcam.open();
+            WebcamPanel webcamPanel = new WebcamPanel(webcam);
+            webcamPanel.setFPSDisplayed(true);
+            webcamPanel.setLayout(null);
+            getContentPane().add(webcamPanel);
+            btntirarfoto = new JButton("Tirar Foto");
+            btntirarfoto.setFont(new Font("Tahoma", Font.BOLD, 13));
+            getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+            getContentPane().add(btntirarfoto);
+            btntirarfoto.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        Boolean sucesso = ImageIO.write(webcam.getImage(),"PNG", new File("imagem.png"));
+                        if (sucesso) {
+                        	File foto = new File("imagem.png");
+                        	caminhofoto = foto.getAbsolutePath();
+                        	System.out.print(caminhofoto);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }finally {
+                    	webcam.close();
+                    	dispose();
                     }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }finally {
-                	webcam.close();
-                	dispose();
                 }
-            }
-        });
-    	setModal(true);
-    	setVisible(true);
-    	pack();
-       }
+            });
+        	pack();
+        }
+        if (webcam == null) {
+        	JOptionPane.showMessageDialog(null,"Você não possui uma webcam conectada!\n"
+        			+ "Conecte uma WebCam para prosseguir com o cadastro");
+        }
+    }
     
     public static String caminhoCarregarFoto() {
     	return caminhofoto;

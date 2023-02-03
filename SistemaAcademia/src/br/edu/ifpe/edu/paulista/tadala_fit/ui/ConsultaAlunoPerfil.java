@@ -437,9 +437,13 @@ public class ConsultaAlunoPerfil extends JDialog {
 		JButton btnfoto = new JButton("Tirar Foto");
 		btnfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new WebCam();
-				btncarregarfoto.setEnabled(true);
-				btncarregarfoto.setVisible(true);
+				WebCam webcam = new WebCam();
+				if(webcam.getWebcam() != null) {
+					webcam.setModal(true);
+					webcam.setVisible(true);
+					btncarregarfoto.setEnabled(true);
+					btncarregarfoto.setVisible(true);
+				}
 			}
 		});
 		btnfoto.setBorder(null);

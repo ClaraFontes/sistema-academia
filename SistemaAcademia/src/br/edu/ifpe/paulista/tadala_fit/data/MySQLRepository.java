@@ -20,7 +20,7 @@ import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
 
-	private String rootsenha = "Stormchadow123";	
+	private String rootsenha = "123456";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {

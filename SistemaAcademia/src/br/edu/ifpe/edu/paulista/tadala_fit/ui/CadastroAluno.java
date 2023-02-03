@@ -16,10 +16,14 @@ import java.awt.Desktop;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialException;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import javax.swing.SwingConstants;
+
+import com.github.sarxos.webcam.Webcam;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -52,7 +56,10 @@ public class CadastroAluno extends JDialog {
 	private JLabel lblfoto;
 	private JButton btnCarregarFoto;
 	private JTextField txtsexo;
-
+	private java.sql.Blob imagemBlob = null;
+	private File image;
+	
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -297,27 +304,15 @@ public class CadastroAluno extends JDialog {
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
 					String password = new String(txtpassword.getPassword());
-					File image = new File (WebCam.caminhoCarregarFoto());
-					FileInputStream inputstream = new FileInputStream(image);
-					byte[] imagepronta = new byte[(int) image.length()];
-					inputstream.read(imagepronta);
-					inputstream.close();
-					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
 					Aluno alunoCadastrado = CreateController.createAluno(user, password, nome, sexo, cpf, telefone, email, data, altura, peso, bf, comorbidade,imagemBlob);
 					if (alunoCadastrado == null) {
 						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
 					} else {
 						JOptionPane.showMessageDialog(null, "Aluno(a) " + alunoCadastrado.getNome() +" cadastrado com sucesso!");
-						if (image.delete()) {
-						    System.out.println("Arquivo excluído com sucesso.");
-						} else {
-						    System.out.println("Não foi possível excluir o arquivo.");
-						}
 						dispose();
 					}
 				} catch (NumberFormatException e5) {
 					JOptionPane.showMessageDialog(null, "Preencha os Campos ALTURA, PESO E BF corretamente.");
-					
 					
 				} catch (RuntimeException e2) {
 					e2.printStackTrace();
@@ -330,6 +325,7 @@ public class CadastroAluno extends JDialog {
 					e1.printStackTrace();
 	
 				} catch (Exception e3) {
+					e3.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos corretamente.");
 				}
 		   }
@@ -382,11 +378,14 @@ public class CadastroAluno extends JDialog {
 		
 		JButton btnfoto = new JButton("Tirar Foto");
 		btnfoto.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				new WebCam();
-				btnCarregarFoto.setEnabled(true);
-				btnCarregarFoto.setVisible(true);
+				WebCam webcam = new WebCam();
+				if(webcam.getWebcam() != null) {
+					webcam.setModal(true);
+					webcam.setVisible(true);
+					btnCarregarFoto.setEnabled(true);
+					btnCarregarFoto.setVisible(true);
+				}
 			}
 		});
 		btnfoto.setBorder(null);
@@ -397,6 +396,12 @@ public class CadastroAluno extends JDialog {
 		btnCarregarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					image = new File (WebCam.caminhoCarregarFoto());
+					FileInputStream inputstream = new FileInputStream(image);
+					byte[] imagepronta = new byte[(int) image.length()];
+					inputstream.read(imagepronta);
+					inputstream.close();
+					imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
 					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
 					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
 					Graphics2D g = resizedImage.createGraphics();
@@ -405,7 +410,18 @@ public class CadastroAluno extends JDialog {
 					lblfoto.setIcon(new ImageIcon(resizedImage));
 					btnCarregarFoto.setEnabled(false);
 					btnCarregarFoto.setVisible(false);
+					if (image.delete()) {
+					    System.out.println("Arquivo excluído com sucesso.");
+					} else {
+					    System.out.println("Não foi possível excluir o arquivo.");
+					}
 				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SerialException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
