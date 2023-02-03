@@ -4,8 +4,14 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
 import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialException;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -16,7 +22,9 @@ import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.FlowLayout;
 
 
@@ -31,6 +39,7 @@ public class WebCam extends JDialog {
 
 	private JButton btntirarfoto;
     protected static String caminhofoto;
+    private static  Blob imagemBlob;
     
     public WebCam() {
         if (webcam != null) {
@@ -75,7 +84,6 @@ public class WebCam extends JDialog {
                         if (sucesso) {
                         	File foto = new File("imagem.png");
                         	caminhofoto = foto.getAbsolutePath();
-                        	System.out.print(caminhofoto);
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -93,7 +101,44 @@ public class WebCam extends JDialog {
         }
     }
     
+    public static BufferedImage carregarFoto() {
+		BufferedImage fotoperfil = null;
+		BufferedImage resizedImage = null;
+		try {
+			fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
+			resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(fotoperfil, 0, 0, 150, 150, null);
+			g.dispose();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resizedImage;
+    }
+    	
     public static String caminhoCarregarFoto() {
     	return caminhofoto;
+    }
+    public static Blob imgemBlob() {
+    	File image = new File (WebCam.caminhoCarregarFoto());
+		FileInputStream inputstream;
+		try {
+			inputstream = new FileInputStream(image);
+			byte[] imagepronta = new byte[(int) image.length()];
+			inputstream.read(imagepronta);
+			inputstream.close();
+			imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SerialException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return imagemBlob;
+    	
     }
 }

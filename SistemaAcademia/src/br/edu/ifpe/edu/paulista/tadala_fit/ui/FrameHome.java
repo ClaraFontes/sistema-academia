@@ -16,6 +16,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
+
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import java.awt.Rectangle;
 import java.awt.Font;
@@ -82,28 +84,33 @@ public class FrameHome {
 		panel.add(lblNewLabel);
 		
 		JButton btnCadastro = new JButton("Matricular Aluno");
-		btnCadastro.setFont(new Font("Arial", Font.BOLD, 13));
-		btnCadastro.setBackground(new Color(255, 255, 255));
-		btnCadastro.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				CadastroAluno fc = new CadastroAluno();
-				fc.setModal(true);
-				fc.setVisible(true);
-
+		btnCadastro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CadastroAluno fc;
+				try {
+					fc = new CadastroAluno();
+					fc.setModal(true);
+					fc.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
+		btnCadastro.setFont(new Font("Arial", Font.BOLD, 13));
+		btnCadastro.setBackground(new Color(255, 255, 255));
+
 		btnCadastro.setBounds(43, 241, 176, 33);
 		panel.add(btnCadastro);
 		
 		JButton btnConsultaAluno = new JButton("Consultar Aluno");
-		btnConsultaAluno.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					ConsultaAluno fcon = new ConsultaAluno();
-					fcon.setModal(true);
-					fcon.setVisible(true);
-				}
-			});
+		btnConsultaAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConsultaAluno fcon = new ConsultaAluno();
+				fcon.setModal(true);
+				fcon.setVisible(true);
+			}
+		});
 		btnConsultaAluno.setFont(new Font("Arial", Font.BOLD, 13));
 		btnConsultaAluno.setBackground(new Color(255, 255, 255));
 		btnConsultaAluno.setBounds(43, 372, 151, 33);
@@ -126,15 +133,20 @@ public class FrameHome {
 		panel.add(btnSair);
 		
 		JButton btnCadastroProf = new JButton("Cadastrar Professor");
-		btnCadastroProf.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				CadastroProfessor cp = new CadastroProfessor();
-				cp.setModal(true);
-				cp.setVisible(true);
-	
+		btnCadastroProf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CadastroProfessor cp;
+				try {
+					cp = new CadastroProfessor();
+					cp.setModal(true);
+					cp.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
+	
 		btnCadastroProf.setFont(new Font("Arial", Font.BOLD, 13));
 		btnCadastroProf.setBackground(Color.WHITE);
 		btnCadastroProf.setBounds(43, 323, 151, 33);

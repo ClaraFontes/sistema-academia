@@ -6,27 +6,25 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 import br.edu.ifpe.paulista.tadala_fit.core.CreateController;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.awt.Color;
 import javax.swing.JLabel;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JFormattedTextField;
 
 public class CadastroProfessor extends JDialog {
 
@@ -35,15 +33,15 @@ public class CadastroProfessor extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	protected JTextField txtnome;
-	protected JTextField txttelefone;
-	protected JTextField txtemail;
-	protected JTextField txtcref;
 	protected JTextField txtuser;
-	protected JPasswordField txtpassword;
-	private JButton btncarregarfoto;
+	private JFormattedTextField txtnome;
+	private JFormattedTextField txttelefone;
+	private JFormattedTextField txtemail;
+	private JFormattedTextField txtcref;
+	private JPasswordField txtpassword;
 	private JButton btntirarfoto;
 	private JLabel lblfoto;
+	private Blob imagemBlob = null;
 
 	/**
 	 * Launch the application.
@@ -60,8 +58,9 @@ public class CadastroProfessor extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws ParseException 
 	 */
-	public CadastroProfessor() {
+	public CadastroProfessor() throws ParseException {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -100,7 +99,7 @@ public class CadastroProfessor extends JDialog {
 		JLabel lblnome = new JLabel("NOME:");
 		lblnome.setForeground(Color.WHITE);
 		lblnome.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lblnome.setBounds(278, 118, 69, 19);
+		lblnome.setBounds(278, 118, 50, 19);
 		panel.add(lblnome);
 		
 		JLabel lbltelefone = new JLabel("TELEFONE:");
@@ -121,34 +120,6 @@ public class CadastroProfessor extends JDialog {
 		lblcref.setBounds(282, 258, 46, 14);
 		panel.add(lblcref);
 		
-		txtnome = new JTextField();
-		txtnome.setFont(new Font("Arial", Font.BOLD, 15));
-		txtnome.setBorder(null);
-		txtnome.setColumns(10);
-		txtnome.setBounds(338, 119, 460, 20);
-		panel.add(txtnome);
-		
-		txttelefone = new JTextField();
-		txttelefone.setFont(new Font("Arial", Font.BOLD, 15));
-		txttelefone.setBorder(null);
-		txttelefone.setColumns(10);
-		txttelefone.setBounds(338, 165, 460, 20);
-		panel.add(txttelefone);
-		
-		txtemail = new JTextField();
-		txtemail.setFont(new Font("Arial Black", Font.BOLD, 15));
-		txtemail.setBorder(null);
-		txtemail.setColumns(10);
-		txtemail.setBounds(338, 211, 460, 20);
-		panel.add(txtemail);
-		
-		txtcref = new JTextField();
-		txtcref.setFont(new Font("Arial", Font.BOLD, 15));
-		txtcref.setBorder(null);
-		txtcref.setColumns(10);
-		txtcref.setBounds(338, 257, 460, 20);
-		panel.add(txtcref);
-		
 		JLabel lbluser = new JLabel("USER:");
 		lbluser.setForeground(Color.WHITE);
 		lbluser.setFont(new Font("Arial Black", Font.BOLD, 13));
@@ -159,7 +130,7 @@ public class CadastroProfessor extends JDialog {
 		txtuser.setFont(new Font("Arial Black", Font.BOLD, 16));
 		txtuser.setBorder(null);
 		txtuser.setColumns(10);
-		txtuser.setBounds(326, 416, 182, 20);
+		txtuser.setBounds(327, 416, 182, 20);
 		panel.add(txtuser);
 		
 		JLabel lblpassword = new JLabel("SENHA:");
@@ -178,24 +149,12 @@ public class CadastroProfessor extends JDialog {
 					String nome = txtnome.getText();
 					String telefone = txttelefone.getText();
 					String email = txtemail.getText();
-					File image = new File (WebCam.caminhoCarregarFoto());
-					FileInputStream inputstream = new FileInputStream(image);
-					byte[] imagepronta = new byte[(int) image.length()];
-					inputstream.read(imagepronta);
-					inputstream.close();
-					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
 					Professor professorCadastrado = CreateController.createProfessor(user, password, nome, telefone, email, cref,imagemBlob);
 					if (professorCadastrado == null) {
 						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
 					} else {
-						JOptionPane.showMessageDialog(null, "Professor " + professorCadastrado.getNome() +" cadastrado com sucesso!");
-						if (image.delete()) {
-						    System.out.println("Arquivo excluído com sucesso.");
-						} else {
-						    System.out.println("Não foi possível excluir o arquivo.");
-						}
-					}
-					
+						JOptionPane.showMessageDialog(null, "Professor(a) cadastrado com sucesso!");
+				}
 				} catch (RuntimeException e2) {
 					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
 				} catch (SQLException e1) {
@@ -238,8 +197,8 @@ public class CadastroProfessor extends JDialog {
 				if(webcam.getWebcam() != null) {
 					webcam.setModal(true);
 					webcam.setVisible(true);
-					btncarregarfoto.setEnabled(true);
-					btncarregarfoto.setVisible(true);
+					imagemBlob = WebCam.imgemBlob();
+					lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
 				}
 			}
 		});
@@ -247,29 +206,28 @@ public class CadastroProfessor extends JDialog {
 		btntirarfoto.setBounds(103, 266, 93, 20);
 		panel.add(btntirarfoto);
 		
-		btncarregarfoto = new JButton("Carregar Foto");
-		btncarregarfoto.setVisible(false);
-		btncarregarfoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
-					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
-					Graphics2D g = resizedImage.createGraphics();
-					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
-					g.dispose();
-					lblfoto.setIcon(new ImageIcon(resizedImage));
-					btncarregarfoto.setEnabled(false);
-					btncarregarfoto.setVisible(false);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btncarregarfoto.setBorder(null);
-		btncarregarfoto.setEnabled(false);
-		btncarregarfoto.setVisible(false);
-		btncarregarfoto.setBounds(103, 297, 93, 20);
-		panel.add(btncarregarfoto);
+		
+		MaskFormatter mascaraNome = new MaskFormatter("********************************************************");
+		mascaraNome.setValidCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopsrtuvwxyz ");
+		txtnome = new JFormattedTextField(mascaraNome);
+		txtnome.setBounds(338, 119, 434, 20);
+		panel.add(txtnome);
+		
+		MaskFormatter mascaraTelefone = new MaskFormatter("(##)####-####");
+		mascaraTelefone.setPlaceholderCharacter('_');
+		txttelefone = new JFormattedTextField(mascaraTelefone);
+		txttelefone.setBounds(338, 165, 434, 20);
+		panel.add(txttelefone);
+		
+		MaskFormatter mascaraEmail = new MaskFormatter("*************************************************************");
+		txtemail = new JFormattedTextField(mascaraEmail);
+		txtemail.setBounds(338, 211, 434, 20);
+		panel.add(txtemail);
+		
+		MaskFormatter mascaraCref = new MaskFormatter("######-U");
+		mascaraCref.setPlaceholderCharacter('_');
+		txtcref = new JFormattedTextField(mascaraCref);
+		txtcref.setBounds(338, 257, 434, 20);
+		panel.add(txtcref);
 	}
 }

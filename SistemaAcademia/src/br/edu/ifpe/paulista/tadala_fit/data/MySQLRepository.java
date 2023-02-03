@@ -20,7 +20,7 @@ import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
 
-	private String rootsenha = "123456";	
+	private static final String ROOT_SENHA = "123456";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {
@@ -30,7 +30,7 @@ public class MySQLRepository implements Repository {
 	public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref, Blob image) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
 			String sql = ("INSERT INTO professor(usuario, senha, nome, telefone, email, cref, foto) VALUES (?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario FROM professor a WHERE a.usuario = ? and a.cref = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -62,7 +62,7 @@ public class MySQLRepository implements Repository {
 	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade, Blob image)  throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
 			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade,foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario FROM aluno WHERE usuario = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
@@ -99,7 +99,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, treino_e, dt_pagamento, foto FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -119,7 +119,7 @@ public class MySQLRepository implements Repository {
 	public Professor loginProfessor(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, nome, telefone, email, cref, usuario, senha, foto FROM professor a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -145,7 +145,7 @@ public class MySQLRepository implements Repository {
 	public Administrador loginAdm(String user, String password) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			PreparedStatement statement = connection.prepareStatement("SELECT id, nome, user, cpf, password FROM administrador a WHERE a.user = ? AND a.password = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
@@ -170,7 +170,7 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Aluno> getAllAluno()throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno");
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -194,7 +194,7 @@ public class MySQLRepository implements Repository {
 	public Aluno getAlunoFiltered(Integer pesquisa) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM aluno a WHERE a.matricula = ?");
 			statement.setInt(1, pesquisa);
 			ResultSet resultSet = statement.executeQuery();
@@ -212,7 +212,7 @@ public class MySQLRepository implements Repository {
 	public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob image) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ?, foto = ? WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setString(1, telefone);
@@ -233,7 +233,7 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Professor> getAllProfessor() throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM professor");
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -257,7 +257,7 @@ public class MySQLRepository implements Repository {
 	public Professor getProfessorFiltered(Integer pesquisa) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM professor a WHERE a.matricula = ?");
 			statement.setInt(1, pesquisa);
 			ResultSet resultSet = statement.executeQuery();
@@ -275,7 +275,7 @@ public class MySQLRepository implements Repository {
 	public Professor updateProfessor(String telefone, String email,Integer matricula, Blob image) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			String sql1 = ("UPDATE professor a SET telefone = ?, email = ?, foto = ? WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setString(1, telefone);
@@ -293,7 +293,7 @@ public class MySQLRepository implements Repository {
 	public Aluno deleteAluno(int matricula) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			String sql1 = ("DELETE FROM aluno a WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setInt(1, matricula);
@@ -307,7 +307,7 @@ public class MySQLRepository implements Repository {
 	public Professor deleteProfessor(int matricula) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			String sql1 = ("DELETE FROM professor a WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setInt(1, matricula);
@@ -322,7 +322,7 @@ public class MySQLRepository implements Repository {
 	public Aluno updatePagmento(String data,int matricula) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			String sql = ("UPDATE aluno a SET dt_pagamento = ? WHERE matricula = ?");
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, data);
@@ -338,7 +338,7 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Aluno> getAlunosWithoutProf(int matriculaProf) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			String  sql = ("SELECT * FROM aluno a WHERE matricula_prof_encarregado != ?");
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, matriculaProf);
@@ -364,7 +364,7 @@ public class MySQLRepository implements Repository {
 	public ArrayList<Aluno> getMyAlunos(int matriculaProf) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", rootsenha);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
 			String  sql = ("SELECT * FROM aluno a WHERE matricula_prof_encarregado = ?");
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, matriculaProf);
