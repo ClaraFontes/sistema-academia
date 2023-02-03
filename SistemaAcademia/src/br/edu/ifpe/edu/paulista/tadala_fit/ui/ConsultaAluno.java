@@ -155,7 +155,7 @@ public class ConsultaAluno extends JDialog {
 		                DefaultTableModel model = (DefaultTableModel) table.getModel();
 		                int coluna= 0; 
 		                matricula = model.getValueAt(linha, coluna);
-		                System.out.print(matricula+"\n");
+		                //System.out.print(matricula+"\n");
 		            }
 		        }
 		    }

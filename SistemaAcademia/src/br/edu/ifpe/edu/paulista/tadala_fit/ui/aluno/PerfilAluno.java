@@ -313,7 +313,7 @@ public class PerfilAluno extends JDialog {
 					Double peso = Double.parseDouble(txtpeso.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					Integer matricula = Integer.parseInt(txtmatricula.getText());
-					File image = new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png");
+					File image = new File("C:/Users/Clara/git/sistema-academia/SistemaAcademia/imagem.png");
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);
@@ -447,7 +447,7 @@ public class PerfilAluno extends JDialog {
 		btncarregarfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png"));
+					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem.png"));
 					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
 					Graphics2D g = resizedImage.createGraphics();
 					g.drawImage(fotoperfil, 0, 0, 150, 150, null);

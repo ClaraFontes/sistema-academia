@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.DeleteController;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import br.edu.ifpe.paulista.tadala_fit.core.ReadController;
 
@@ -36,6 +40,11 @@ public class ConsultaProfessor extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private JTextField Pesquisar;
+	private Object matricula;
+
+	public Object getMatricula() {
+		return matricula;
+	}
 
 	/**
 	 * Launch the application.
@@ -143,6 +152,24 @@ public class ConsultaProfessor extends JDialog {
 		contentPanel.add(btnConsultar);
 		
 		JButton btnExcluir = new JButton("Excluir Cadastro");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Tem certeza que gostaria de Excluir esse Professor?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+					JOptionPane.showMessageDialog(null, "Professor Excluido com sucesso!\n"
+							+ "realize a consulta novamente para listar os dados atualizados");
+					Integer matriculafiltered = (Integer) matricula;
+					Integer matricula = matriculafiltered.intValue();
+					try {
+						DeleteController.deleteProfessor(matricula);
+					} catch (ClassNotFoundException | RuntimeException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					
+				}
+			}
+		});
 		btnExcluir.setBackground(new Color(255, 255, 255));
 		btnExcluir.setEnabled(false);
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 13));
@@ -150,6 +177,15 @@ public class ConsultaProfessor extends JDialog {
 		contentPanel.add(btnExcluir);
 		
 		JButton btnPerfil = new JButton("Ver Perfil");
+		btnPerfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer matriculafiltered = (Integer) matricula;
+				Integer matricula = matriculafiltered.intValue();
+				ConsultaProfessorPerfil cpp = new ConsultaProfessorPerfil(matricula);
+				cpp.setModal(true);
+				cpp.setVisible(true);
+			}
+		});
 		btnPerfil.setBackground(new Color(255, 255, 255));
 		btnPerfil.setEnabled(false);
 		btnPerfil.setFont(new Font("Arial", Font.BOLD, 13));
@@ -166,6 +202,20 @@ public class ConsultaProfessor extends JDialog {
 		contentPanel.add(scroll);
 		
 		table = new JTable();
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) {
+		            int linha = table.getSelectedRow();
+		            if (linha >= 0) {
+		                DefaultTableModel model = (DefaultTableModel) table.getModel();
+		                int coluna= 0; 
+		                matricula = model.getValueAt(linha, coluna);
+		                //System.out.print(matricula+"\n");
+		            }
+		        }
+		    }
+		});
 		table.setFont(new Font("Arial", Font.BOLD, 13));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {

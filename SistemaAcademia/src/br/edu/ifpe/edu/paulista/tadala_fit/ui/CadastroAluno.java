@@ -277,7 +277,7 @@ public class CadastroAluno extends JDialog {
 		lblNewLabel_1.setBounds(22, 566, 200, 130);
 		panel.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2023 Tadalafit  All Rights Reserved");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setBounds(370, 667, 324, 40);
@@ -300,7 +300,7 @@ public class CadastroAluno extends JDialog {
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
 					String password = new String(txtpassword.getPassword());
-					File image = new File ("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png");
+					File image = new File ("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem.png");
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);

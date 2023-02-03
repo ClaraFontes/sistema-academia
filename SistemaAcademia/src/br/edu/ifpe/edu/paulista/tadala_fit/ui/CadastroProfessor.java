@@ -183,13 +183,14 @@ public class CadastroProfessor extends JDialog {
 					String cref = txtcref.getText();
 					String nome = txtnome.getText();
 					String telefone = txttelefone.getText();
-					File image = new File ("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png");
+					String email = txtemail.getText();
+					File image = new File ("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem.png");
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);
 					inputstream.close();
 					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
-					Professor professorCadastrado = CreateController.createProfessor(user, password, nome, telefone, telefone, cref,imagemBlob);
+					Professor professorCadastrado = CreateController.createProfessor(user, password, nome, telefone, email, cref,imagemBlob);
 					if (professorCadastrado == null) {
 						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
 					} else {
@@ -224,7 +225,7 @@ public class CadastroProfessor extends JDialog {
 		lbllogo.setBounds(52, 562, 192, 167);
 		panel.add(lbllogo);
 		
-		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2022 Tadalafit  All Rights Reserved");
+		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2023 Tadalafit  All Rights Reserved");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setBounds(364, 678, 324, 40);
