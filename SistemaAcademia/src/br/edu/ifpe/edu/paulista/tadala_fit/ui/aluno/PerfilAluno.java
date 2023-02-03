@@ -9,9 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics2D;
-
 import javax.swing.SwingConstants;
-
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.WebCam;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
@@ -19,9 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Toolkit;
 import javax.swing.border.TitledBorder;
-
-import com.lowagie.text.Image;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -313,7 +308,7 @@ public class PerfilAluno extends JDialog {
 					Double peso = Double.parseDouble(txtpeso.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					Integer matricula = Integer.parseInt(txtmatricula.getText());
-					File image = new File("C:/Users/Clara/git/sistema-academia/SistemaAcademia/imagem.png");
+					File image = new File(WebCam.caminhoCarregarFoto());
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);
@@ -447,7 +442,7 @@ public class PerfilAluno extends JDialog {
 		btncarregarfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem.png"));
+					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
 					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
 					Graphics2D g = resizedImage.createGraphics();
 					g.drawImage(fotoperfil, 0, 0, 150, 150, null);

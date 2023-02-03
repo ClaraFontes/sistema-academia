@@ -6,11 +6,8 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import br.edu.ifpe.paulista.tadala_fit.core.CreateController;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
-import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
-
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -25,12 +22,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics2D;
-
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -184,7 +178,7 @@ public class CadastroProfessor extends JDialog {
 					String nome = txtnome.getText();
 					String telefone = txttelefone.getText();
 					String email = txtemail.getText();
-					File image = new File ("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem.png");
+					File image = new File (WebCam.caminhoCarregarFoto());
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);
@@ -253,7 +247,7 @@ public class CadastroProfessor extends JDialog {
 		btncarregarfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png"));
+					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
 					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
 					Graphics2D g = resizedImage.createGraphics();
 					g.drawImage(fotoperfil, 0, 0, 150, 150, null);

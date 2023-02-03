@@ -1,19 +1,14 @@
 package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
-import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import br.edu.ifpe.paulista.tadala_fit.core.ReadController;
 import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
-
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,6 +32,10 @@ import javax.swing.JTextField;
 
 public class ConsultaProfessorPerfil extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textmatricula;
 	private JTextField textnome;
@@ -78,7 +77,7 @@ public class ConsultaProfessorPerfil extends JDialog {
 		btncarregarfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem.png"));
+					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
 					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
 					Graphics2D g = resizedImage.createGraphics();
 					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
@@ -229,7 +228,7 @@ public class ConsultaProfessorPerfil extends JDialog {
 					String telefone = texttelefone.getText();
 					String email = textemail.getText();
 					Integer matricula = Integer.parseInt(textmatricula.getText());
-					File image = new File("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem.png");
+					File image = new File(WebCam.caminhoCarregarFoto());
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);

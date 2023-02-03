@@ -19,13 +19,12 @@ import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
-	private String rootsenha = "@Clara123";	
+	private String rootsenha = "123456";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 	}
-	
 	
 	public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref, Blob image) throws SQLException {
 		Connection connection = null;
@@ -367,14 +366,9 @@ public class MySQLRepository implements Repository {
 		
 		Object treino_e = resultSet.getObject("treino_e");
 		JSONObject treino_e_JSON = null;
-		if (treino_a != null) { // && treino_b != null && treino_c != null && treino_d != null && treino_e != null) {
+		if (treino_a != null) {
 			treino_a_JSON = new JSONObject(treino_a.toString());
-			//treino_b_JSON = new JSONObject(treino_b.toString());
-			//treino_c_JSON = new JSONObject(treino_c.toString());
-			//treino_d_JSON = new JSONObject(treino_d.toString());
-			//treino_e_JSON = new JSONObject(treino_e.toString());
-		}
-		
+		}	
 		if (treino_b != null) {
 			treino_b_JSON = new JSONObject(treino_b.toString());
 		}
@@ -407,6 +401,5 @@ public class MySQLRepository implements Repository {
 		Professor professorRecebido = new Professor(matricula, user, password, nome, telefone, email, cref, image);
 		return professorRecebido;
 	}
-
 
 }

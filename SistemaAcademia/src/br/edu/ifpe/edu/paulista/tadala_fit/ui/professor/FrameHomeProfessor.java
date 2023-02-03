@@ -4,10 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.FrameLogin;
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.FrameHomeAluno;
-import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.PerfilAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import java.awt.Color;
 import javax.swing.JLabel;

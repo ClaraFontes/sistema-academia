@@ -20,9 +20,6 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import javax.swing.SwingConstants;
-
-import com.mysql.cj.jdbc.Blob;
-
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -300,7 +297,7 @@ public class CadastroAluno extends JDialog {
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
 					String password = new String(txtpassword.getPassword());
-					File image = new File ("C:/Users/clara/git/sistema-academia/SistemaAcademia/imagem.png");
+					File image = new File (WebCam.caminhoCarregarFoto());
 					FileInputStream inputstream = new FileInputStream(image);
 					byte[] imagepronta = new byte[(int) image.length()];
 					inputstream.read(imagepronta);
@@ -400,7 +397,7 @@ public class CadastroAluno extends JDialog {
 		btnCarregarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					BufferedImage fotoperfil = ImageIO.read(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png"));
+					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
 					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
 					Graphics2D g = resizedImage.createGraphics();
 					g.drawImage(fotoperfil, 0, 0, 150, 150, null);

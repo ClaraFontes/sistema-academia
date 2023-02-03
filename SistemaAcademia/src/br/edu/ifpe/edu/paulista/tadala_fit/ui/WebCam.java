@@ -25,6 +25,7 @@ public class WebCam extends JDialog {
     private static final long serialVersionUID = 1L;
     private Webcam webcam = Webcam.getDefault();
     private JButton btntirarfoto;
+    protected static String caminhofoto;
     
     public WebCam() {
     	setSize(new Dimension(700, 570));
@@ -32,7 +33,7 @@ public class WebCam extends JDialog {
     	addWindowListener(new WindowAdapter() {
     		@Override
     		public void windowClosing(WindowEvent e) {
-    			if (JOptionPane.showConfirmDialog(null, "deseja encerrar as consultas","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+    			if (JOptionPane.showConfirmDialog(null, "deseja fechar camera?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
     				webcam.close();
 					setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				}else {
@@ -61,7 +62,12 @@ public class WebCam extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    ImageIO.write(webcam.getImage(),"PNG", new File("imagem.png"));
+                    Boolean sucesso = ImageIO.write(webcam.getImage(),"PNG", new File("imagem.png"));
+                    if (sucesso) {
+                    	File foto = new File("imagem.png");
+                    	caminhofoto = foto.getAbsolutePath();
+                    	System.out.print(caminhofoto);
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }finally {
@@ -75,4 +81,7 @@ public class WebCam extends JDialog {
     	pack();
        }
     
+    public static String caminhoCarregarFoto() {
+    	return caminhofoto;
+    }
 }
