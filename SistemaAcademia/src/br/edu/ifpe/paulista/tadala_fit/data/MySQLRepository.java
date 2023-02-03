@@ -19,7 +19,7 @@ import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
-	private String rootsenha = "123456";	
+	private String rootsenha = "@Clara123";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {
@@ -100,7 +100,7 @@ public class MySQLRepository implements Repository {
 		try {
 
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",rootsenha);
-			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d,treino_e, dt_pagamento,foto FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, treino_e, dt_pagamento, foto FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
@@ -367,13 +367,30 @@ public class MySQLRepository implements Repository {
 		
 		Object treino_e = resultSet.getObject("treino_e");
 		JSONObject treino_e_JSON = null;
-		if (treino_a != null && treino_b != null && treino_c != null) { //&& treino_d != null && treino_e != null) {
+		if (treino_a != null) { // && treino_b != null && treino_c != null && treino_d != null && treino_e != null) {
 			treino_a_JSON = new JSONObject(treino_a.toString());
-			treino_b_JSON = new JSONObject(treino_b.toString());
-			treino_c_JSON = new JSONObject(treino_c.toString());
+			//treino_b_JSON = new JSONObject(treino_b.toString());
+			//treino_c_JSON = new JSONObject(treino_c.toString());
 			//treino_d_JSON = new JSONObject(treino_d.toString());
 			//treino_e_JSON = new JSONObject(treino_e.toString());
 		}
+		
+		if (treino_b != null) {
+			treino_b_JSON = new JSONObject(treino_b.toString());
+		}
+		
+		if (treino_c != null) {
+			treino_c_JSON = new JSONObject(treino_c.toString());
+		}
+		
+		if (treino_d != null) {
+			treino_d_JSON = new JSONObject(treino_d.toString());
+		}
+		
+		if (treino_e != null) {
+			treino_e_JSON = new JSONObject(treino_e.toString());
+		}
+		
 		Blob image = (Blob) resultSet.getBlob("foto");
 		Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, dias, treino_a_JSON, treino_b_JSON, treino_c_JSON, treino_d_JSON, treino_e_JSON, image);
 		return alunoRecebido;

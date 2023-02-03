@@ -178,9 +178,6 @@ public class ConsultaAluno extends JDialog {
 				"Id", "Nome", "Telefone", "Status"
 			}
 		) {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false
