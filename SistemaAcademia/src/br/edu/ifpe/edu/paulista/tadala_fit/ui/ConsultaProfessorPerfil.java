@@ -13,7 +13,6 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
-import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics2D;

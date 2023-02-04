@@ -57,6 +57,10 @@ public class PerfilAluno extends JDialog {
 	private Blob imagemBlob;
 	private Blob imagemBlobnova;
 	private JButton btnfoto;
+	private String telefoneT;
+	private Double alturaT;
+	private Double pesoT;
+	private Double bfT;
 	/**
 	 * Launch the application.
 	 */
@@ -319,9 +323,19 @@ public class PerfilAluno extends JDialog {
 					Double peso = Double.parseDouble(txtpeso.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					Integer matricula = Integer.parseInt(txtmatricula.getText());
-					UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula,imagemBlobnova);
-					btneditar.setVisible(true);
-					btneditar.setVisible(true);
+					if (telefone.equals(telefoneT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT) && imagemBlob.equals(imagemBlobnova)){
+						JOptionPane.showMessageDialog(null,"Atualize pelo menos um dado para realizar a alteração");
+						btneditar.setVisible(true);
+						btneditar.setEnabled(true);
+						btnfoto.setVisible(false);
+						btnfoto.setEnabled(false);
+					}else {
+						UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula,imagemBlobnova);
+						btneditar.setVisible(true);
+						btneditar.setEnabled(true);
+						btnfoto.setVisible(false);
+						btnfoto.setEnabled(false);
+					}
 				} catch (NumberFormatException e5) {
 					txtbf.setBorder( new TitledBorder("") );
 					txtaltura.setBorder( new TitledBorder("") );
@@ -457,7 +471,9 @@ public class PerfilAluno extends JDialog {
 		btnfoto.setBorder(null);
 		btnfoto.setBounds(78, 269, 93, 20);
 		perfilaluno.add(btnfoto);
+	
 	}
+	
 	public void getAluno(Aluno alunoLogado) throws IOException {
 		txtmatricula.setText(Integer.toString(alunoLogado.getMatricula()));
 		txtnome.setText(alunoLogado.getNome());
@@ -469,6 +485,10 @@ public class PerfilAluno extends JDialog {
 		txtpeso.setText(Double.toString(alunoLogado.getPeso()));
 		txtbf.setText(Double.toString(alunoLogado.getBf()));
 		txtcomorbidade.setText(alunoLogado.getComorbidade());
+		telefoneT = alunoLogado.getTelefone();
+		alturaT = alunoLogado.getAltura();
+		pesoT = alunoLogado.getPeso();
+		bfT = alunoLogado.getBf();
 		Blob foto = alunoLogado.getImage();
 		if (foto != null) {
 			try {
