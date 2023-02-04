@@ -13,6 +13,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -20,8 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -29,6 +28,7 @@ import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import java.awt.Toolkit;
 
 public class ConsultaProfessorPerfil extends JDialog {
 
@@ -42,7 +42,12 @@ public class ConsultaProfessorPerfil extends JDialog {
 	private JTextField texttelefone;
 	private JTextField textemail;
 	private JTextField textcref;
-
+	private Blob imagemBlob;
+	private Blob imagemNova;
+	private JButton btnenviar;
+	private JButton btneditar;
+	private Professor pesquisaProfessor;
+	private JButton btnfoto;
 	/**
 	 * Launch the application.
 	 */
@@ -61,6 +66,8 @@ public class ConsultaProfessorPerfil extends JDialog {
 	 * Create the dialog.
 	 */
 	public ConsultaProfessorPerfil(Integer matricula) {
+		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ConsultaProfessorPerfil.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		setBounds(100, 100, 1024, 720);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(0, 79, 157));
@@ -73,35 +80,18 @@ public class ConsultaProfessorPerfil extends JDialog {
 		lblfoto.setBounds(47, 102, 157, 169);
 		contentPanel.add(lblfoto);
 		
-		JButton btncarregarfoto = new JButton("Carregar Foto");
-		btncarregarfoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
-					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
-					Graphics2D g = resizedImage.createGraphics();
-					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
-					g.dispose();
-					lblfoto.setIcon(new ImageIcon(resizedImage));
-					btncarregarfoto.setEnabled(false);
-					btncarregarfoto.setVisible(false);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btncarregarfoto.setEnabled(false);
-		btncarregarfoto.setBorder(null);
-		btncarregarfoto.setBounds(78, 300, 93, 20);
-		contentPanel.add(btncarregarfoto);
-		
-		JButton btnfoto = new JButton("Tirar Foto");
+		btnfoto = new JButton("Tirar Foto");
+		btnfoto.setVisible(false);
+		btnfoto.setEnabled(false);
 		btnfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new WebCam();
-				btncarregarfoto.setEnabled(true);
-				btncarregarfoto.setVisible(true);
+				WebCam webcam = new WebCam();
+				if(webcam.getWebcam() != null) {
+					webcam.setModal(true);
+					webcam.setVisible(true);
+					lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
+					imagemNova = WebCam.imgemBlob();
+				}
 			}
 		});
 		btnfoto.setBorder(null);
@@ -217,7 +207,7 @@ public class ConsultaProfessorPerfil extends JDialog {
 		lblNewLabel_2.setBounds(339, 619, 342, 40);
 		contentPanel.add(lblNewLabel_2);
 		
-		JButton btnenviar = new JButton("Submeter");
+		btnenviar = new JButton("Submeter");
 		btnenviar.setVisible(false);
 		btnenviar.setEnabled(false);
 		btnenviar.addActionListener(new ActionListener() {
@@ -228,21 +218,17 @@ public class ConsultaProfessorPerfil extends JDialog {
 					String telefone = texttelefone.getText();
 					String email = textemail.getText();
 					Integer matricula = Integer.parseInt(textmatricula.getText());
-					File image = new File(WebCam.caminhoCarregarFoto());
-					FileInputStream inputstream = new FileInputStream(image);
-					byte[] imagepronta = new byte[(int) image.length()];
-					inputstream.read(imagepronta);
-					inputstream.close();
-					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
-					UpdateController.UpdateProfessor(telefone, email, matricula, imagemBlob);
-				} catch (NumberFormatException e5) {
-					texttelefone.setBorder( new TitledBorder("") );
-					textemail.setBorder( new TitledBorder("") );
-					texttelefone.setEnabled(true);
-					textemail.setEnabled(true);
-					btnenviar.setEnabled(true);
-					btnenviar.setVisible(true);
-					JOptionPane.showMessageDialog(null,"Preencha o campo TELEFONE corretamente com números válidos");
+					String telefoneT = pesquisaProfessor.getTelefone();
+					String emailT = pesquisaProfessor.getEmail();
+					if (telefone.equals(telefoneT) && email.equals(emailT) && imagemBlob.equals(imagemNova)){
+						JOptionPane.showMessageDialog(null,"Mude pelo menos um dado para realizar o update");
+						btneditar.setVisible(true);
+						btneditar.setEnabled(true);
+					}else{
+						UpdateController.UpdateProfessor(telefone, email, matricula, imagemNova);
+						btneditar.setVisible(true);
+						btneditar.setEnabled(true);
+					}
 				} catch (RuntimeException e1) {
 					e1.printStackTrace();
 					texttelefone.setBorder( new TitledBorder("") );
@@ -269,7 +255,7 @@ public class ConsultaProfessorPerfil extends JDialog {
 		btnenviar.setBounds(525, 569, 200, 40);
 		contentPanel.add(btnenviar);
 		
-		JButton btneditar = new JButton("Alterar Informações");
+		btneditar = new JButton("Alterar Informações");
 		btneditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				texttelefone.setBorder( new TitledBorder("") );
@@ -278,6 +264,10 @@ public class ConsultaProfessorPerfil extends JDialog {
 				textemail.setEnabled(true);
 				btnenviar.setEnabled(true);
 				btnenviar.setVisible(true);
+				btneditar.setVisible(false);
+				btneditar.setEnabled(false);
+				btnfoto.setEnabled(true);
+				btnfoto.setVisible(true);
 			}
 		});
 		btneditar.setForeground(Color.WHITE);
@@ -288,7 +278,7 @@ public class ConsultaProfessorPerfil extends JDialog {
 		contentPanel.add(btneditar);
 		
 		try {
-			Professor pesquisaProfessor = ReadController.getProfessorFiltered(matricula);
+			pesquisaProfessor = ReadController.getProfessorFiltered(matricula);
 			textmatricula.setText(Integer.toString(pesquisaProfessor.getMatricula()));
 			textnome.setText(pesquisaProfessor.getNome());
 			texttelefone.setText(pesquisaProfessor.getTelefone());
@@ -304,6 +294,8 @@ public class ConsultaProfessorPerfil extends JDialog {
 				g.drawImage(image, 0, 0, 150, 150, null);
 				g.dispose();
 				lblfoto.setIcon(new ImageIcon(resizedImage));
+				imagemBlob = new javax.sql.rowset.serial.SerialBlob(foto);
+				imagemNova = new javax.sql.rowset.serial.SerialBlob(foto);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
 			// TODO Auto-generated catch block

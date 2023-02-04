@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
@@ -92,15 +93,15 @@ public class FrameHomeAluno {
 		btnverperfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PerfilAluno fa = new PerfilAluno();
 				try {
+					PerfilAluno fa = new PerfilAluno();
 					fa.getAluno(alunoAtual);
-				} catch (IOException e1) {
+					fa.setModal(true);
+					fa.setVisible(true);
+				} catch (IOException | ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				fa.setModal(true);
-				fa.setVisible(true);
 			}
 		});
 		btnverperfil.setBackground(new Color(240, 240, 240));

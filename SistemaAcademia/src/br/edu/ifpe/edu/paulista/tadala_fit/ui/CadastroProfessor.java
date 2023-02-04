@@ -7,6 +7,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
+
+import org.apache.commons.validator.routines.EmailValidator;
+
 import br.edu.ifpe.paulista.tadala_fit.core.CreateController;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import java.awt.Toolkit;
@@ -144,17 +147,30 @@ public class CadastroProfessor extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String user = txtuser.getText();
+					String usertrim = user.trim();
 					String password = new String(txtpassword.getPassword());
+					String passwordtrim = password.trim();
 					String cref = txtcref.getText();
+					String creftrim = cref.trim();
 					String nome = txtnome.getText();
+					String nometrim = nome.trim();
 					String telefone = txttelefone.getText();
+					String telefonetrim = telefone.trim();
 					String email = txtemail.getText();
-					Professor professorCadastrado = CreateController.createProfessor(user, password, nome, telefone, email, cref,imagemBlob);
-					if (professorCadastrado == null) {
-						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
-					} else {
-						JOptionPane.showMessageDialog(null, "Professor(a) cadastrado com sucesso!");
-				}
+					String emailtrim = email.trim();
+					EmailValidator emailvalidator = EmailValidator.getInstance();
+					if (!emailvalidator.isValid(email)) {
+						JOptionPane.showMessageDialog(null,"Email inválido");
+					}else {
+						Professor professorCadastrado = CreateController.createProfessor(usertrim, passwordtrim, nometrim, telefonetrim, emailtrim, creftrim,imagemBlob);
+						if (professorCadastrado == null) {
+							JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
+						} else {
+							JOptionPane.showMessageDialog(null, "Professor(a) cadastrado com sucesso!");
+							dispose();
+					}
+					}
+	
 				} catch (RuntimeException e2) {
 					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
 				} catch (SQLException e1) {

@@ -29,6 +29,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 
+import org.apache.commons.validator.routines.DateValidator;
+import org.apache.commons.validator.routines.EmailValidator;
+
 
 public class CadastroAluno extends JDialog {
 	/**
@@ -46,7 +49,7 @@ public class CadastroAluno extends JDialog {
 	private JFormattedTextField txtbf;
 	private JFormattedTextField txtemail;
 	private JFormattedTextField txtuser;
-	
+	private Aluno alunoCadastrado;
 	private static JDialog dialog;
 	private JLabel lblfoto;
 	private java.sql.Blob imagemBlob = null;
@@ -212,47 +215,58 @@ public class CadastroAluno extends JDialog {
 		panel.add(lblNewLabel_2);
 		
 		JButton btnfinalizar = new JButton("Finalizar Matrícula");
-		btnfinalizar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		btnfinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				try {
 					String telefone = txttelefone.getText();
 					String data = txtdata.getText();
-					String nome = txtnome.getText();
-					Double peso = Double.parseDouble(txtpeso.getText());
-					String cpf = txtcpf.getText();
+					String nome = txtnome.getText();					
+					String nometrim = nome.trim();
+					Double peso = Double.parseDouble(txtpeso.getText());					
+					String cpf = txtcpf.getText();					
 					String email = txtemail.getText();
+					String emailstrip = email.strip();
 					Double altura = Double.parseDouble(txtaltura.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					String sexo = txtsexo.getText();
 					String comorbidade = txtcomorbidade.getText();
 					String user = txtuser.getText();
-					String password = new String(txtpassword.getPassword());
-					Aluno alunoCadastrado = CreateController.createAluno(user, password, nome, sexo, cpf, telefone, email, data, altura, peso, bf, comorbidade,imagemBlob);
-					if (alunoCadastrado == null) {
-						JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
-					} else {
-						JOptionPane.showMessageDialog(null, "Aluno(a) cadastrado com sucesso!");
-						dispose();
+					String userstrip = user.strip();
+					String password = new String(txtpassword.getPassword());	
+					String passwordstrip = password.strip();
+					EmailValidator emailvalidator = EmailValidator.getInstance();
+					DateValidator datevalidator = DateValidator.getInstance();
+					if (!emailvalidator.isValid(email)) {
+							JOptionPane.showMessageDialog(null,"Email inválido");
+					}else if(!datevalidator.isValid(data)) {
+							JOptionPane.showMessageDialog(null,"Data inválida");
 					}
+					if(emailvalidator.isValid(email) && datevalidator.isValid(data)) {
+						alunoCadastrado = CreateController.createAluno(userstrip, passwordstrip, nometrim, sexo, cpf, telefone, emailstrip, data, altura, peso, bf, comorbidade,imagemBlob);
+						if (alunoCadastrado == null) {
+							JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
+						}else{
+							JOptionPane.showMessageDialog(null, "Aluno(a) cadastrado com sucesso!");
+							dispose();
+						}
+					}
+
 				} catch (NumberFormatException e5) {
 					JOptionPane.showMessageDialog(null, "Preencha os Campos ALTURA, PESO E BF corretamente.");
 					
 				} catch (RuntimeException e2) {
-					e2.printStackTrace();
+					e2.getMessage();
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
 			
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				} catch (SQLException e3) {
+					e3.getMessage();
 					
 				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-	
-				} catch (Exception e3) {
-					e3.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Preencha todos os campos corretamente.");
+					e1.getMessage();
+				} catch (Exception e1) {
+					e1.getMessage();
 				}
-		   }
+			}
 		});
 		btnfinalizar.setFocusPainted(false);
 		btnfinalizar.setFont(new Font("Arial", Font.BOLD, 16));
@@ -301,8 +315,13 @@ public class CadastroAluno extends JDialog {
 				if(webcam.getWebcam() != null) {
 					webcam.setModal(true);
 					webcam.setVisible(true);
-					imagemBlob = WebCam.imgemBlob();
-					lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
+					try {
+						imagemBlob = WebCam.imgemBlob();
+						lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
+					}catch (NullPointerException e1) {
+						System.out.print("Exceção tratada");
+					}
+					
 				}
 			}
 		});
@@ -319,7 +338,7 @@ public class CadastroAluno extends JDialog {
 		panel.add(txtnome);
 		
  
-		MaskFormatter mascaraTelefone = new MaskFormatter("(##)####-####");
+		MaskFormatter mascaraTelefone = new MaskFormatter("(##)#####-####");
 	    mascaraTelefone.setPlaceholderCharacter('_');
 		txttelefone = new JFormattedTextField(mascaraTelefone);
 		txttelefone.setText("");
@@ -340,7 +359,7 @@ public class CadastroAluno extends JDialog {
 		txtdata.setBounds(333, 186, 209, 21);
 		panel.add(txtdata);
 		
-		MaskFormatter mascaraPeso = new MaskFormatter("***");
+		MaskFormatter mascaraPeso = new MaskFormatter("**.*");
 		mascaraPeso.setValidCharacters("012345679 ");
 		mascaraPeso.setAllowsInvalid(false);
 		mascaraPeso.setValueContainsLiteralCharacters(false);
@@ -369,8 +388,8 @@ public class CadastroAluno extends JDialog {
 		txtbf.setBounds(838, 230, 37, 21);
 		panel.add(txtbf);
 		
-		MaskFormatter email = new MaskFormatter("***************************************");
-		txtemail = new JFormattedTextField(email);
+		MaskFormatter mascaraEmail = new MaskFormatter("*********************************************************");
+		txtemail = new JFormattedTextField(mascaraEmail);
 		txtemail.setBounds(636, 186, 236, 21);
 		panel.add(txtemail);
 		

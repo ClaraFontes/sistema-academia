@@ -32,7 +32,7 @@ public class MySQLRepository implements Repository {
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
 			String sql = ("INSERT INTO professor(usuario, senha, nome, telefone, email, cref, foto) VALUES (?,?,?,?,?,?,?)");
-			String sql2 = ("SELECT usuario FROM professor a WHERE a.usuario = ? and a.cref = ?");
+			String sql2 = ("SELECT usuario,cref FROM professor a WHERE a.usuario = ? OR a.cref = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
 			stm2.setString(1, user);
 			stm2.setString(2, cref);
@@ -50,6 +50,7 @@ public class MySQLRepository implements Repository {
 				stm.setString(6, cref);
 				stm.setBlob(7, image);
 				stm.execute();
+				
 			}
 		} finally {
 			connection.close();
@@ -64,9 +65,10 @@ public class MySQLRepository implements Repository {
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
 			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade,foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-			String sql2 = ("SELECT usuario FROM aluno WHERE usuario = ?");
+			String sql2 = ("SELECT usuario,cpf FROM aluno a WHERE a.usuario = ? OR a.cpf = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
 			stm2.setString(1, user);
+			stm2.setString(2, cpf);
 			ResultSet resultSet = stm2.executeQuery();
 			if(resultSet.next()) {
 				return null;
@@ -98,7 +100,6 @@ public class MySQLRepository implements Repository {
 	public Aluno loginAluno(String user, String password) throws SQLException, JSONException {
 		Connection connection = null;
 		try {
-
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
 			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, treino_e, dt_pagamento, foto FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
@@ -223,7 +224,7 @@ public class MySQLRepository implements Repository {
 			statement1.setBlob(6,image);
 			statement1.setInt(7, matricula);
 			statement1.execute();
-			JOptionPane.showMessageDialog(null, "Atualização feita com Sucesso, reinicie a sessão para ver as alterações!");
+			JOptionPane.showMessageDialog(null, "Atualização feita com Sucesso,Reinicie a sessão para ve as alterações!");
 		} finally {
 			connection.close();
 		}

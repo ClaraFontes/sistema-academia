@@ -10,24 +10,26 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.PerfilAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
@@ -37,19 +39,24 @@ import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
 public class ConsultaAlunoPerfil extends JDialog {
 	private JPanel perfilaluno = new JPanel();
 	private JTextField txtnome;
-	private JTextField txttelefone;
 	private JTextField txtdata;
-	private JTextField txtpeso;
 	private JTextField txtcomorbidade;
 	private JTextField txtcpf;
-	private JTextField txtemail;
-	private JTextField txtaltura;
-	private JTextField txtbf;
 	private JTextField txtstatus;
 	private JTextField txtmatricula;
 	private JLabel lblfoto;
-	private JButton btncarregarfoto;
+	private Blob imagemBlob;
+	private Blob imagemBlobnova;
 	private JButton btnpagamento;
+	private JButton btneditar;
+	private JButton btnsubmeter;
+	private JButton btnfoto;
+	private Aluno pesquisaAluno;
+	private JFormattedTextField txttelefone;
+	private JFormattedTextField txtaltura;
+	private JFormattedTextField txtpeso;
+	private JFormattedTextField txtbf;
+	private JFormattedTextField txtemail;
 
 	/**
 	 * 
@@ -71,8 +78,9 @@ public class ConsultaAlunoPerfil extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws ParseException 
 	 */
-	public ConsultaAlunoPerfil(Integer matricula) {
+	public ConsultaAlunoPerfil(Integer matricula) throws ParseException {
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -201,7 +209,9 @@ public class ConsultaAlunoPerfil extends JDialog {
 		lblSatus.setBounds(300, 417, 139, 24);
 		perfilaluno.add(lblSatus);
 		
-		txttelefone = new JTextField();
+		
+		MaskFormatter mascaraTelefone = new MaskFormatter("(##)#####-####");
+		txttelefone = new JFormattedTextField(mascaraTelefone);
 		txttelefone.setForeground(Color.WHITE);
 		txttelefone.setFont(new Font("Arial", Font.BOLD, 16));
 		txttelefone.setEnabled(false);
@@ -221,7 +231,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtdata.setBounds(324, 189, 139, 20);
 		perfilaluno.add(txtdata);
 		
-		txtpeso = new JTextField();
+		MaskFormatter mascaraPeso = new MaskFormatter("##.#");
+		txtpeso = new JFormattedTextField(mascaraPeso);
 		txtpeso.setForeground(Color.WHITE);
 		txtpeso.setFont(new Font("Arial", Font.BOLD, 16));
 		txtpeso.setEnabled(false);
@@ -250,18 +261,10 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtcpf.setBackground(new Color(0, 79, 157));
 		txtcpf.setBounds(556, 151, 139, 20);
 		perfilaluno.add(txtcpf);
-		
-		txtemail = new JTextField();
-		txtemail.setForeground(Color.WHITE);
-		txtemail.setFont(new Font("Arial", Font.BOLD, 16));
-		txtemail.setEnabled(false);
-		txtemail.setColumns(10);
-		txtemail.setBorder(null);
-		txtemail.setBackground(new Color(0, 79, 157));
-		txtemail.setBounds(561, 188, 139, 20);
-		perfilaluno.add(txtemail);
-		
-		txtaltura = new JTextField();
+	
+		MaskFormatter mascaraAltura = new MaskFormatter("#.##");
+		mascaraPeso.setValidCharacters("012345679 ");
+		txtaltura = new JFormattedTextField(mascaraAltura);
 		txtaltura.setForeground(Color.WHITE);
 		txtaltura.setFont(new Font("Arial", Font.BOLD, 16));
 		txtaltura.setEnabled(false);
@@ -271,7 +274,9 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtaltura.setBounds(556, 224, 36, 20);
 		perfilaluno.add(txtaltura);
 		
-		txtbf = new JTextField();
+		MaskFormatter mascaraBf = new MaskFormatter("##");
+		mascaraPeso.setValidCharacters("012345679 ");
+		txtbf = new JFormattedTextField(mascaraBf);
 		txtbf.setForeground(Color.WHITE);
 		txtbf.setFont(new Font("Arial", Font.BOLD, 16));
 		txtbf.setEnabled(false);
@@ -292,11 +297,11 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtstatus.setBounds(440, 420, 139, 20);
 		perfilaluno.add(txtstatus);
 		
-		JButton btnenviar = new JButton("Submeter");
-		btnenviar.addActionListener(new ActionListener() {
+		btnsubmeter = new JButton("Submeter");
+		btnsubmeter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnenviar.setVisible(false);
-				btnenviar.setEnabled(false);
+				btnsubmeter.setVisible(false);
+				btnsubmeter.setEnabled(false);
 				txtbf.setEnabled(false);
 				txtaltura.setEnabled(false);
 				txtpeso.setEnabled(false);
@@ -314,13 +319,27 @@ public class ConsultaAlunoPerfil extends JDialog {
 					Double peso = Double.parseDouble(txtpeso.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					Integer matricula = Integer.parseInt(txtmatricula.getText());
-					File image = new File(WebCam.caminhoCarregarFoto());
-					FileInputStream inputstream = new FileInputStream(image);
-					byte[] imagepronta = new byte[(int) image.length()];
-					inputstream.read(imagepronta);
-					inputstream.close();
-					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
-					UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula,imagemBlob);
+					String telefoneT = pesquisaAluno.getTelefone();
+					String emailT = pesquisaAluno.getEmail();
+					Double alturaT = pesquisaAluno.getAltura();
+					Double pesoT = pesquisaAluno.getPeso();
+					Double bfT = pesquisaAluno.getBf();
+					/*System.out.print("telefone: " +telefone.equals(telefoneT)+"---"+telefone+"----"+telefoneT+"\n");
+					System.out.print("email: " +email.equals(emailT)+"---"+email+"---"+emailT+"\n");
+					System.out.print("altura: " +altura.equals(alturaT)+"---"+altura+"---"+alturaT+"\n");
+					System.out.print("peso: " +peso.equals(pesoT)+"----"+peso+"---"+pesoT+"\n");
+					System.out.print("bf: " +bf.equals(bfT)+"----"+bf+"---"+bfT+"\n");
+					System.out.print(imagemBlob.equals(imagemBlobnova));
+					*/
+					if(telefone.equals(telefoneT) && email.equals(emailT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT)&& imagemBlob.equals(imagemBlobnova)){
+						JOptionPane.showMessageDialog(null,"Mude pelo menos um dado para realizar o update");
+					}else {
+						UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova);
+						btneditar.setVisible(true);
+						btneditar.setEnabled(true);
+						btnfoto.setEnabled(false);
+						btnfoto.setVisible(false);
+					}
 				} catch (NumberFormatException e5) {
 					txtbf.setBorder( new TitledBorder("") );
 					txtaltura.setBorder( new TitledBorder("") );
@@ -332,8 +351,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 					txtpeso.setEnabled(true);
 					txtemail.setEnabled(true);
 					txttelefone.setEnabled(true);
-					btnenviar.setEnabled(true);
-					btnenviar.setVisible(true);
+					btnsubmeter.setEnabled(true);
+					btnsubmeter.setVisible(true);
 					JOptionPane.showMessageDialog(null,"Preencha os campos ALTURA, PESO E BF corretamente com números válidos");
 				} catch (RuntimeException e1) {
 					e1.printStackTrace();
@@ -347,13 +366,9 @@ public class ConsultaAlunoPerfil extends JDialog {
 					txtpeso.setEnabled(true);
 					txtemail.setEnabled(true);
 					txttelefone.setEnabled(true);
-					btnenviar.setEnabled(true);
-					btnenviar.setVisible(true);
+					btnsubmeter.setEnabled(true);
+					btnsubmeter.setVisible(true);
 					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
-				} catch (ClassNotFoundException e2) {
-					e2.printStackTrace();
-				} catch (SQLException e3) {
-					e3.printStackTrace();
 				} catch (Exception e4) {
 					JOptionPane.showMessageDialog(null,"Preencha os campos corretamente");
 					e4.printStackTrace();
@@ -362,16 +377,16 @@ public class ConsultaAlunoPerfil extends JDialog {
 			}
 		});
 		
-		btnenviar.setFocusPainted(false);
-		btnenviar.setVisible(false);
-		btnenviar.setEnabled(false);
-		btnenviar.setForeground(Color.WHITE);
-		btnenviar.setFont(new Font("Arial", Font.BOLD, 16));
-		btnenviar.setBackground(new Color(0, 69, 130));
-		btnenviar.setBounds(520, 577, 175, 40);
-		perfilaluno.add(btnenviar);
+		btnsubmeter.setFocusPainted(false);
+		btnsubmeter.setVisible(false);
+		btnsubmeter.setEnabled(false);
+		btnsubmeter.setForeground(Color.WHITE);
+		btnsubmeter.setFont(new Font("Arial", Font.BOLD, 16));
+		btnsubmeter.setBackground(new Color(0, 69, 130));
+		btnsubmeter.setBounds(520, 577, 175, 40);
+		perfilaluno.add(btnsubmeter);
 		
-		JButton btneditar = new JButton("Alterar Informações");
+		btneditar = new JButton("Alterar Informações");
 		btneditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtbf.setBorder( new TitledBorder("") );
@@ -384,8 +399,12 @@ public class ConsultaAlunoPerfil extends JDialog {
 				txtpeso.setEnabled(true);
 				txtemail.setEnabled(true);
 				txttelefone.setEnabled(true);
-				btnenviar.setEnabled(true);
-				btnenviar.setVisible(true);
+				btnsubmeter.setEnabled(true);
+				btnsubmeter.setVisible(true);
+				btnfoto.setEnabled(true);
+				btnfoto.setVisible(true);
+				btneditar.setVisible(false);
+				btneditar.setVisible(false);
 			}
 		});
 		
@@ -413,6 +432,16 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtmatricula.setBounds(324, 87, 139, 20);
 		perfilaluno.add(txtmatricula);
 		
+		txtemail = new JFormattedTextField();
+		txtemail.setForeground(new Color(255, 255, 255));
+		txtemail.setFont(new Font("Arial", Font.BOLD, 16));
+		txtemail.setBorder(null);
+		txtemail.setBackground(new Color(0, 79, 157));
+		txtemail.setEnabled(false);
+		txtemail.setBounds(561, 189, 208, 20);
+		perfilaluno.add(txtemail);
+		
+		
 		JLabel lblKg = new JLabel("Kg");
 		lblKg.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblKg.setForeground(Color.WHITE);
@@ -434,44 +463,32 @@ public class ConsultaAlunoPerfil extends JDialog {
 		lblKg_1_1.setBounds(702, 221, 78, 24);
 		perfilaluno.add(lblKg_1_1);
 		
-		JButton btnfoto = new JButton("Tirar Foto");
+		btnfoto = new JButton("Tirar Foto");
+		btnfoto.setEnabled(false);
+		btnfoto.setVisible(false);
 		btnfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WebCam webcam = new WebCam();
 				if(webcam.getWebcam() != null) {
 					webcam.setModal(true);
 					webcam.setVisible(true);
-					btncarregarfoto.setEnabled(true);
-					btncarregarfoto.setVisible(true);
+					lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
+					try {
+						imagemBlobnova = new javax.sql.rowset.serial.SerialBlob(WebCam.imgemBlob());
+					} catch (SerialException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		});
 		btnfoto.setBorder(null);
 		btnfoto.setBounds(78, 269, 93, 20);
 		perfilaluno.add(btnfoto);
-		
-		btncarregarfoto = new JButton("Carregar Foto");
-		btncarregarfoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
-					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
-					Graphics2D g = resizedImage.createGraphics();
-					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
-					g.dispose();
-					lblfoto.setIcon(new ImageIcon(resizedImage));
-					btncarregarfoto.setEnabled(false);
-					btncarregarfoto.setVisible(false);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btncarregarfoto.setEnabled(false);
-		btncarregarfoto.setBorder(null);
-		btncarregarfoto.setBounds(78, 300, 93, 20);
-		perfilaluno.add(btncarregarfoto);
 		
 		btnpagamento = new JButton("Gerar Pagamento");
 		btnpagamento.addActionListener(new ActionListener() {
@@ -503,12 +520,12 @@ public class ConsultaAlunoPerfil extends JDialog {
 		perfilaluno.add(btnpagamento);
 		
 		try {
-			Aluno pesquisaAluno = ReadController.getAlunoFiltered(matricula);
+			pesquisaAluno = ReadController.getAlunoFiltered(matricula);
+			txtemail.setText(pesquisaAluno.getEmail());
 			txtmatricula.setText(Integer.toString(pesquisaAluno.getMatricula()));
 			txtnome.setText(pesquisaAluno.getNome());
 			txtcpf.setText(pesquisaAluno.getCpf());
 			txttelefone.setText(pesquisaAluno.getTelefone());
-			txtemail.setText(pesquisaAluno.getEmail());
 			txtdata.setText(pesquisaAluno.getData_nascimento());
 			txtaltura.setText(Double.toString(pesquisaAluno.getAltura()));
 			txtpeso.setText(Double.toString(pesquisaAluno.getPeso()));
@@ -524,6 +541,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 				g.drawImage(image, 0, 0, 150, 150, null);
 				g.dispose();
 				lblfoto.setIcon(new ImageIcon(resizedImage));
+				imagemBlob = new javax.sql.rowset.serial.SerialBlob(foto);
+				imagemBlobnova = new javax.sql.rowset.serial.SerialBlob(foto);
 			}
 			if (pesquisaAluno.getQtdDiasUltimoPagamento() < 30) {
 				txtstatus.setText("Pago");
@@ -533,6 +552,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 				btnpagamento.setEnabled(true);
 			} else if (pesquisaAluno.getQtdDiasUltimoPagamento() >= 180) {
 				txtstatus.setText("Inativo");
+				btnpagamento.setVisible(true);
+				btnpagamento.setEnabled(true);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
 			// TODO Auto-generated catch block
@@ -541,7 +562,6 @@ public class ConsultaAlunoPerfil extends JDialog {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-			
 	}
 }
 

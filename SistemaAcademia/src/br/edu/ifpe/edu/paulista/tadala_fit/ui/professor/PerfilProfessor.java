@@ -3,9 +3,11 @@ package br.edu.ifpe.edu.paulista.tadala_fit.ui.professor;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.WebCam;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -40,7 +43,7 @@ public class PerfilProfessor extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textmatricula;
 	private JTextField textnome;
-	private JTextField texttelefone;
+	private JFormattedTextField texttelefone;
 	private JTextField textEmail;
 	private JTextField textCref;
 	private JLabel lblfoto;
@@ -141,7 +144,13 @@ public class PerfilProfessor extends JDialog {
 		textnome.setBounds(367, 167, 364, 20);
 		contentPanel.add(textnome);
 		
-		texttelefone = new JTextField();
+		try {
+			MaskFormatter mascaraTelefone = new MaskFormatter("(##)#####-####");
+			texttelefone = new JFormattedTextField(mascaraTelefone);
+			} catch (ParseException e5) {
+			// TODO Auto-generated catch block
+			e5.printStackTrace();
+		}
 		texttelefone.setForeground(Color.WHITE);
 		texttelefone.setFont(new Font("Arial", Font.BOLD, 20));
 		texttelefone.setEnabled(false);

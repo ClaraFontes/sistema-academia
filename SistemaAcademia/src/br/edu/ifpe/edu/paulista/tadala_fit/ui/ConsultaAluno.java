@@ -19,6 +19,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -120,9 +121,15 @@ public class ConsultaAluno extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Integer matriculafiltered = (Integer) matricula;
 				Integer matricula = matriculafiltered.intValue();
-				ConsultaAlunoPerfil cap = new ConsultaAlunoPerfil(matricula);
-				cap.setModal(true);
-				cap.setVisible(true);
+				ConsultaAlunoPerfil cap;
+				try {
+					cap = new ConsultaAlunoPerfil(matricula);
+					cap.setModal(true);
+					cap.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnPerfil.setFont(new Font("Arial", Font.BOLD, 13));
@@ -200,7 +207,7 @@ public class ConsultaAluno extends JDialog {
 		logo.setBounds(752, 82, 200, 139);
 		panel.add(logo);
 		
-		Pesquisar = new JTextField();
+		Pesquisar = new JTextField();		
 		Pesquisar.setFont(new Font("Arial", Font.PLAIN, 13));
 		Pesquisar.setColumns(10);
 		Pesquisar.setBounds(78, 62, 440, 26);

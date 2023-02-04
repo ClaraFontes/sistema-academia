@@ -1,11 +1,13 @@
 package br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno;
 
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialException;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -17,16 +19,16 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Toolkit;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -39,18 +41,22 @@ public class PerfilAluno extends JDialog {
 	private static final long serialVersionUID = 1L;
 	protected JPanel perfilaluno = new JPanel();
 	protected JTextField txtnome;
-	protected JTextField txttelefone;
+	protected JFormattedTextField txttelefone;
 	protected JTextField txtdata;
-	protected JTextField txtpeso;
+	protected JFormattedTextField txtpeso;
 	protected JTextField txtcomorbidade;
 	protected JTextField txtcpf;
 	protected JTextField txtemail;
-	protected JTextField txtaltura;
-	protected JTextField txtbf;
+	protected JFormattedTextField txtaltura;
+	protected JFormattedTextField txtbf;
 	protected JTextField txtstatus;
 	private JTextField txtmatricula;
+	private JButton btneditar;
+	private JButton btnenviar;
 	private JLabel lblfoto;
-	private JButton btncarregarfoto;
+	private Blob imagemBlob;
+	private Blob imagemBlobnova;
+	private JButton btnfoto;
 	/**
 	 * Launch the application.
 	 */
@@ -66,8 +72,9 @@ public class PerfilAluno extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws ParseException 
 	 */
-	public PerfilAluno() {
+	public PerfilAluno() throws ParseException{
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -195,7 +202,8 @@ public class PerfilAluno extends JDialog {
 		lblSatus.setBounds(300, 417, 139, 24);
 		perfilaluno.add(lblSatus);
 		
-		txttelefone = new JTextField();
+		MaskFormatter mascaraTelefone = new MaskFormatter("(##)#####-####");
+		txttelefone = new JFormattedTextField(mascaraTelefone);
 		txttelefone.setForeground(Color.WHITE);
 		txttelefone.setFont(new Font("Arial", Font.BOLD, 16));
 		txttelefone.setEnabled(false);
@@ -215,7 +223,8 @@ public class PerfilAluno extends JDialog {
 		txtdata.setBounds(324, 189, 139, 20);
 		perfilaluno.add(txtdata);
 		
-		txtpeso = new JTextField();
+		MaskFormatter mascaraPeso = new MaskFormatter("##.#");
+		txtpeso = new JFormattedTextField(mascaraPeso);
 		txtpeso.setForeground(Color.WHITE);
 		txtpeso.setFont(new Font("Arial", Font.BOLD, 16));
 		txtpeso.setEnabled(false);
@@ -255,7 +264,8 @@ public class PerfilAluno extends JDialog {
 		txtemail.setBounds(556, 189, 139, 20);
 		perfilaluno.add(txtemail);
 		
-		txtaltura = new JTextField();
+		MaskFormatter mascaraAltura = new MaskFormatter("#.##");
+		txtaltura = new JFormattedTextField(mascaraAltura);
 		txtaltura.setForeground(Color.WHITE);
 		txtaltura.setFont(new Font("Arial", Font.BOLD, 16));
 		txtaltura.setEnabled(false);
@@ -265,7 +275,8 @@ public class PerfilAluno extends JDialog {
 		txtaltura.setBounds(556, 224, 44, 20);
 		perfilaluno.add(txtaltura);
 		
-		txtbf = new JTextField();
+		MaskFormatter mascaraBf = new MaskFormatter("##");
+		txtbf = new JFormattedTextField(mascaraBf);
 		txtbf.setForeground(Color.WHITE);
 		txtbf.setFont(new Font("Arial", Font.BOLD, 16));
 		txtbf.setEnabled(false);
@@ -286,7 +297,7 @@ public class PerfilAluno extends JDialog {
 		txtstatus.setBounds(440, 420, 139, 20);
 		perfilaluno.add(txtstatus);
 		
-		JButton btnenviar = new JButton("Submeter");
+		btnenviar = new JButton("Submeter");
 		btnenviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnenviar.setVisible(false);
@@ -308,23 +319,17 @@ public class PerfilAluno extends JDialog {
 					Double peso = Double.parseDouble(txtpeso.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					Integer matricula = Integer.parseInt(txtmatricula.getText());
-					File image = new File(WebCam.caminhoCarregarFoto());
-					FileInputStream inputstream = new FileInputStream(image);
-					byte[] imagepronta = new byte[(int) image.length()];
-					inputstream.read(imagepronta);
-					inputstream.close();
-					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
-					UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula,imagemBlob);
+					UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula,imagemBlobnova);
+					btneditar.setVisible(true);
+					btneditar.setVisible(true);
 				} catch (NumberFormatException e5) {
 					txtbf.setBorder( new TitledBorder("") );
 					txtaltura.setBorder( new TitledBorder("") );
 					txtpeso.setBorder( new TitledBorder("") );
-					txtemail.setBorder( new TitledBorder("") );
 					txttelefone.setBorder( new TitledBorder("") );
 					txtbf.setEnabled(true);
 					txtaltura.setEnabled(true);
 					txtpeso.setEnabled(true);
-					txtemail.setEnabled(true);
 					txttelefone.setEnabled(true);
 					btnenviar.setEnabled(true);
 					btnenviar.setVisible(true);
@@ -334,12 +339,10 @@ public class PerfilAluno extends JDialog {
 					txtbf.setBorder( new TitledBorder("") );
 					txtaltura.setBorder( new TitledBorder("") );
 					txtpeso.setBorder( new TitledBorder("") );
-					txtemail.setBorder( new TitledBorder("") );
 					txttelefone.setBorder( new TitledBorder("") );
 					txtbf.setEnabled(true);
 					txtaltura.setEnabled(true);
 					txtpeso.setEnabled(true);
-					txtemail.setEnabled(true);
 					txttelefone.setEnabled(true);
 					btnenviar.setEnabled(true);
 					btnenviar.setVisible(true);
@@ -364,21 +367,23 @@ public class PerfilAluno extends JDialog {
 		btnenviar.setBounds(520, 577, 175, 40);
 		perfilaluno.add(btnenviar);
 		
-		JButton btneditar = new JButton("Alterar Informações");
+		btneditar = new JButton("Alterar Informações");
 		btneditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtbf.setBorder( new TitledBorder("") );
 				txtaltura.setBorder( new TitledBorder("") );
 				txtpeso.setBorder( new TitledBorder("") );
-				txtemail.setBorder( new TitledBorder("") );
 				txttelefone.setBorder( new TitledBorder("") );
 				txtbf.setEnabled(true);
 				txtaltura.setEnabled(true);
 				txtpeso.setEnabled(true);
-				txtemail.setEnabled(true);
 				txttelefone.setEnabled(true);
 				btnenviar.setEnabled(true);
 				btnenviar.setVisible(true);
+				btnfoto.setVisible(true);
+				btnfoto.setEnabled(true);
+				btneditar.setVisible(false);
+				btneditar.setEnabled(false);
 			}
 		});
 		btneditar.setFocusPainted(false);
@@ -426,44 +431,32 @@ public class PerfilAluno extends JDialog {
 		lblKg_1_1.setBounds(702, 221, 78, 24);
 		perfilaluno.add(lblKg_1_1);
 		
-		JButton btnfoto = new JButton("Tirar Foto");
+		btnfoto = new JButton("Tirar Foto");
+		btnfoto.setVisible(false);
+		btnfoto.setEnabled(false);
 		btnfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WebCam webcam = new WebCam();
 				if(webcam.getWebcam() != null) {
 					webcam.setModal(true);
 					webcam.setVisible(true);
-					btncarregarfoto.setEnabled(true);
-					btncarregarfoto.setVisible(true);
+					lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
+					try {
+						imagemBlobnova = new javax.sql.rowset.serial.SerialBlob(WebCam.imgemBlob());
+					} catch (SerialException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		});
 		btnfoto.setBorder(null);
 		btnfoto.setBounds(78, 269, 93, 20);
 		perfilaluno.add(btnfoto);
-		
-		btncarregarfoto = new JButton("Carregar Foto");
-		btncarregarfoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
-					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
-					Graphics2D g = resizedImage.createGraphics();
-					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
-					g.dispose();
-					lblfoto.setIcon(new ImageIcon(resizedImage));
-					btncarregarfoto.setEnabled(false);
-					btncarregarfoto.setVisible(false);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btncarregarfoto.setEnabled(false);
-		btncarregarfoto.setBorder(null);
-		btncarregarfoto.setBounds(78, 300, 93, 20);
-		perfilaluno.add(btncarregarfoto);
 	}
 	public void getAluno(Aluno alunoLogado) throws IOException {
 		txtmatricula.setText(Integer.toString(alunoLogado.getMatricula()));
@@ -487,6 +480,8 @@ public class PerfilAluno extends JDialog {
 			g.drawImage(image, 0, 0, 150, 150, null);
 			g.dispose();
 			lblfoto.setIcon(new ImageIcon(resizedImage));
+			imagemBlob = new javax.sql.rowset.serial.SerialBlob(foto);
+			imagemBlobnova = new javax.sql.rowset.serial.SerialBlob(foto);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
