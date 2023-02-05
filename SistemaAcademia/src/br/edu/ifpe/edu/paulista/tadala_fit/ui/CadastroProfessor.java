@@ -229,7 +229,7 @@ public class CadastroProfessor extends JDialog {
 		txtnome.setBounds(338, 119, 434, 20);
 		panel.add(txtnome);
 		
-		MaskFormatter mascaraTelefone = new MaskFormatter("(##)####-####");
+		MaskFormatter mascaraTelefone = new MaskFormatter("(##)#####-####");
 		mascaraTelefone.setPlaceholderCharacter('_');
 		txttelefone = new JFormattedTextField(mascaraTelefone);
 		txttelefone.setBounds(338, 165, 434, 20);

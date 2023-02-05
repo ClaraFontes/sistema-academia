@@ -17,12 +17,11 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialException;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -44,10 +43,15 @@ public class PerfilProfessor extends JDialog {
 	private JTextField textmatricula;
 	private JTextField textnome;
 	private JFormattedTextField texttelefone;
-	private JTextField textEmail;
+	private JTextField textemail;
 	private JTextField textCref;
 	private JLabel lblfoto;
-	private JButton btncarregarfoto;
+	private JButton btneditar;
+	private JButton btnenviar;
+	private Blob imagemBlob;
+	private Blob imagemBlobnova;
+	private String telefoneT;
+	private String emailT;
 	private JButton btntirarfoto;
 	
 
@@ -66,7 +70,7 @@ public class PerfilProfessor extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public PerfilProfessor() {
+	public PerfilProfessor(){
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -160,15 +164,15 @@ public class PerfilProfessor extends JDialog {
 		texttelefone.setBounds(367, 197, 258, 20);
 		contentPanel.add(texttelefone);
 		
-		textEmail = new JTextField();
-		textEmail.setEnabled(false);
-		textEmail.setForeground(Color.WHITE);
-		textEmail.setFont(new Font("Arial", Font.BOLD, 20));
-		textEmail.setColumns(10);
-		textEmail.setBorder(null);
-		textEmail.setBackground(new Color(0, 79, 157));
-		textEmail.setBounds(355, 227, 349, 20);
-		contentPanel.add(textEmail);
+		textemail = new JTextField();
+		textemail.setEnabled(false);
+		textemail.setForeground(Color.WHITE);
+		textemail.setFont(new Font("Arial", Font.BOLD, 20));
+		textemail.setColumns(10);
+		textemail.setBorder(null);
+		textemail.setBackground(new Color(0, 79, 157));
+		textemail.setBounds(355, 227, 349, 20);
+		contentPanel.add(textemail);
 		
 		textCref = new JTextField();
 		textCref.setForeground(Color.WHITE);
@@ -186,27 +190,67 @@ public class PerfilProfessor extends JDialog {
 		panel_2.setBounds(23, 350, 956, 10);
 		contentPanel.add(panel_2);
 		
-		JButton btnenviar = new JButton("Submeter");
+		btneditar = new JButton("Alterar Informações");
+		btneditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				texttelefone.setBorder( new TitledBorder("") );
+				textemail.setBorder( new TitledBorder("") );
+				texttelefone.setEnabled(true);
+				textemail.setEnabled(true);
+				btntirarfoto.setVisible(true);
+				btntirarfoto.setEnabled(true);
+				btnenviar.setEnabled(true);
+				btnenviar.setVisible(true);
+				btneditar.setVisible(false);
+				btneditar.setEnabled(false);
+			}
+		});
+		
+		btneditar.setForeground(Color.WHITE);
+		btneditar.setFont(new Font("Arial", Font.BOLD, 16));
+		btneditar.setFocusPainted(false);
+		btneditar.setBackground(new Color(0, 69, 130));
+		btneditar.setBounds(274, 575, 200, 40);
+		contentPanel.add(btneditar);
+		
+		btnenviar = new JButton("Submeter");
 		btnenviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnenviar.setVisible(false);
+				btnenviar.setEnabled(false);				
+				texttelefone.setEnabled(false);
+				textemail.setEnabled(false);
+				texttelefone.setBorder(null);
+				textemail.setBorder(null);
 				try {
 					String telefone = texttelefone.getText();
-					String email = textEmail.getText();
+					String email = textemail.getText();
 					Integer matricula = Integer.parseInt(textmatricula.getText());
-					File image = new File ("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/imagem.png");
-					FileInputStream inputstream = new FileInputStream(image);
-					byte[] imagepronta = new byte[(int) image.length()];
-					inputstream.read(imagepronta);
-					inputstream.close();
-					java.sql.Blob imagemBlob = new javax.sql.rowset.serial.SerialBlob(imagepronta);
-					UpdateController.UpdateProfessor(telefone,email,matricula,imagemBlob);
+					if (telefone.equals(telefoneT) && email.equals(emailT)&& imagemBlob.equals(imagemBlobnova)){
+						JOptionPane.showMessageDialog(null,"Atualize pelo menos um dado para realizar a alteração");
+						btneditar.setVisible(true);
+						btneditar.setEnabled(true);
+						btntirarfoto.setVisible(false);
+						btntirarfoto.setEnabled(false);
+					}else {
+						UpdateController.UpdateProfessor(telefone,email,matricula,imagemBlobnova);
+						btneditar.setVisible(true);
+						btneditar.setEnabled(true);
+						btntirarfoto.setVisible(false);
+						btntirarfoto.setEnabled(false);
+					}
+				} catch (NumberFormatException e5) {
+					texttelefone.setBorder( new TitledBorder("") );
+					texttelefone.setEnabled(true);
+					btnenviar.setEnabled(true);
+					btnenviar.setVisible(true);
+					JOptionPane.showMessageDialog(null,"Preencha o campo TELEFONE corretamente com números válidos");
 				} catch (RuntimeException e1) {
 					e1.printStackTrace();
-					textEmail.setBorder( new TitledBorder("") );
 					texttelefone.setBorder( new TitledBorder("") );
-					
-					textEmail.setEnabled(true);
+					textemail.setBorder( new TitledBorder("") );
 					texttelefone.setEnabled(true);
+					textemail.setEnabled(true);
 					btnenviar.setEnabled(true);
 					btnenviar.setVisible(true);
 					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
@@ -221,12 +265,13 @@ public class PerfilProfessor extends JDialog {
 				}
 			}
 		});
+		
 		btnenviar.setVisible(false);
 		btnenviar.setEnabled(false);
-		textEmail.setEnabled(false);
+		textemail.setEnabled(false);
 		texttelefone.setEnabled(false);
 
-		textEmail.setBorder(null);
+		textemail.setBorder(null);
 		texttelefone.setBorder(null);
 		btnenviar.setEnabled(false);
 		btnenviar.setForeground(Color.WHITE);
@@ -236,25 +281,6 @@ public class PerfilProfessor extends JDialog {
 		btnenviar.setBounds(504, 575, 200, 40);
 		btnenviar.setVisible(false);
 		contentPanel.add(btnenviar);
-		
-		JButton btneditar = new JButton("Alterar Informações");
-		btneditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				texttelefone.setBorder( new TitledBorder("") );
-				textEmail.setBorder( new TitledBorder("") );
-				texttelefone.setEnabled(true);
-				textEmail.setEnabled(true);
-				btnenviar.setEnabled(true);
-				btnenviar.setVisible(true);
-			}
-		});
-		
-		btneditar.setForeground(Color.WHITE);
-		btneditar.setFont(new Font("Arial", Font.BOLD, 16));
-		btneditar.setFocusPainted(false);
-		btneditar.setBackground(new Color(0, 69, 130));
-		btneditar.setBounds(274, 575, 200, 40);
-		contentPanel.add(btneditar);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("");
 		lblNewLabel_1_1.setIcon(new ImageIcon(PerfilProfessor.class.getResource("/assets_loginFrame/logotipo200x200.png")));
@@ -270,52 +296,41 @@ public class PerfilProfessor extends JDialog {
 		contentPanel.add(lblNewLabel_2);
 		
 		btntirarfoto = new JButton("Tirar Foto");
+		btntirarfoto.setVisible(false);
+		btntirarfoto.setEnabled(false);
 		btntirarfoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WebCam webcam = new WebCam();
 				if(webcam.getWebcam() != null) {
 					webcam.setModal(true);
 					webcam.setVisible(true);
-					btncarregarfoto.setEnabled(true);
-					btncarregarfoto.setVisible(true);
+					lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
+					try {
+						imagemBlobnova = new javax.sql.rowset.serial.SerialBlob(WebCam.imgemBlob());
+					} catch (SerialException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		});
 		btntirarfoto.setBorder(null);
 		btntirarfoto.setBounds(79, 265, 93, 20);
 		contentPanel.add(btntirarfoto);
-		
-		btncarregarfoto = new JButton("Carregar Foto");
-		btncarregarfoto.setEnabled(false);
-		btncarregarfoto.setVisible(false);
-		btncarregarfoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					BufferedImage fotoperfil = ImageIO.read(new File(WebCam.caminhoCarregarFoto()));
-					BufferedImage resizedImage = new BufferedImage(150, 150, fotoperfil.getType());
-					Graphics2D g = resizedImage.createGraphics();
-					g.drawImage(fotoperfil, 0, 0, 150, 150, null);
-					g.dispose();
-					lblfoto.setIcon(new ImageIcon(resizedImage));
-					btncarregarfoto.setEnabled(false);
-					btncarregarfoto.setVisible(false);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btncarregarfoto.setBorder(null);
-		btncarregarfoto.setBounds(79, 296, 93, 20);
-		contentPanel.add(btncarregarfoto);
 	}
 
-	public void getProfessor(Professor professorLogado) throws IOException {
+	public void getProfessor(Professor professorLogado) throws IOException {		
 		textmatricula.setText(Integer.toString(professorLogado.getMatricula()));
 		textnome.setText(professorLogado.getNome());
 		texttelefone.setText(professorLogado.getTelefone());
-		textEmail.setText(professorLogado.getEmail());
+		textemail.setText(professorLogado.getEmail());
 		textCref.setText(professorLogado.getCref());
+		telefoneT = professorLogado.getTelefone();
+		emailT = professorLogado.getEmail();
 		Blob foto = professorLogado.getImage();
 		if (foto != null) {
 			try {
@@ -327,6 +342,8 @@ public class PerfilProfessor extends JDialog {
 			g.drawImage(image, 0, 0, 150, 150, null);
 			g.dispose();
 			lblfoto.setIcon(new ImageIcon(resizedImage));
+			imagemBlob = new javax.sql.rowset.serial.SerialBlob(foto);
+			imagemBlobnova = new javax.sql.rowset.serial.SerialBlob(foto);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

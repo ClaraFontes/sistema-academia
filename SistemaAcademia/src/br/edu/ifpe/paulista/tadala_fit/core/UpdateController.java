@@ -42,6 +42,6 @@ public class UpdateController {
 	}
 	public static Aluno updatePagamento(String date, int matricula)throws ClassNotFoundException, SQLException, Exception {
 		Repository repository = new MySQLRepository();
-		return repository.updatePagmento(date, matricula);
+		return repository.updatePagamento(date, matricula);
 	}
 }

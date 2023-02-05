@@ -20,7 +20,7 @@ import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
 
-	private static final String ROOT_SENHA = "123456";	
+	private static final String ROOT_SENHA = "@Clara123";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {
@@ -320,7 +320,7 @@ public class MySQLRepository implements Repository {
 		return null;
 	}
 
-	public Aluno updatePagmento(String data,int matricula) throws SQLException {
+	public Aluno updatePagamento(String data,int matricula) throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
