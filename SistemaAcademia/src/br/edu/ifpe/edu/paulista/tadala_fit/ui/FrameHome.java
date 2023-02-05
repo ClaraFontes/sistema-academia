@@ -124,10 +124,14 @@ public class FrameHome {
 		btnSair.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameLogin fl = new FrameLogin();
-				fl.framelogin.setVisible(true);
-				framehome.dispose();
-			}
+				if (JOptionPane.showConfirmDialog(null, "deseja sair?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+					FrameLogin fl = new FrameLogin();
+					fl.framelogin.setVisible(true);
+					framehome.dispose();
+				}else {
+	
+			  }
+		    }
 		});
 		btnSair.setBounds(43, 527, 176, 33);
 		panel.add(btnSair);
