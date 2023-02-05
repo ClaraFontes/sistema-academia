@@ -81,7 +81,6 @@ public class ConsultaAlunoPerfil extends JDialog {
 	 * @throws ParseException 
 	 */
 	public ConsultaAlunoPerfil(Integer matricula) throws ParseException {
-
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

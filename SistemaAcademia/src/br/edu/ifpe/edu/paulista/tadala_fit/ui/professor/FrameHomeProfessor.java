@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.ConsultaAluno;
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.FrameLogin;
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.FrameHomeAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
@@ -118,16 +120,32 @@ public class FrameHomeProfessor {
 		panel.add(btnMeuperfil);
 		
 		JButton btnAlunosSem = new JButton("Alunos sem professor");
+		btnAlunosSem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AlunosSemProfessor asp = new AlunosSemProfessor();
+				asp.getProfessor(professorAtual);
+				asp.setModal(true);
+				asp.setVisible(true);
+			}
+		});
 		btnAlunosSem.setFont(new Font("Arial", Font.BOLD, 13));
 		btnAlunosSem.setBackground(Color.WHITE);
 		btnAlunosSem.setBounds(45, 312, 176, 33);
 		panel.add(btnAlunosSem);
 		
-		JButton btnMeusaluno_1 = new JButton("Meus Alunos");
-		btnMeusaluno_1.setFont(new Font("Arial", Font.BOLD, 13));
-		btnMeusaluno_1.setBackground(Color.WHITE);
-		btnMeusaluno_1.setBounds(45, 247, 176, 33);
-		panel.add(btnMeusaluno_1);
+		JButton btnMeusalunos = new JButton("Meus Alunos");
+		btnMeusalunos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MeusAlunosProfessor map = new MeusAlunosProfessor();
+				map.getProfessor(professorAtual);
+				map.setModal(true);
+				map.setVisible(true);
+			}
+		});
+		btnMeusalunos.setFont(new Font("Arial", Font.BOLD, 13));
+		btnMeusalunos.setBackground(Color.WHITE);
+		btnMeusalunos.setBounds(45, 247, 176, 33);
+		panel.add(btnMeusalunos);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(FrameHomeProfessor.class.getResource("/assets_loginFrame/Logotipo_academia_personal_trainner__1_-removebg-preview.png")));
@@ -143,7 +161,6 @@ public class FrameHomeProfessor {
 	}
 
 	public void getProfessor(Professor professorLogado) {
-		// TODO Auto-generated method stub
 		professorAtual = professorLogado;
 		
 	}
