@@ -174,6 +174,7 @@ public class FrameLogin {
 		lblNewLabelI.setIcon(new ImageIcon(FrameLogin.class.getResource("/assets_loginFrame/Logotipo_academia_personal_trainner__1_-removebg-preview.png")));
 		lblNewLabelI.setBounds(255, 84, 500, 295);
 		framelogin.getContentPane().add(lblNewLabelI);
+		lblloginmensagem.setForeground(new Color(255, 255, 255));
 		lblloginmensagem.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JCheckBox chckbxAdm = new JCheckBox("ADMIN");
@@ -258,7 +259,7 @@ public class FrameLogin {
 
 		
 		lblloginmensagem.setHorizontalAlignment(SwingConstants.CENTER);
-		lblloginmensagem.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblloginmensagem.setFont(new Font("Arial", Font.BOLD, 16));
 		lblloginmensagem.setBounds(295, 619, 414, 22);
 		framelogin.getContentPane().add(lblloginmensagem);
 		
