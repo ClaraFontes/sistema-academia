@@ -199,7 +199,6 @@ public class TreinoAluno extends JDialog {
 					
 					chave = key;
 					
-					for (int v = 0; v < treino_a_JSON.getJSONArray(key).length(); v++) {
 						if (treino_a_JSON.getJSONArray(key).length() == 2) {
 							
 							valor1 = treino_a_JSON.getJSONArray(key).getString(0) + " ";
@@ -212,14 +211,14 @@ public class TreinoAluno extends JDialog {
 						} else if(treino_a_JSON.getJSONArray(key).length() == 0) {
 							lblSemTreino.setText("Você ainda não tem treino");
 						}else {
-							String value = treino_a_JSON.getJSONArray(key).getString(v);
+							String value = treino_a_JSON.getJSONArray(key).getString(0);
 							modelo.addRow(new Object []{
 									chave,
 									value,
 									" "
 								});
 						}					
-					}
+					
 				}
 				modelo.removeRow(modelo.getRowCount()-1);
 			
@@ -239,7 +238,6 @@ public class TreinoAluno extends JDialog {
 				
 				chave = key;
 				
-				for (int v = 0; v < treino_b_JSON.getJSONArray(key).length(); v++) {
 					if (treino_b_JSON.getJSONArray(key).length() == 2) {
 						
 						valor1 = treino_b_JSON.getJSONArray(key).getString(0) + " ";
@@ -252,11 +250,11 @@ public class TreinoAluno extends JDialog {
 							});
 					} else if(treino_b_JSON.getJSONArray(key).length() == 0) {
 						lblSemTreino.setText("Você ainda não tem treino");
-					}
+						}
 					else {
 						List<String> chavesadicionadas = new ArrayList<>();
 						String value = "";
-						value += treino_b_JSON.getJSONArray(key).getString(v) + " ";
+						value += treino_b_JSON.getJSONArray(key).getString(0) + " ";
 						if (!chavesadicionadas.contains(key)) {
 						      modelo.addRow(new Object []{
 						         chave,
@@ -267,10 +265,10 @@ public class TreinoAluno extends JDialog {
 						      modelo.addRow(new Object []{
 						         "",
 						         value,
-						      });	
+						     });	
 						   }
 					}
-				}
+				
 			}
 			//modelo.removeRow(modelo.getRowCount()-1);
 			
@@ -290,7 +288,6 @@ public class TreinoAluno extends JDialog {
 				
 				chave = key;
 				
-				for (int v = 0; v < treino_c_JSON.getJSONArray(key).length(); v++) {
 					if (treino_c_JSON.getJSONArray(key).length() == 2) {
 						
 						valor1 = treino_c_JSON.getJSONArray(key).getString(0) + " ";
@@ -304,14 +301,14 @@ public class TreinoAluno extends JDialog {
 						lblSemTreino.setText("Você ainda não tem treino");
 					}
 					else {
-						String value = treino_c_JSON.getJSONArray(key).getString(v);
+						String value = treino_c_JSON.getJSONArray(key).getString(0);
 						modelo.addRow(new Object []{
 								chave,
 								value,
 								" "
 							});
 					}				
-				}
+
 			}
 			//modelo.removeRow(modelo.getRowCount()-1);
 			
@@ -330,8 +327,7 @@ public class TreinoAluno extends JDialog {
 				String key = treino_d_JSON.names().getString(i);
 				
 				chave = key;
-				
-				for (int v = 0; v < treino_d_JSON.getJSONArray(key).length(); v++) {
+			
 					if (treino_d_JSON.getJSONArray(key).length() == 2) {
 						
 						valor1 = treino_d_JSON.getJSONArray(key).getString(0) + " ";
@@ -345,14 +341,13 @@ public class TreinoAluno extends JDialog {
 						lblSemTreino.setText("Você ainda não tem treino");
 					}
 					else {
-						String value = treino_d_JSON.getJSONArray(key).getString(v);
+						String value = treino_d_JSON.getJSONArray(key).getString(0);
 						modelo.addRow(new Object []{
 								chave,
 								value,
 								" "
 							});
 					}				
-				}
 			}
 			//modelo.removeRow(modelo.getRowCount()-1);
 			
@@ -372,7 +367,6 @@ public class TreinoAluno extends JDialog {
 				
 				chave = key;
 				
-				for (int v = 0; v < treino_e_JSON.getJSONArray(key).length(); v++) {
 					if (treino_e_JSON.getJSONArray(key).length() == 2) {
 						
 						valor1 = treino_e_JSON.getJSONArray(key).getString(0) + " ";
@@ -386,14 +380,13 @@ public class TreinoAluno extends JDialog {
 						lblSemTreino.setText("Você ainda não tem treino");
 					}
 					else {
-						String value = treino_e_JSON.getJSONArray(key).getString(v);
+						String value = treino_e_JSON.getJSONArray(key).getString(0);
 						modelo.addRow(new Object []{
 								chave,
 								value,
 								" "
 							});
 					}				
-				}
 			}
 			//modelo.removeRow(modelo.getRowCount()-1);
 			
