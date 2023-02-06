@@ -476,6 +476,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 					lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
 					try {
 						imagemBlobnova = new javax.sql.rowset.serial.SerialBlob(WebCam.imgemBlob());
+					}catch (NullPointerException e1) {
+						
 					} catch (SerialException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

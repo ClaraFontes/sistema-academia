@@ -1,31 +1,33 @@
-package br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno;
+package br.edu.ifpe.edu.paulista.tadala_fit.ui.professor;
 
-import java.awt.EventQueue;
-import javax.swing.JDialog;
-import java.awt.Toolkit;
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-
-import org.json.JSONObject;
-
-import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
-import javax.swing.JButton;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-public class TreinoAluno extends JDialog {
+import org.json.JSONObject;
+
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.TreinoAluno;
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+
+public class CadastroTreino extends JDialog {
 
 	/**
 	 * 
@@ -37,25 +39,25 @@ public class TreinoAluno extends JDialog {
 	private String valor1;
 	private String valor2;
 	private JTable table;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TreinoAluno dialog = new TreinoAluno();
-					dialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			Integer matricula = null;
+			CadastroTreino dialog = new CadastroTreino(matricula);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
 	/**
 	 * Create the dialog.
 	 */
-	public TreinoAluno() {
+	public CadastroTreino(Integer matricula) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -151,12 +153,6 @@ public class TreinoAluno extends JDialog {
 		});
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();		
 		scrollPane.setViewportView(table);
-		
-		JLabel lblNewLabel_3 = new JLabel("Bem vindo(a):");
-		lblNewLabel_3.setForeground(Color.WHITE);
-		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 13));
-		lblNewLabel_3.setBounds(189, 60, 95, 14);
-		panel.add(lblNewLabel_3);
 		
 		txtboasvindas = new JTextField();
 		txtboasvindas.setForeground(Color.WHITE);
@@ -388,8 +384,5 @@ public class TreinoAluno extends JDialog {
 		});
 
 	}
-		public void getAluno(Aluno alunoLogado) {
-			alunoAtual = alunoLogado;
-			txtboasvindas.setText(alunoLogado.getNome());
-		}
 }
+

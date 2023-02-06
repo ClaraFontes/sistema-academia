@@ -320,7 +320,6 @@ public class CadastroAluno extends JDialog {
 						imagemBlob = WebCam.imgemBlob();
 						lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
 					}catch (NullPointerException e1) {
-						System.out.print("Exceção tratada");
 					}
 					
 				}
