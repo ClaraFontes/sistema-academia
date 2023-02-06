@@ -20,7 +20,7 @@ import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
 
-	private static final String ROOT_SENHA = "123456";	
+	private static final String ROOT_SENHA = "Stormchadow123";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {

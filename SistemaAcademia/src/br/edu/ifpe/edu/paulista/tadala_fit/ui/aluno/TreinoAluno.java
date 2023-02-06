@@ -37,6 +37,7 @@ public class TreinoAluno extends JDialog {
 	private String valor1;
 	private String valor2;
 	private JTable table;
+	private ArrayList<ArrayList<String>> exercicios = new ArrayList<ArrayList<String>>();
 	/**
 	 * Launch the application.
 	 */
@@ -188,34 +189,64 @@ public class TreinoAluno extends JDialog {
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_a() != null) {
+				exercicios.clear();
 				JSONObject treino_a_JSON = alunoAtual.getTreino_a();
 				for (int i = 0; i < treino_a_JSON.names().length(); i++) {
 					
 					String key = treino_a_JSON.names().getString(i);
 					
-					chave = key;
+					Integer count = i + 1;
 					
-						if (treino_a_JSON.getJSONArray(key).length() == 2) {
+					
+					if (key.equals(count.toString())) {
+						if (treino_a_JSON.getJSONArray(key).length() == 3) {
 							
 							valor1 = treino_a_JSON.getJSONArray(key).getString(0) + " ";
 							valor2 = treino_a_JSON.getJSONArray(key).getString(1) + " ";
-							modelo.addRow(new Object []{
-									chave,
-									valor1,
-									valor2
-								});
+							valor3 = treino_a_JSON.getJSONArray(key).getString(2) + " ";
+							
+							
+							exercicios.add(new ArrayList<String>() {{
+				                add(valor1);
+				                add(valor2);
+				                add(valor3);
+				                
+				            }});
+							
+							
 						} else if(treino_a_JSON.getJSONArray(key).length() == 0) {
 							lblSemTreino.setText("Você ainda não tem treino");
-						}else {
-							String value = treino_a_JSON.getJSONArray(key).getString(0);
-							modelo.addRow(new Object []{
-									chave,
-									value,
-									" "
-								});
-						}					
-					
+					} else if(treino_a_JSON.getJSONArray(key).length() == 2) {
+						valor1 = treino_a_JSON.getJSONArray(key).getString(0) + " ";
+						valor2 = treino_a_JSON.getJSONArray(key).getString(1) + " ";
+						valor3 = " ";
+						exercicios.add(new ArrayList<String>() {{
+			                add(valor1);
+			                add(valor2);
+			                add(valor3);
+			                
+			            }});
+						
+					}
 				}
+			}
+			
+			for (int c = 0; c < exercicios.size(); c++) {
+				
+				ArrayList<String> treinoAtual = exercicios.get(c);
+				
+				modelo.addRow(new Object []{
+						treinoAtual.get(0),
+						treinoAtual.get(1),
+						treinoAtual.get(2)
+					});	
+			}
+					
+					
+						
+				
+				
+				//modelo.removeRow(modelo.getRowCount()-1);
 			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino A");
@@ -226,165 +257,272 @@ public class TreinoAluno extends JDialog {
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_b() != null) {
+				exercicios.clear();
 				JSONObject treino_b_JSON = alunoAtual.getTreino_b();
-			for (int i = 0; i < treino_b_JSON.names().length(); i++) {
-				
-				String key = treino_b_JSON.names().getString(i);
-				
-				chave = key;
-				
-					if (treino_b_JSON.getJSONArray(key).length() == 2) {
-						
+				for (int i = 0; i < treino_b_JSON.names().length(); i++) {
+					
+					String key = treino_b_JSON.names().getString(i);
+					
+					Integer count = i + 1;
+					
+					
+					if (key.equals(count.toString())) {
+						if (treino_b_JSON.getJSONArray(key).length() == 3) {
+							
+							valor1 = treino_b_JSON.getJSONArray(key).getString(0) + " ";
+							valor2 = treino_b_JSON.getJSONArray(key).getString(1) + " ";
+							valor3 = treino_b_JSON.getJSONArray(key).getString(2) + " ";
+							
+							
+							exercicios.add(new ArrayList<String>() {{
+				                add(valor1);
+				                add(valor2);
+				                add(valor3);
+				                
+				            }});
+							
+							
+						} else if(treino_b_JSON.getJSONArray(key).length() == 0) {
+							lblSemTreino.setText("Você ainda não tem treino");
+					} else if(treino_b_JSON.getJSONArray(key).length() == 2) {
 						valor1 = treino_b_JSON.getJSONArray(key).getString(0) + " ";
 						valor2 = treino_b_JSON.getJSONArray(key).getString(1) + " ";
-			
-						modelo.addRow(new Object []{
-								chave,
-								valor1,
-								valor2,
-							});
-					} else if(treino_b_JSON.getJSONArray(key).length() == 0) {
-						lblSemTreino.setText("Você ainda não tem treino");
-						}
-					else {
-						List<String> chavesadicionadas = new ArrayList<>();
-						String value = "";
-						value += treino_b_JSON.getJSONArray(key).getString(0) + " ";
-						if (!chavesadicionadas.contains(key)) {
-						      modelo.addRow(new Object []{
-						         chave,
-						         value,
-						      });
-						      chavesadicionadas.add(key);
-						   } else {
-						      modelo.addRow(new Object []{
-						         "",
-						         value,
-						     });	
-						   }
+						valor3 = " ";
+						exercicios.add(new ArrayList<String>() {{
+			                add(valor1);
+			                add(valor2);
+			                add(valor3);
+			                
+			            }});
+						
 					}
-				
+				}
 			}
+			
+			for (int c = 0; c < exercicios.size(); c++) {
+				
+				ArrayList<String> treinoAtual = exercicios.get(c);
+				
+				modelo.addRow(new Object []{
+						treinoAtual.get(0),
+						treinoAtual.get(1),
+						treinoAtual.get(2)
+					});	
+			}
+					
+					
+						
+				
+				
+				//modelo.removeRow(modelo.getRowCount()-1);
 			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino B");
-			}			
+			}				
 		});
 		
 		btnC.addActionListener(e -> {
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_c() != null) {
+				exercicios.clear();
 				JSONObject treino_c_JSON = alunoAtual.getTreino_c();
-			for (int i = 0; i < treino_c_JSON.names().length(); i++) {
-				
-				String key = treino_c_JSON.names().getString(i);
-				
-				chave = key;
-				
-					if (treino_c_JSON.getJSONArray(key).length() == 2) {
-						
+				for (int i = 0; i < treino_c_JSON.names().length(); i++) {
+					
+					String key = treino_c_JSON.names().getString(i);
+					
+					Integer count = i + 1;
+					
+					
+					if (key.equals(count.toString())) {
+						if (treino_c_JSON.getJSONArray(key).length() == 3) {
+							
+							valor1 = treino_c_JSON.getJSONArray(key).getString(0) + " ";
+							valor2 = treino_c_JSON.getJSONArray(key).getString(1) + " ";
+							valor3 = treino_c_JSON.getJSONArray(key).getString(2) + " ";
+							
+							
+							exercicios.add(new ArrayList<String>() {{
+				                add(valor1);
+				                add(valor2);
+				                add(valor3);
+				                
+				            }});
+							
+							
+						} else if(treino_c_JSON.getJSONArray(key).length() == 0) {
+							lblSemTreino.setText("Você ainda não tem treino");
+					} else if(treino_c_JSON.getJSONArray(key).length() == 2) {
 						valor1 = treino_c_JSON.getJSONArray(key).getString(0) + " ";
 						valor2 = treino_c_JSON.getJSONArray(key).getString(1) + " ";
-						modelo.addRow(new Object []{
-								chave,
-								valor1,
-								valor2
-							});
-					} else if(treino_c_JSON.getJSONArray(key).length() == 0) {
-						lblSemTreino.setText("Você ainda não tem treino");
+						valor3 = " ";
+						exercicios.add(new ArrayList<String>() {{
+			                add(valor1);
+			                add(valor2);
+			                add(valor3);
+			                
+			            }});
+						
 					}
-					else {
-						String value = treino_c_JSON.getJSONArray(key).getString(0);
-						modelo.addRow(new Object []{
-								chave,
-								value,
-								" "
-							});
-					}				
-
+				}
 			}
+			
+			for (int c = 0; c < exercicios.size(); c++) {
+				
+				ArrayList<String> treinoAtual = exercicios.get(c);
+				
+				modelo.addRow(new Object []{
+						treinoAtual.get(0),
+						treinoAtual.get(1),
+						treinoAtual.get(2)
+					});	
+			}
+					
+					
+						
+				
+				
+				//modelo.removeRow(modelo.getRowCount()-1);
 			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino C");
-			}			
+			}				
 		});
 		
 		btnD.addActionListener(e -> {
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_d() != null) {
+				exercicios.clear();
 				JSONObject treino_d_JSON = alunoAtual.getTreino_d();
-			for (int i = 0; i < treino_d_JSON.names().length(); i++) {
-				
-				String key = treino_d_JSON.names().getString(i);
-				
-				chave = key;
-			
-					if (treino_d_JSON.getJSONArray(key).length() == 2) {
-						
+				for (int i = 0; i < treino_d_JSON.names().length(); i++) {
+					
+					String key = treino_d_JSON.names().getString(i);
+					
+					Integer count = i + 1;
+					
+					
+					if (key.equals(count.toString())) {
+						if (treino_d_JSON.getJSONArray(key).length() == 3) {
+							
+							valor1 = treino_d_JSON.getJSONArray(key).getString(0) + " ";
+							valor2 = treino_d_JSON.getJSONArray(key).getString(1) + " ";
+							valor3 = treino_d_JSON.getJSONArray(key).getString(2) + " ";
+							
+							
+							exercicios.add(new ArrayList<String>() {{
+				                add(valor1);
+				                add(valor2);
+				                add(valor3);
+				                
+				            }});
+							
+							
+						} else if(treino_d_JSON.getJSONArray(key).length() == 0) {
+							lblSemTreino.setText("Você ainda não tem treino");
+					} else if(treino_d_JSON.getJSONArray(key).length() == 2) {
 						valor1 = treino_d_JSON.getJSONArray(key).getString(0) + " ";
 						valor2 = treino_d_JSON.getJSONArray(key).getString(1) + " ";
-						modelo.addRow(new Object []{
-								chave,
-								valor1,
-								valor2
-							});
-					} else if(treino_d_JSON.getJSONArray(key).length() == 0) {
-						lblSemTreino.setText("Você ainda não tem treino");
+						valor3 = " ";
+						exercicios.add(new ArrayList<String>() {{
+			                add(valor1);
+			                add(valor2);
+			                add(valor3);
+			                
+			            }});
+						
 					}
-					else {
-						String value = treino_d_JSON.getJSONArray(key).getString(0);
-						modelo.addRow(new Object []{
-								chave,
-								value,
-								" "
-							});
-					}				
+				}
 			}
-			//modelo.removeRow(modelo.getRowCount()-1);
+			
+			for (int c = 0; c < exercicios.size(); c++) {
+				
+				ArrayList<String> treinoAtual = exercicios.get(c);
+				
+				modelo.addRow(new Object []{
+						treinoAtual.get(0),
+						treinoAtual.get(1),
+						treinoAtual.get(2)
+					});	
+			}
+					
+					
+						
+				
+				
+				//modelo.removeRow(modelo.getRowCount()-1);
 			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino D");
-			}			
+			}				
 		});
 		
 		btnE.addActionListener(e -> {
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_e() != null) {
+				exercicios.clear();
 				JSONObject treino_e_JSON = alunoAtual.getTreino_e();
-			for (int i = 0; i < treino_e_JSON.names().length(); i++) {
-				
-				String key = treino_e_JSON.names().getString(i);
-				
-				chave = key;
-				
-					if (treino_e_JSON.getJSONArray(key).length() == 2) {
-						
+				for (int i = 0; i < treino_e_JSON.names().length(); i++) {
+					
+					String key = treino_e_JSON.names().getString(i);
+					
+					Integer count = i + 1;
+					
+					
+					if (key.equals(count.toString())) {
+						if (treino_e_JSON.getJSONArray(key).length() == 3) {
+							
+							valor1 = treino_e_JSON.getJSONArray(key).getString(0) + " ";
+							valor2 = treino_e_JSON.getJSONArray(key).getString(1) + " ";
+							valor3 = treino_e_JSON.getJSONArray(key).getString(2) + " ";
+							
+							
+							exercicios.add(new ArrayList<String>() {{
+				                add(valor1);
+				                add(valor2);
+				                add(valor3);
+				                
+				            }});
+							
+							
+						} else if(treino_e_JSON.getJSONArray(key).length() == 0) {
+							lblSemTreino.setText("Você ainda não tem treino");
+					} else if(treino_e_JSON.getJSONArray(key).length() == 2) {
 						valor1 = treino_e_JSON.getJSONArray(key).getString(0) + " ";
 						valor2 = treino_e_JSON.getJSONArray(key).getString(1) + " ";
-						modelo.addRow(new Object []{
-								chave,
-								valor1,
-								valor2
-							});
-					} else if(treino_e_JSON.getJSONArray(key).length() == 0) {
-						lblSemTreino.setText("Você ainda não tem treino");
+						valor3 = " ";
+						exercicios.add(new ArrayList<String>() {{
+			                add(valor1);
+			                add(valor2);
+			                add(valor3);
+			                
+			            }});
+						
 					}
-					else {
-						String value = treino_e_JSON.getJSONArray(key).getString(0);
-						modelo.addRow(new Object []{
-								chave,
-								value,
-								" "
-							});
-					}				
+				}
 			}
+			
+			for (int c = 0; c < exercicios.size(); c++) {
+				
+				ArrayList<String> treinoAtual = exercicios.get(c);
+				
+				modelo.addRow(new Object []{
+						treinoAtual.get(0),
+						treinoAtual.get(1),
+						treinoAtual.get(2)
+					});	
+			}
+					
+					
+						
+				
+				
+				//modelo.removeRow(modelo.getRowCount()-1);
 			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino E");
-			}			
+			}				
 		});
 
 	}
