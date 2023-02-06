@@ -204,18 +204,22 @@ public class AlunosSemProfessor extends JDialog {
 					if (modelo.getRowCount() != 0) {
 						modelo.setRowCount(0);
 					}
-					int matriculaProf = professorAtual.getMatricula();
-					aluno = ReadController.getAlunosWithoutProf(matriculaProf);
-					for(Aluno a: aluno) {
-						modelo.addRow(new Object[]{
-								a.getMatricula(),
-								a.getNome(),
-								a.getPeso(),
-								a.getAltura(),
-								a.getBf(),
-								a.getComorbidade()
-						});
-					}	
+					
+					aluno = ReadController.getAlunosWithoutProf();
+					if (aluno != null) {
+	                    for(Aluno a: aluno) {
+	                        modelo.addRow(new Object[]{
+	                                a.getMatricula(),
+	                                a.getNome(),
+	                                a.getPeso(),
+	                                a.getAltura(),
+	                                a.getBf(),
+	                                a.getComorbidade()
+	                        });
+	                    }
+	                    }else {
+	                        JOptionPane.showMessageDialog(null,"Não existe nenhum aluno cadastrado");
+	                    }	
 				} catch (ClassNotFoundException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();

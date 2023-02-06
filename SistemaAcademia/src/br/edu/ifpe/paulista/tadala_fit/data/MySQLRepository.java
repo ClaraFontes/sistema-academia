@@ -336,13 +336,13 @@ public class MySQLRepository implements Repository {
 		return null;
 	}
 	
-	public ArrayList<Aluno> getAlunosWithoutProf(int matriculaProf) throws SQLException {
+	public ArrayList<Aluno> getAlunosWithoutProf() throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			String  sql = ("SELECT * FROM aluno a WHERE matricula_prof_encarregado != ?");
+			String  sql = ("SELECT * FROM aluno a WHERE matricula_prof_encarregado IS NULL");
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setInt(1, matriculaProf);
+			//statement.setNull(1, java.sql.Types.INTEGER);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				 ArrayList<Aluno> alunosWithoutProf = new ArrayList<Aluno>();
