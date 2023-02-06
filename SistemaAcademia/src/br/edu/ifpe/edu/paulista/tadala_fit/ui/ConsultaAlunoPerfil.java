@@ -332,6 +332,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 					*/
 					if(telefone.equals(telefoneT) && email.equals(emailT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT)&& imagemBlob.equals(imagemBlobnova)){
 						JOptionPane.showMessageDialog(null,"Mude pelo menos um dado para realizar o update");
+						btneditar.setVisible(true);
+						btneditar.setEnabled(true);
 					}else {
 						UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova);
 						btneditar.setVisible(true);

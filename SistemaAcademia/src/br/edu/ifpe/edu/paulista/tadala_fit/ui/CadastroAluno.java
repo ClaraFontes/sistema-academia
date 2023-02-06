@@ -236,9 +236,10 @@ public class CadastroAluno extends JDialog {
 					String passwordstrip = password.strip();
 					EmailValidator emailvalidator = EmailValidator.getInstance();
 					DateValidator datevalidator = DateValidator.getInstance();
+					datevalidator.compareYears(null, null, null);
 					if (!emailvalidator.isValid(email)) {
 							JOptionPane.showMessageDialog(null,"Email inválido");
-					}else if(!datevalidator.isValid(data)) {
+					}else if(!datevalidator.isValid(data)){
 							JOptionPane.showMessageDialog(null,"Data inválida");
 					}
 					if(emailvalidator.isValid(email) && datevalidator.isValid(data)) {

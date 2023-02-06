@@ -204,7 +204,7 @@ public class AlunosSemProfessor extends JDialog {
 					if (modelo.getRowCount() != 0) {
 						modelo.setRowCount(0);
 					}
-					int matriculaProf = professorAtual.getMatricula();
+					Integer matriculaProf = professorAtual.getMatricula();
 					aluno = ReadController.getAlunosWithoutProf(matriculaProf);
 					for(Aluno a: aluno) {
 						modelo.addRow(new Object[]{

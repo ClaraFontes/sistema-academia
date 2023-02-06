@@ -17,6 +17,9 @@ import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import javax.swing.JButton;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,6 +36,10 @@ public class TreinoAluno extends JDialog {
 	private String chave;
 	private String valor1;
 	private String valor2;
+	private String valor3;
+	private String valor4;
+	private String valor5;
+	private String valor6;
 	private JTable table;
 	/**
 	 * Launch the application.
@@ -237,22 +244,32 @@ public class TreinoAluno extends JDialog {
 						
 						valor1 = treino_b_JSON.getJSONArray(key).getString(0) + " ";
 						valor2 = treino_b_JSON.getJSONArray(key).getString(1) + " ";
+			
 						modelo.addRow(new Object []{
 								chave,
 								valor1,
-								valor2
+								valor2,
 							});
 					} else if(treino_b_JSON.getJSONArray(key).length() == 0) {
 						lblSemTreino.setText("Você ainda não tem treino");
 					}
 					else {
-						String value = treino_b_JSON.getJSONArray(key).getString(v);
-						modelo.addRow(new Object []{
-								chave,
-								value,
-								" "
-							});
-					}				
+						List<String> chavesadicionadas = new ArrayList<>();
+						String value = "";
+						value += treino_b_JSON.getJSONArray(key).getString(v) + " ";
+						if (!chavesadicionadas.contains(key)) {
+						      modelo.addRow(new Object []{
+						         chave,
+						         value,
+						      });
+						      chavesadicionadas.add(key);
+						   } else {
+						      modelo.addRow(new Object []{
+						         "",
+						         value,
+						      });	
+						   }
+					}
 				}
 			}
 			//modelo.removeRow(modelo.getRowCount()-1);

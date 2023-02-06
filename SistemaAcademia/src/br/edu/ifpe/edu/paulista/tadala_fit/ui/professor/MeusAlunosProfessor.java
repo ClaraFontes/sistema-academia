@@ -184,16 +184,20 @@ public class MeusAlunosProfessor extends JDialog {
 					}
 					int matriculaProf = professorAtual.getMatricula();
 					aluno = ReadController.getMyAlunos(matriculaProf);
-					for(Aluno a: aluno) {
-						modelo.addRow(new Object[]{
-								a.getMatricula(),
-								a.getNome(),
-								a.getPeso(),
-								a.getAltura(),
-								a.getBf(),
-								a.getComorbidade()
-						});
-					}	
+					if (aluno != null) {
+						for(Aluno a: aluno) {
+							modelo.addRow(new Object[]{
+									a.getMatricula(),
+									a.getNome(),
+									a.getPeso(),
+									a.getAltura(),
+									a.getBf(),
+									a.getComorbidade()
+							});
+						}	
+					}else {
+						JOptionPane.showMessageDialog(null,"Você não possui nenhum aluno");
+					}
 				} catch (ClassNotFoundException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
