@@ -265,6 +265,9 @@ public class ConsultaAluno extends JDialog {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				ArrayList<Aluno> aluno;
 				try {
+					if (modelo.getRowCount() != 0) {
+						modelo.setRowCount(0);
+					}
 					aluno = ReadController.getAllAlunos();
 					for(Aluno a: aluno) {
 						modelo.addRow(new Object[]{

@@ -5,14 +5,20 @@ import java.awt.FlowLayout;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -23,9 +29,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import br.edu.ifpe.edu.paulista.tadala_fit.ui.ConsultaAlunoPerfil;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import br.edu.ifpe.paulista.tadala_fit.core.ReadController;
+import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
 
 public class AlunosSemProfessor extends JDialog {
 
@@ -36,8 +44,16 @@ public class AlunosSemProfessor extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private JTable table;
+	private Object matricula;
 	protected Professor professorAtual;
+	private JButton btnVerPerfil;
+	private JButton btnAssumir;
+	
 
+	public Object getMatricula() {
+		return matricula;
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -88,19 +104,8 @@ public class AlunosSemProfessor extends JDialog {
 		logo.setBounds(736, 96, 200, 139);
 		contentPanel.add(logo);
 		
-		JButton btnVerPerfil = new JButton("Ver Perfil");
-		btnVerPerfil.setFont(new Font("Arial", Font.BOLD, 13));
-		btnVerPerfil.setEnabled(false);
-		btnVerPerfil.setBackground(Color.WHITE);
-		btnVerPerfil.setBounds(750, 380, 174, 36);
-		contentPanel.add(btnVerPerfil);
 		
-		JButton btnAssumir = new JButton("Assumir Aluno");
-		btnAssumir.setFont(new Font("Arial", Font.BOLD, 13));
-		btnAssumir.setEnabled(false);
-		btnAssumir.setBackground(Color.WHITE);
-		btnAssumir.setBounds(750, 456, 174, 36);
-		contentPanel.add(btnAssumir);
+		
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(77, 105, 592, 575);
@@ -111,24 +116,99 @@ public class AlunosSemProfessor extends JDialog {
 			new Object[][] {
 			},
 			new String[] {
-				"Nome", "Peso", "Altura", "BF", "Comorbidade"
+					"Matr\u00EDcula", "Nome", "Peso", "Altura", "BF", "Comorbidade"
 			}
 		));
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) {
+		            int linha = table.getSelectedRow();
+		            if (linha >= 0) {
+		                DefaultTableModel model = (DefaultTableModel) table.getModel();
+		                int coluna= 0; 
+		                matricula = model.getValueAt(linha, coluna);
+		                System.out.print(matricula+"\n");
+		            }
+		        }
+		    }
+		});
+		table.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				btnVerPerfil.setEnabled(true);
+				btnAssumir.setEnabled(true);
+			}
+		});
 		scrollPane.setViewportView(table);
+		
+		btnVerPerfil = new JButton("Ver Perfil");
+		btnVerPerfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer matriculafiltered = (Integer) matricula;
+				Integer matricula = matriculafiltered.intValue();
+				ConsultaAlunoPerfil cap;
+				try {
+					cap = new ConsultaAlunoPerfil(matricula);
+					cap.setModal(true);
+					cap.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnVerPerfil.setFont(new Font("Arial", Font.BOLD, 13));
+		btnVerPerfil.setEnabled(false);
+		btnVerPerfil.setBackground(Color.WHITE);
+		btnVerPerfil.setBounds(751, 389, 174, 36);
+		contentPanel.add(btnVerPerfil);
+		
+		btnAssumir = new JButton("Assumir Aluno");
+		btnAssumir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer matriculafiltered = (Integer) matricula;
+				Integer matricula = matriculafiltered.intValue();
+				Integer matriculaProf = professorAtual.getMatricula();
+				try {
+					UpdateController.assumeAluno(matriculaProf, matricula);
+				} catch (RuntimeException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnAssumir.setFont(new Font("Arial", Font.BOLD, 13));
+		btnAssumir.setEnabled(false);
+		btnAssumir.setBackground(Color.WHITE);
+		btnAssumir.setBounds(750, 456, 174, 36);
+		contentPanel.add(btnAssumir);
 		
 		JButton btnconsultar = new JButton("Consultar Alunos");
 		
-		//tá retornando os alunos do professor e não aqueles que não tem professor
 		
-		/*btnconsultar.addActionListener(new ActionListener() {
+		btnconsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Aluno> aluno;
 				try {
+					if (modelo.getRowCount() != 0) {
+						modelo.setRowCount(0);
+					}
 					int matriculaProf = professorAtual.getMatricula();
 					aluno = ReadController.getAlunosWithoutProf(matriculaProf);
 					for(Aluno a: aluno) {
 						modelo.addRow(new Object[]{
+								a.getMatricula(),
 								a.getNome(),
 								a.getPeso(),
 								a.getAltura(),
@@ -144,7 +224,7 @@ public class AlunosSemProfessor extends JDialog {
 					e2.printStackTrace();
 				}		
 			}
-		});*/
+		});
 		
 		btnconsultar.setFont(new Font("Arial", Font.BOLD, 13));
 		btnconsultar.setBackground(Color.WHITE);

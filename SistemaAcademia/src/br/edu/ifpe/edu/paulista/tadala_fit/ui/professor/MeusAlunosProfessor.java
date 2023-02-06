@@ -179,6 +179,9 @@ public class MeusAlunosProfessor extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Aluno> aluno;
 				try {
+					if (modelo.getRowCount() != 0) {
+						modelo.setRowCount(0);
+					}
 					int matriculaProf = professorAtual.getMatricula();
 					aluno = ReadController.getMyAlunos(matriculaProf);
 					for(Aluno a: aluno) {

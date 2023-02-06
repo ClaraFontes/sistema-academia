@@ -26,4 +26,5 @@ public interface Repository {
 		public Aluno updatePagamento(String data, int matricula) throws SQLException;
 		public ArrayList<Aluno> getAlunosWithoutProf(int matriculaProf) throws SQLException;
 		public ArrayList<Aluno> getMyAlunos(int matriculaProf) throws SQLException;
+		public Aluno assumeAluno(int matriculaProf, int matriculaAluno) throws SQLException;
 }

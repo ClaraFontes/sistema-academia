@@ -129,6 +129,9 @@ public class ConsultaProfessor extends JDialog {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				ArrayList<Professor> professor;
 				try {
+					if (modelo.getRowCount() != 0) {
+						modelo.setRowCount(0);
+					}
 					professor = ReadController.getAllProfessor();
 					for(Professor p: professor) {				
 						modelo.addRow(new Object[]{

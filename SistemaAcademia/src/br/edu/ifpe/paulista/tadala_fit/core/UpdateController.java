@@ -44,4 +44,21 @@ public class UpdateController {
 		Repository repository = new MySQLRepository();
 		return repository.updatePagamento(date, matricula);
 	}
+	
+	public static Aluno assumeAluno(Integer matriculaProf, Integer matriculaAluno) throws ClassNotFoundException, SQLException, Exception {
+		if( matriculaProf.toString().isBlank() || matriculaProf.toString().isBlank()) {
+			throw new RuntimeException("Preencha todos os campos");
+		}
+		
+		else if(matriculaProf.toString().matches("^[a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü]*$") || matriculaAluno.toString().matches("^[a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü]*$")) {
+			throw new Exception("Preencha os campos corretamente");
+		}
+		
+		else if( matriculaProf.toString().isEmpty() || matriculaAluno.toString().isEmpty()) {
+			throw new RuntimeException("Preencha todos os campos");
+		}
+		
+		Repository repository = new MySQLRepository();
+		return repository.assumeAluno(matriculaProf, matriculaAluno);
+	}
 }

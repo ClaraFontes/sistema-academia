@@ -35,7 +35,7 @@ public class ReadController {
 	
 	public static ArrayList<Aluno> getAlunosWithoutProf(int matriculaProf) throws ClassNotFoundException, SQLException {
 		Repository repository = new MySQLRepository();
-		return repository.getMyAlunos(matriculaProf);
+		return repository.getAlunosWithoutProf(matriculaProf);
 	}
 	
 }
