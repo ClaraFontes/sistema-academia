@@ -16,7 +16,7 @@ public interface Repository {
 		public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade, Blob image) throws SQLException;
 		public Professor cadastroProfessor(String user, String password, String nome, String telefone, String email, String cref, Blob image) throws SQLException;
 		public ArrayList<Aluno> getAllAluno() throws SQLException;
-		public Aluno getAlunoFiltered(Integer pesquisa) throws SQLException;
+		public Aluno getAlunoFiltered(Integer pesquisa, String nome) throws SQLException;
 		public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob image) throws SQLException;
 		public ArrayList<Professor> getAllProfessor() throws SQLException;
 		public Professor getProfessorFiltered(Integer pesquisa) throws SQLException;

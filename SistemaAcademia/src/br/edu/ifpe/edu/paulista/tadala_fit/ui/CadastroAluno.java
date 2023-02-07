@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -236,7 +237,7 @@ public class CadastroAluno extends JDialog {
 					String passwordstrip = password.strip();
 					EmailValidator emailvalidator = EmailValidator.getInstance();
 					DateValidator datevalidator = DateValidator.getInstance();
-					datevalidator.compareYears(null, null, null);
+
 					if (!emailvalidator.isValid(email)) {
 							JOptionPane.showMessageDialog(null,"Email inválido");
 					}else if(!datevalidator.isValid(data)){
@@ -257,6 +258,8 @@ public class CadastroAluno extends JDialog {
 					
 				} catch (RuntimeException e2) {
 					e2.getMessage();
+					e2.printStackTrace();
+					System.out.print("oque deu?");
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
 			
 				} catch (SQLException e3) {
@@ -331,7 +334,7 @@ public class CadastroAluno extends JDialog {
 		
 		
 		MaskFormatter mascaraNome = new MaskFormatter("********************************************************");
-		mascaraNome.setValidCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopsrtuvwxyz ");
+		mascaraNome.setValidCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdqefghijklmnopsrtuvwxyz ");
 		txtnome = new JFormattedTextField(mascaraNome);
 		txtnome.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtnome.setBounds(333, 86, 542, 21);
@@ -373,7 +376,8 @@ public class CadastroAluno extends JDialog {
 		txtcomorbidade.setBounds(333, 230, 209, 21);
 		panel.add(txtcomorbidade);
 		
-		MaskFormatter mascaraSexo = new MaskFormatter("?????????");
+		MaskFormatter mascaraSexo = new MaskFormatter("**********************");
+		mascaraSexo.setValidCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopsrtuvwxyz ");
 		txtsexo = new JFormattedTextField(mascaraSexo);
 		txtsexo.setBounds(333, 281, 209, 21);
 		panel.add(txtsexo);

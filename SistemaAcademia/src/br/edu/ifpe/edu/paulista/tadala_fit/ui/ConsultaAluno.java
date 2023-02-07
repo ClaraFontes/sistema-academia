@@ -41,9 +41,10 @@ public class ConsultaAluno extends JDialog {
 	private static final long serialVersionUID = 1L;
 	//private final JPanel contentPanel = new JPanel();
 	public JTable table;
-	private JTextField Pesquisar;
+	private JTextField pesquisar;
 	protected Aluno alunoatual;
 	private Object matricula;
+	private String nome;
 
 	public Object getMatricula() {
 		return matricula;
@@ -123,7 +124,7 @@ public class ConsultaAluno extends JDialog {
 				Integer matricula = matriculafiltered.intValue();
 				ConsultaAlunoPerfil cap;
 				try {
-					cap = new ConsultaAlunoPerfil(matricula);
+					cap = new ConsultaAlunoPerfil(matricula,nome);
 					cap.setModal(true);
 					cap.setVisible(true);
 				} catch (ParseException e1) {
@@ -162,7 +163,8 @@ public class ConsultaAluno extends JDialog {
 		                DefaultTableModel model = (DefaultTableModel) table.getModel();
 		                int coluna= 0; 
 		                matricula = model.getValueAt(linha, coluna);
-		                //System.out.print(matricula+"\n");
+		                int coluna1 = 1;
+		                nome = (String) model.getValueAt(linha,coluna1);
 		            }
 		        }
 		    }
@@ -207,11 +209,11 @@ public class ConsultaAluno extends JDialog {
 		logo.setBounds(752, 82, 200, 139);
 		panel.add(logo);
 		
-		Pesquisar = new JTextField();		
-		Pesquisar.setFont(new Font("Arial", Font.PLAIN, 13));
-		Pesquisar.setColumns(10);
-		Pesquisar.setBounds(78, 62, 440, 26);
-		panel.add(Pesquisar);
+		pesquisar = new JTextField();		
+		pesquisar.setFont(new Font("Arial", Font.PLAIN, 13));
+		pesquisar.setColumns(10);
+		pesquisar.setBounds(78, 62, 440, 26);
+		panel.add(pesquisar);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setFont(new Font("Arial", Font.BOLD, 13));
@@ -220,7 +222,27 @@ public class ConsultaAluno extends JDialog {
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Integer pesquisa = Integer.parseInt(Pesquisar.getText());
+					Integer pesquisa = Integer.parseInt(pesquisar.getText());
+					String nome = "whatever";
+						table.setModel(new DefaultTableModel(
+								new Object[][] {
+								},
+								new String[] {
+									"Id", "Nome", "Telefone", "Status"
+								}
+							));
+						DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+						Aluno pesquisaAluno = ReadController.getAlunoFiltered(pesquisa,nome);
+							modelo.addRow(new Object[]{
+									pesquisaAluno.getMatricula(),
+									pesquisaAluno.getNome(),
+									pesquisaAluno.getTelefone(),
+									pesquisaAluno.getQtdDiasUltimoPagamento() > 30 ? "Inadinplente" : "Pago"
+							});
+						
+				} catch (NumberFormatException e5) {
+					Integer pesquisa = 0;
+					String nome = pesquisar.getText();
 					table.setModel(new DefaultTableModel(
 							new Object[][] {
 							},
@@ -229,25 +251,32 @@ public class ConsultaAluno extends JDialog {
 							}
 						));
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-					Aluno pesquisaAluno = ReadController.getAlunoFiltered(pesquisa);
+					Aluno pesquisaAluno;
+					try {
+						pesquisaAluno = ReadController.getAlunoFiltered(pesquisa,nome);
 						modelo.addRow(new Object[]{
 								pesquisaAluno.getMatricula(),
 								pesquisaAluno.getNome(),
 								pesquisaAluno.getTelefone(),
 								pesquisaAluno.getQtdDiasUltimoPagamento() > 30 ? "Inadinplente" : "Pago"
-						});	
-						
-				} catch (NumberFormatException e5) {
-					JOptionPane.showMessageDialog(null,"Insira uma matrícula válida pra realizar a pesquisa!");
+						});
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (NullPointerException e1) {
+			          
+			        }
+				} catch (NullPointerException e1) {
+			        
+	
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (RuntimeException e1) {
 					JOptionPane.showMessageDialog(null,"preencha o campo!");
-				}
+			   }
 			}
 		});
 		panel.add(btnPesquisar);

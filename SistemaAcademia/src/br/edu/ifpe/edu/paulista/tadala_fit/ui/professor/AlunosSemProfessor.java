@@ -45,6 +45,7 @@ public class AlunosSemProfessor extends JDialog {
 	private JTextField textField;
 	private JTable table;
 	private Object matricula;
+	private String nome;
 	protected Professor professorAtual;
 	private JButton btnVerPerfil;
 	private JButton btnAssumir;
@@ -129,7 +130,8 @@ public class AlunosSemProfessor extends JDialog {
 		                DefaultTableModel model = (DefaultTableModel) table.getModel();
 		                int coluna= 0; 
 		                matricula = model.getValueAt(linha, coluna);
-		                System.out.print(matricula+"\n");
+		                int coluna1 = 1;
+		                nome = (String) model.getValueAt(linha,coluna1);
 		            }
 		        }
 		    }
@@ -150,7 +152,7 @@ public class AlunosSemProfessor extends JDialog {
 				Integer matricula = matriculafiltered.intValue();
 				ConsultaAlunoPerfil cap;
 				try {
-					cap = new ConsultaAlunoPerfil(matricula);
+					cap = new ConsultaAlunoPerfil(matricula,nome);
 					cap.setModal(true);
 					cap.setVisible(true);
 				} catch (ParseException e1) {

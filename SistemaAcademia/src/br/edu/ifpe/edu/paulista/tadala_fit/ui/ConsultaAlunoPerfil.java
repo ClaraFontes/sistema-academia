@@ -68,7 +68,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 	public static void main(String[] args) {
 		try {
 			Integer matricula = null;
-			ConsultaAlunoPerfil dialog = new ConsultaAlunoPerfil(matricula);
+			String nome = null;
+			ConsultaAlunoPerfil dialog = new ConsultaAlunoPerfil(matricula,nome);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -80,7 +81,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 	 * Create the dialog.
 	 * @throws ParseException 
 	 */
-	public ConsultaAlunoPerfil(Integer matricula) throws ParseException {
+	public ConsultaAlunoPerfil(Integer matricula, String nome) throws ParseException {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -330,17 +331,35 @@ public class ConsultaAlunoPerfil extends JDialog {
 					System.out.print("bf: " +bf.equals(bfT)+"----"+bf+"---"+bfT+"\n");
 					System.out.print(imagemBlob.equals(imagemBlobnova));
 					*/
-					if(telefone.equals(telefoneT) && email.equals(emailT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT)&& imagemBlob.equals(imagemBlobnova)){
-						JOptionPane.showMessageDialog(null,"Mude pelo menos um dado para realizar o update");
-						btneditar.setVisible(true);
-						btneditar.setEnabled(true);
+					Blob foto = pesquisaAluno.getImage();
+					if(foto == null) {
+						if(telefone.equals(telefoneT) && email.equals(emailT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT) && imagemBlob == imagemBlobnova){
+							System.out.print("Estou no primeiro If");
+							JOptionPane.showMessageDialog(null,"Mude pelo menos um dado para realizar o update");
+							btneditar.setVisible(true);
+							btneditar.setEnabled(true);
+						}else {
+							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova);
+							btneditar.setVisible(true);
+							btneditar.setEnabled(true);
+							btnfoto.setEnabled(false);
+							btnfoto.setVisible(false);
+							dispose();
+						}
 					}else {
-						UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova);
-						btneditar.setVisible(true);
-						btneditar.setEnabled(true);
-						btnfoto.setEnabled(false);
-						btnfoto.setVisible(false);
+						if(telefone.equals(telefoneT) && email.equals(emailT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT)&& imagemBlob.equals(imagemBlobnova)){
+							JOptionPane.showMessageDialog(null,"Mude pelo menos um dado para realizar o update");
+							btneditar.setVisible(true);
+							btneditar.setEnabled(true);
+						}else {
+							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova);
+							btneditar.setVisible(true);
+							btneditar.setEnabled(true);
+							btnfoto.setEnabled(false);
+							btnfoto.setVisible(false);
+						}
 					}
+					
 				} catch (NumberFormatException e5) {
 					txtbf.setBorder( new TitledBorder("") );
 					txtaltura.setBorder( new TitledBorder("") );
@@ -523,7 +542,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		perfilaluno.add(btnpagamento);
 		
 		try {
-			pesquisaAluno = ReadController.getAlunoFiltered(matricula);
+			pesquisaAluno = ReadController.getAlunoFiltered(matricula,nome);
 			txtemail.setText(pesquisaAluno.getEmail());
 			txtmatricula.setText(Integer.toString(pesquisaAluno.getMatricula()));
 			txtnome.setText(pesquisaAluno.getNome());
@@ -546,6 +565,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 				lblfoto.setIcon(new ImageIcon(resizedImage));
 				imagemBlob = new javax.sql.rowset.serial.SerialBlob(foto);
 				imagemBlobnova = new javax.sql.rowset.serial.SerialBlob(foto);
+			}else {
 			}
 			if (pesquisaAluno.getQtdDiasUltimoPagamento() < 30) {
 				txtstatus.setText("Pago");

@@ -33,9 +33,9 @@ public class TreinoAluno extends JDialog {
 	private static final long serialVersionUID = 1L;
 	protected JTextField txtboasvindas;
 	protected Aluno alunoAtual;
-	private String chave;
 	private String valor1;
 	private String valor2;
+	private String valor3;
 	private JTable table;
 	private ArrayList<ArrayList<String>> exercicios = new ArrayList<ArrayList<String>>();
 	/**
