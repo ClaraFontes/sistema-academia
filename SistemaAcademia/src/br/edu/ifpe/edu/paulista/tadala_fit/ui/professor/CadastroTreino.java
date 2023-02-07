@@ -20,12 +20,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.json.JSONObject;
 
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.TreinoAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CadastroTreino extends JDialog {
 
@@ -35,12 +39,20 @@ public class CadastroTreino extends JDialog {
 	private static final long serialVersionUID = 1L;
 	protected JTextField txtboasvindas;
 	protected Aluno alunoAtual;
-	private String chave;
 	private String valor1;
 	private String valor2;
 	private String valor3;
+	private JButton btnAdicionar;
+	private JButton btnExcluir;
+	private JButton btnEnviar;
+	private JButton btnEditar;
+	private ArrayList<ArrayList<String>> exercicioNew = new ArrayList<ArrayList<String>>();
 	private ArrayList<ArrayList<String>> exercicios = new ArrayList<ArrayList<String>>();
 	private JTable table;
+	private String exercicio;
+	private String observacao;
+	private String repeticao;
+	private boolean celleditable = false;
 
 	/**
 	 * Launch the application.
@@ -76,6 +88,7 @@ public class CadastroTreino extends JDialog {
 		setTitle("Tadalafit - Versão 1.0");
 		setBounds(100, 100, 1024, 768);
 		getContentPane().setLayout(null);
+
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 79, 157));
@@ -132,12 +145,12 @@ public class CadastroTreino extends JDialog {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 65, 130));
-		panel_1.setBounds(189, 196, 649, 422);
+		panel_1.setBounds(189, 196, 507, 422);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(84, 10, 487, 402);
+		scrollPane.setBounds(10, 11, 487, 402);
 		panel_1.add(scrollPane);
 		
 		table = new JTable();
@@ -150,11 +163,33 @@ public class CadastroTreino extends JDialog {
 		){
 		private static final long serialVersionUID = 1L;
 		public boolean isCellEditable(int row, int column) {
-			return false;
+			return celleditable;
 			}
 		});
-		DefaultTableModel modelo = (DefaultTableModel) table.getModel();		
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+
 		scrollPane.setViewportView(table);
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) {
+		        	btnEditar.setEnabled(true);
+		            int linha = table.getSelectedRow();
+		            if (linha >= 0) {
+		                DefaultTableModel model = (DefaultTableModel) table.getModel();
+		                int coluna= 0; 
+		                exercicio = (String) model.getValueAt(linha, coluna);
+		                System.out.print(exercicio +"\n");
+		                int coluna1 = 1;
+		                repeticao = (String) model.getValueAt(linha,coluna1);
+		                System.out.print(repeticao +"\n");
+		                int coluna2 = 2;
+		                observacao = (String)model.getValueAt(linha, coluna2);
+		                System.out.print(observacao +"\n");
+		            }
+		        }
+		    }
+		});
 		
 		txtboasvindas = new JTextField();
 		txtboasvindas.setForeground(Color.WHITE);
@@ -182,7 +217,70 @@ public class CadastroTreino extends JDialog {
 		panel.add(lblSemTreino);
 		lblSemTreino.setBackground(new Color(0, 0, 0));
 		
+		btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setEnabled(false);
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<String> row = new ArrayList<String>();
+				row.add("");
+				row.add("");
+				row.add("");
+				exercicioNew.add(row);
+				modelo.addRow(new Object []{
+						row.get(0),
+						row.get(1),
+						row.get(2)
+					});	
+			}
+		});
+		btnAdicionar.setFont(new Font("Arial", Font.BOLD, 13));
+		btnAdicionar.setFocusPainted(false);
+		btnAdicionar.setBackground(Color.WHITE);
+		btnAdicionar.setBounds(716, 233, 121, 40);
+		panel.add(btnAdicionar);
+		
+		btnEditar = new JButton("Editar");
+		btnEditar.setEnabled(false);
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 celleditable = ! celleditable;
+				 table.repaint();
+			}
+		});
+		btnEditar.setFont(new Font("Arial", Font.BOLD, 13));
+		btnEditar.setFocusPainted(false);
+		btnEditar.setBackground(Color.WHITE);
+		btnEditar.setBounds(716, 322, 121, 40);
+		panel.add(btnEditar);
+		
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.setEnabled(false);
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnExcluir.setFont(new Font("Arial", Font.BOLD, 13));
+		btnExcluir.setFocusPainted(false);
+		btnExcluir.setBackground(Color.WHITE);
+		btnExcluir.setBounds(716, 419, 121, 40);
+		panel.add(btnExcluir);
+		
+		btnEnviar = new JButton("Enviar");
+		btnEnviar.setEnabled(false);
+		btnEnviar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnEnviar.setFont(new Font("Arial", Font.BOLD, 13));
+		btnEnviar.setFocusPainted(false);
+		btnEnviar.setBackground(Color.WHITE);
+		btnEnviar.setBounds(716, 517, 121, 40);
+		panel.add(btnEnviar);
 		btnA.addActionListener(e -> {
+			btnEditar.setEnabled(false);
+			celleditable = false;
+			table.repaint(); 
+			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_a() != null) {
@@ -238,19 +336,17 @@ public class CadastroTreino extends JDialog {
 						treinoAtual.get(2)
 					});	
 			}
-					
-					
-						
-				
-				
-				//modelo.removeRow(modelo.getRowCount()-1);
-			
+
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino A");
 			}			
 		});
 		
 		btnB.addActionListener(e -> {
+			btnEditar.setEnabled(false);
+			celleditable = false;
+			table.repaint(); 
+			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_b() != null) {
@@ -306,12 +402,7 @@ public class CadastroTreino extends JDialog {
 						treinoAtual.get(2)
 					});	
 			}
-					
-					
-						
-				
-				
-				//modelo.removeRow(modelo.getRowCount()-1);
+
 			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino B");
@@ -319,6 +410,10 @@ public class CadastroTreino extends JDialog {
 		});
 		
 		btnC.addActionListener(e -> {
+			btnEditar.setEnabled(false);
+			celleditable = false;
+			table.repaint(); 
+			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_c() != null) {
@@ -345,7 +440,7 @@ public class CadastroTreino extends JDialog {
 				                add(valor3);
 				                
 				            }});
-							
+
 							
 						} else if(treino_c_JSON.getJSONArray(key).length() == 0) {
 							lblSemTreino.setText("Você ainda não tem treino");
@@ -374,19 +469,17 @@ public class CadastroTreino extends JDialog {
 						treinoAtual.get(2)
 					});	
 			}
-					
-					
-						
-				
-				
-				//modelo.removeRow(modelo.getRowCount()-1);
-			
+
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino C");
 			}				
 		});
 		
 		btnD.addActionListener(e -> {
+			btnEditar.setEnabled(false);
+			celleditable = false;
+			table.repaint(); 
+			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_d() != null) {
@@ -401,20 +494,16 @@ public class CadastroTreino extends JDialog {
 					
 					if (key.equals(count.toString())) {
 						if (treino_d_JSON.getJSONArray(key).length() == 3) {
-							
+						
 							valor1 = treino_d_JSON.getJSONArray(key).getString(0) + " ";
 							valor2 = treino_d_JSON.getJSONArray(key).getString(1) + " ";
 							valor3 = treino_d_JSON.getJSONArray(key).getString(2) + " ";
-							
-							
 							exercicios.add(new ArrayList<String>() {{
 				                add(valor1);
 				                add(valor2);
 				                add(valor3);
 				                
 				            }});
-							
-							
 						} else if(treino_d_JSON.getJSONArray(key).length() == 0) {
 							lblSemTreino.setText("Você ainda não tem treino");
 					} else if(treino_d_JSON.getJSONArray(key).length() == 2) {
@@ -427,7 +516,6 @@ public class CadastroTreino extends JDialog {
 			                add(valor3);
 			                
 			            }});
-						
 					}
 				}
 			}
@@ -442,19 +530,16 @@ public class CadastroTreino extends JDialog {
 						treinoAtual.get(2)
 					});	
 			}
-					
-					
-						
-				
-				
-				//modelo.removeRow(modelo.getRowCount()-1);
-			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino D");
 			}				
 		});
 		
 		btnE.addActionListener(e -> {
+			btnEditar.setEnabled(false);
+			celleditable = false;
+			table.repaint(); 
+			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_e() != null) {
@@ -509,12 +594,7 @@ public class CadastroTreino extends JDialog {
 						treinoAtual.get(1),
 						treinoAtual.get(2)
 					});	
-			}
-					
-					
-						
-				
-				
+			}		
 				//modelo.removeRow(modelo.getRowCount()-1);
 			
 			} else {

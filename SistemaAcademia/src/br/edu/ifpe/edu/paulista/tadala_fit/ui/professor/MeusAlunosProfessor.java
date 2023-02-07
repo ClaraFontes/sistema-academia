@@ -134,7 +134,7 @@ public class MeusAlunosProfessor extends JDialog {
 				Integer matriculafiltered = (Integer) matricula;
 				Integer matricula = matriculafiltered.intValue();
 				try {
-					Aluno alunoSelected = ReadController.getAlunoFiltered(matricula); 
+					Aluno alunoSelected = ReadController.getAlunoFiltered(matricula,nome); 
 					CadastroTreino ct = new CadastroTreino(matricula);
 					ct.getAluno(alunoSelected);
 					ct.setModal(true);

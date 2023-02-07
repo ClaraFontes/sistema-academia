@@ -139,13 +139,6 @@ public class ConsultaAluno extends JDialog {
 		btnPerfil.setBounds(766, 450, 174, 36);
 		panel.add(btnPerfil);
 		
-		JButton btnCriartreinos = new JButton("Criar Treino");
-		btnCriartreinos.setFont(new Font("Arial", Font.BOLD, 13));
-		btnCriartreinos.setEnabled(false);
-		btnCriartreinos.setBackground(Color.WHITE);
-		btnCriartreinos.setBounds(766, 525, 174, 36);
-		panel.add(btnCriartreinos);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setInheritsPopupMenu(true);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -175,7 +168,6 @@ public class ConsultaAluno extends JDialog {
 			public void focusGained(FocusEvent e) {
 				btnExcluir.setEnabled(true);
 				btnPerfil.setEnabled(true);
-				btnCriartreinos.setEnabled(true);
 			}
 		});
 		table.setBounds(213, 93, 1, 1);
