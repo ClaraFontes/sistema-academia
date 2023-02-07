@@ -405,6 +405,23 @@ public class MySQLRepository implements Repository {
 		
 	}
 	
+	public Aluno cadastrarTreino(int matriculaAluno, String table_name, JSONObject treino) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
+			String sql = ("UPDATE aluno a SET ? = ? WHERE matricula = ?");
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, table_name);
+			statement.setObject(2, treino);
+			statement.setInt(3, matriculaAluno);
+			statement.execute();
+		} finally {
+			connection.close();
+		}
+		return null;
+		
+	}
+	
 	
 	private Aluno getAluno(ResultSet resultSet) throws SQLException, JSONException {
 		Integer matricula = resultSet.getInt("matricula");

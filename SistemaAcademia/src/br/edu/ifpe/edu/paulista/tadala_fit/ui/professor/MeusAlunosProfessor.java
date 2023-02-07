@@ -54,6 +54,7 @@ public class MeusAlunosProfessor extends JDialog {
 	private Object matricula;
 	private JButton btnVerPerfil;
 	private JButton btnPrescreverTreino;
+	protected ArrayList<Aluno> aluno;
 
 	public Object getMatricula() {
 		return matricula;
@@ -134,6 +135,25 @@ public class MeusAlunosProfessor extends JDialog {
 		scrollPane.setViewportView(table);
 		
 		btnPrescreverTreino = new JButton("Prescrever Treino");
+		btnPrescreverTreino.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer matriculafiltered = (Integer) matricula;
+				Integer matricula = matriculafiltered.intValue();
+				try {
+					Aluno alunoSelected = ReadController.getAlunoFiltered(matricula); 
+					CadastroTreino ct = new CadastroTreino(matricula);
+					ct.getAluno(alunoSelected);
+					ct.setModal(true);
+					ct.setVisible(true);
+				}  catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnPrescreverTreino.setFont(new Font("Arial", Font.BOLD, 13));
 		btnPrescreverTreino.setEnabled(false);
 		btnPrescreverTreino.setBackground(Color.WHITE);
@@ -177,7 +197,7 @@ public class MeusAlunosProfessor extends JDialog {
 		JButton btnconsultar = new JButton("Consultar Alunos");
 		btnconsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Aluno> aluno;
+				
 				try {
 					if (modelo.getRowCount() != 0) {
 						modelo.setRowCount(0);

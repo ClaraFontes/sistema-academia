@@ -3,6 +3,9 @@ package br.edu.ifpe.paulista.tadala_fit.data;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import br.edu.ifpe.paulista.tadala_fit.core.Administrador;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
@@ -27,4 +30,5 @@ public interface Repository {
 		public ArrayList<Aluno> getAlunosWithoutProf() throws SQLException;
 		public ArrayList<Aluno> getMyAlunos(int matriculaProf) throws SQLException;
 		public Aluno assumeAluno(int matriculaProf, int matriculaAluno) throws SQLException;
+		public Aluno cadastrarTreino(int matriculaAluno, String table_name, JSONObject treino) throws SQLException;
 }
