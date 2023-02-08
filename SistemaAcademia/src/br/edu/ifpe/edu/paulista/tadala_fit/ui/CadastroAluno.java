@@ -5,10 +5,14 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.awt.Toolkit;
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -47,6 +51,7 @@ public class CadastroAluno extends JDialog {
 	private JLabel lblfoto;
 	private java.sql.Blob imagemBlob = null;
 	private JPasswordField txtpassword;
+	private JButton btnpdf;
 	
 	
 	public static long getSerialversionuid() {
@@ -370,5 +375,22 @@ public class CadastroAluno extends JDialog {
 		txtpassword = new JPasswordField();
 		txtpassword.setBounds(638, 402, 218, 20);
 		panel.add(txtpassword);
+		
+		btnpdf = new JButton("Gerar QRcode Pix");
+		btnpdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Desktop.getDesktop().open(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/src/assets_loginFrame/PIXTADALFIT.png"));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnpdf.setFont(new Font("Arial", Font.BOLD, 16));
+		btnpdf.setFocusPainted(false);
+		btnpdf.setBackground(Color.WHITE);
+		btnpdf.setBounds(336, 579, 218, 32);
+		panel.add(btnpdf);
 		}
 }

@@ -250,7 +250,7 @@ public class ConsultaAluno extends JDialog {
 								pesquisaAluno.getMatricula(),
 								pesquisaAluno.getNome(),
 								pesquisaAluno.getTelefone(),
-								pesquisaAluno.getQtdDiasUltimoPagamento() > 30 ? "Inadinplente" : "Pago"
+								pesquisaAluno.getQtdDiasUltimoPagamento() < 30 ? "Pago": pesquisaAluno.getQtdDiasUltimoPagamento() > 180 ? "Inativo": "Inadinplente" 
 						});
 					} catch (ClassNotFoundException | SQLException e1) {
 						// TODO Auto-generated catch block
@@ -295,7 +295,7 @@ public class ConsultaAluno extends JDialog {
 								a.getMatricula(),
 								a.getNome(),
 								a.getTelefone(),
-								a.getQtdDiasUltimoPagamento() > 30 ? "Inadinplente" : "Pago"
+								a.getQtdDiasUltimoPagamento() < 30 ? "Pago": a.getQtdDiasUltimoPagamento() > 180 ? "Inativo": "Inadinplente" 
 						});
 					}	
 				} catch (ClassNotFoundException e2) {

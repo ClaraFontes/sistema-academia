@@ -1,6 +1,7 @@
 package br.edu.ifpe.edu.paulista.tadala_fit.ui;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -10,6 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -57,7 +59,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 	private JFormattedTextField txtpeso;
 	private JFormattedTextField txtbf;
 	private JFormattedTextField txtemail;
-
+	private JButton btnpix;
 	/**
 	 * 
 	 */
@@ -324,13 +326,6 @@ public class ConsultaAlunoPerfil extends JDialog {
 					Double alturaT = pesquisaAluno.getAltura();
 					Double pesoT = pesquisaAluno.getPeso();
 					Double bfT = pesquisaAluno.getBf();
-					/*System.out.print("telefone: " +telefone.equals(telefoneT)+"---"+telefone+"----"+telefoneT+"\n");
-					System.out.print("email: " +email.equals(emailT)+"---"+email+"---"+emailT+"\n");
-					System.out.print("altura: " +altura.equals(alturaT)+"---"+altura+"---"+alturaT+"\n");
-					System.out.print("peso: " +peso.equals(pesoT)+"----"+peso+"---"+pesoT+"\n");
-					System.out.print("bf: " +bf.equals(bfT)+"----"+bf+"---"+bfT+"\n");
-					System.out.print(imagemBlob.equals(imagemBlobnova));
-					*/
 					Blob foto = pesquisaAluno.getImage();
 					if(foto == null) {
 						if(telefone.equals(telefoneT) && email.equals(emailT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT) && imagemBlob == imagemBlobnova){
@@ -403,7 +398,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		btnsubmeter.setForeground(Color.WHITE);
 		btnsubmeter.setFont(new Font("Arial", Font.BOLD, 16));
 		btnsubmeter.setBackground(new Color(0, 69, 130));
-		btnsubmeter.setBounds(520, 577, 175, 40);
+		btnsubmeter.setBounds(520, 577, 208, 40);
 		perfilaluno.add(btnsubmeter);
 		
 		btneditar = new JButton("Alterar Informações");
@@ -432,7 +427,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		btneditar.setForeground(Color.WHITE);
 		btneditar.setFont(new Font("Arial", Font.BOLD, 16));
 		btneditar.setBackground(new Color(0, 69, 130));
-		btneditar.setBounds(274, 575, 200, 40);
+		btneditar.setBounds(274, 575, 208, 40);
 		perfilaluno.add(btneditar);
 		
 		JLabel lblmatricula = new JLabel("MATRICULA:");
@@ -512,7 +507,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		btnfoto.setBounds(78, 269, 93, 20);
 		perfilaluno.add(btnfoto);
 		
-		btnpagamento = new JButton("Gerar Pagamento");
+		btnpagamento = new JButton("Renovar Pagamento");
 		btnpagamento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(null, "deseja confirmar pagamento do Aluno?","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
@@ -523,6 +518,9 @@ public class ConsultaAlunoPerfil extends JDialog {
 						UpdateController.updatePagamento(dataFormatada,matricula);
 						btnpagamento.setVisible(false);
 						btnpagamento.setEnabled(false);
+						btnpix.setVisible(false);
+						btnpix.setEnabled(false);
+						JOptionPane.showMessageDialog(null,"Consulte Novamente para ver as alterações!");
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -538,7 +536,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		btnpagamento.setFont(new Font("Arial", Font.BOLD, 16));
 		btnpagamento.setFocusPainted(false);
 		btnpagamento.setBackground(new Color(0, 69, 130));
-		btnpagamento.setBounds(399, 471, 200, 40);
+		btnpagamento.setBounds(520, 493, 208, 40);
 		perfilaluno.add(btnpagamento);
 		
 		try {
@@ -553,6 +551,26 @@ public class ConsultaAlunoPerfil extends JDialog {
 			txtpeso.setText(Double.toString(pesquisaAluno.getPeso()));
 			txtbf.setText(Double.toString(pesquisaAluno.getBf()));
 			txtcomorbidade.setText(pesquisaAluno.getComorbidade());
+			
+			btnpix = new JButton("Gerar Qrcode Pix");
+			btnpix.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						Desktop.getDesktop().open(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/src/assets_loginFrame/PIXTADALFIT.png"));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+			btnpix.setForeground(Color.WHITE);
+			btnpix.setEnabled(false);
+			btnpix.setVisible(false);
+			btnpix.setFont(new Font("Arial", Font.BOLD, 16));
+			btnpix.setFocusPainted(false);
+			btnpix.setBackground(new Color(0, 69, 130));
+			btnpix.setBounds(274, 493, 208, 40);
+			perfilaluno.add(btnpix);
 			Blob foto = pesquisaAluno.getImage();
 			if (foto != null) {
 				byte[] data = foto.getBytes(1,(int) foto.length());
@@ -569,14 +587,18 @@ public class ConsultaAlunoPerfil extends JDialog {
 			}
 			if (pesquisaAluno.getQtdDiasUltimoPagamento() < 30) {
 				txtstatus.setText("Pago");
-			} else if (pesquisaAluno.getQtdDiasUltimoPagamento() > 30 || pesquisaAluno.getQtdDiasUltimoPagamento() < 180) {
+			} else if (pesquisaAluno.getQtdDiasUltimoPagamento() > 30 && pesquisaAluno.getQtdDiasUltimoPagamento() < 180) {
 				txtstatus.setText("Inadinplente");
 				btnpagamento.setVisible(true);
 				btnpagamento.setEnabled(true);
+				btnpix.setVisible(true);
+				btnpix.setEnabled(true);
 			} else if (pesquisaAluno.getQtdDiasUltimoPagamento() >= 180) {
 				txtstatus.setText("Inativo");
 				btnpagamento.setVisible(true);
 				btnpagamento.setEnabled(true);
+				btnpix.setVisible(true);
+				btnpix.setEnabled(true);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
 			// TODO Auto-generated catch block
