@@ -130,7 +130,7 @@ public class CadastroProfessor extends JDialog {
 		panel.add(lbluser);
 		
 		txtuser = new JTextField();
-		txtuser.setFont(new Font("Arial Black", Font.BOLD, 16));
+		txtuser.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtuser.setBorder(null);
 		txtuser.setColumns(10);
 		txtuser.setBounds(327, 416, 182, 20);
@@ -172,7 +172,7 @@ public class CadastroProfessor extends JDialog {
 					}
 	
 				} catch (RuntimeException e2) {
-					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
+					JOptionPane.showMessageDialog(null,e2.getMessage());
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
@@ -201,7 +201,7 @@ public class CadastroProfessor extends JDialog {
 		panel.add(lblNewLabel_2);
 		
 		txtpassword = new JPasswordField();
-		txtpassword.setFont(new Font("Arial Black", Font.BOLD, 15));
+		txtpassword.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtpassword.setBorder(null);
 		txtpassword.setBounds(613, 417, 185, 19);
 		panel.add(txtpassword);
@@ -213,8 +213,11 @@ public class CadastroProfessor extends JDialog {
 				if(webcam.getWebcam() != null) {
 					webcam.setModal(true);
 					webcam.setVisible(true);
-					imagemBlob = WebCam.imgemBlob();
-					lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
+					try {
+						imagemBlob = WebCam.imgemBlob();
+						lblfoto.setIcon(new ImageIcon(WebCam.carregarFoto()));
+					}catch (NullPointerException e1) {
+					}
 				}
 			}
 		});

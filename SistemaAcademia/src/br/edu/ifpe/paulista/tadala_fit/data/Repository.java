@@ -30,5 +30,9 @@ public interface Repository {
 		public ArrayList<Aluno> getAlunosWithoutProf() throws SQLException;
 		public ArrayList<Aluno> getMyAlunos(int matriculaProf) throws SQLException;
 		public Aluno assumeAluno(int matriculaProf, int matriculaAluno) throws SQLException;
-		public Aluno cadastrarTreino(int matriculaAluno, String table_name, JSONObject treino) throws SQLException;
+		public Aluno cadastrarTreinoA(int matriculaAluno, JSONObject treino) throws SQLException;
+		public Aluno cadastrarTreinoB(int matriculaAluno, JSONObject treino) throws SQLException;
+		public Aluno cadastrarTreinoC(int matriculaAluno, JSONObject treino) throws SQLException;
+		public Aluno cadastrarTreinoD(int matriculaAluno, JSONObject treino) throws SQLException;
+		public Aluno cadastrarTreinoE(int matriculaAluno, JSONObject treino) throws SQLException;
 }

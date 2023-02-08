@@ -3,6 +3,8 @@ package br.edu.ifpe.paulista.tadala_fit.core;
 import java.sql.Blob;
 import java.sql.SQLException;
 
+import org.json.JSONObject;
+
 import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
 import br.edu.ifpe.paulista.tadala_fit.data.Repository;
 
@@ -60,5 +62,30 @@ public class UpdateController {
 		
 		Repository repository = new MySQLRepository();
 		return repository.assumeAluno(matriculaProf, matriculaAluno);
+	}
+	
+	public static Aluno cadastrarTreinoA(int matricula, JSONObject treino) throws SQLException, ClassNotFoundException {
+		Repository repository = new MySQLRepository();
+		return repository.cadastrarTreinoA(matricula, treino);
+	}
+	
+	public static Aluno cadastrarTreinoB(int matricula, JSONObject treino) throws SQLException, ClassNotFoundException {
+		Repository repository = new MySQLRepository();
+		return repository.cadastrarTreinoB(matricula, treino);
+	}
+	
+	public static Aluno cadastrarTreinoC(int matricula, JSONObject treino) throws SQLException, ClassNotFoundException {
+		Repository repository = new MySQLRepository();
+		return repository.cadastrarTreinoC(matricula, treino);
+	}
+	
+	public static Aluno cadastrarTreinoD(int matricula, JSONObject treino) throws SQLException, ClassNotFoundException {
+		Repository repository = new MySQLRepository();
+		return repository.cadastrarTreinoD(matricula, treino);
+	}
+	
+	public static Aluno cadastrarTreinoE(int matricula, JSONObject treino) throws SQLException, ClassNotFoundException {
+		Repository repository = new MySQLRepository();
+		return repository.cadastrarTreinoE(matricula, treino);
 	}
 }
