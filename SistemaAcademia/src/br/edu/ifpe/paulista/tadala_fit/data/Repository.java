@@ -22,7 +22,7 @@ public interface Repository {
 		public Aluno getAlunoFiltered(Integer pesquisa, String nome) throws SQLException;
 		public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob image) throws SQLException;
 		public ArrayList<Professor> getAllProfessor() throws SQLException;
-		public Professor getProfessorFiltered(Integer pesquisa) throws SQLException;
+		public Professor getProfessorFiltered(Integer pesquisa, String nome) throws SQLException;
 		public Professor updateProfessor(String telefone, String email,Integer matricula, Blob image) throws SQLException;
 		public Aluno deleteAluno(int matricula)  throws SQLException;
 		public Professor deleteProfessor(int matricula)  throws SQLException;

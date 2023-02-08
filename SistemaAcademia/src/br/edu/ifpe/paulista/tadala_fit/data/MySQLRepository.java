@@ -257,12 +257,13 @@ public class MySQLRepository implements Repository {
 		
 	}
 	
-	public Professor getProfessorFiltered(Integer pesquisa) throws SQLException {
+	public Professor getProfessorFiltered(Integer pesquisa,  String nome) throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM professor a WHERE a.matricula = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM professor a WHERE a.matricula = ? OR a.nome = ?");
 			statement.setInt(1, pesquisa);
+			statement.setString(2, nome);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				Professor professofiltered = getProfessor(resultSet);
