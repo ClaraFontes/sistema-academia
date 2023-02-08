@@ -8,8 +8,9 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,12 +25,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.bridj.cpp.std.list;
 import org.json.JSONObject;
 
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.TreinoAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class CadastroTreino extends JDialog {
 
@@ -46,8 +50,9 @@ public class CadastroTreino extends JDialog {
 	private JButton btnExcluir;
 	private JButton btnEnviar;
 	private JButton btnEditar;
-	private ArrayList<ArrayList<String>> exercicioNew = new ArrayList<ArrayList<String>>();
 	private ArrayList<ArrayList<String>> exercicios = new ArrayList<ArrayList<String>>();
+	private ArrayList<String []> exerciciosNew = new ArrayList<String[]>();
+	private ArrayList<String> exerciciosNewx = new ArrayList<String>();
 	private JTable table;
 	private String exercicio;
 	private String observacao;
@@ -167,30 +172,17 @@ public class CadastroTreino extends JDialog {
 			}
 		});
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-
 		scrollPane.setViewportView(table);
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 		    @Override
-		    public void valueChanged(ListSelectionEvent e) {
-		        if (!e.getValueIsAdjusting()) {
-		        	btnEditar.setEnabled(true);
-		            int linha = table.getSelectedRow();
-		            if (linha >= 0) {
-		                DefaultTableModel model = (DefaultTableModel) table.getModel();
-		                int coluna= 0; 
-		                exercicio = (String) model.getValueAt(linha, coluna);
-		                System.out.print(exercicio +"\n");
-		                int coluna1 = 1;
-		                repeticao = (String) model.getValueAt(linha,coluna1);
-		                System.out.print(repeticao +"\n");
-		                int coluna2 = 2;
-		                observacao = (String)model.getValueAt(linha, coluna2);
-		                System.out.print(observacao +"\n");
-		            }
-		        }
+		    public void valueChanged(ListSelectionEvent e) throws IndexOutOfBoundsException {
+		    		if (!e.getValueIsAdjusting()) {
+			        	btnEditar.setEnabled(true);
+			        	btnEnviar.setEnabled(true);
+			        	btnExcluir.setEnabled(true);
+		    	}       
 		    }
 		});
-		
 		txtboasvindas = new JTextField();
 		txtboasvindas.setForeground(Color.WHITE);
 		txtboasvindas.setFont(new Font("Arial Black", Font.BOLD, 13));
@@ -225,7 +217,6 @@ public class CadastroTreino extends JDialog {
 				row.add("");
 				row.add("");
 				row.add("");
-				exercicioNew.add(row);
 				modelo.addRow(new Object []{
 						row.get(0),
 						row.get(1),
@@ -257,6 +248,11 @@ public class CadastroTreino extends JDialog {
 		btnExcluir.setEnabled(false);
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow != -1) {
+				    DefaultTableModel model = (DefaultTableModel) table.getModel();
+				    model.removeRow(selectedRow);
+				}
 			}
 		});
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 13));
@@ -269,17 +265,48 @@ public class CadastroTreino extends JDialog {
 		btnEnviar.setEnabled(false);
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			}
+				for (int i = 0; i < table.getRowCount(); i++) {
+					   String[] row = new String[table.getColumnCount()];
+					   
+					   for (int j = 0; j < table.getColumnCount(); j++) {
+					      row[j] = String.valueOf(table.getValueAt(i, j));
+					}
+					   	exerciciosNew.add(row);	
+					}
+					StringBuilder sb = new StringBuilder();
+					sb.append("[");
+					for (String[] array  : exerciciosNew) {
+					  for (int p = 0; p < array.length; p++) {
+					    sb.append(array[p]);
+					    exerciciosNewx.add(array[p]);
+					    System.out.print(array[p]+"\n");
+					    if (p < array.length - 1) {
+					      sb.append(", ");
+					    }
+					  }
+					  sb.append("]");
+					  if (exerciciosNew.indexOf(array) < exerciciosNew.size() - 1) {
+					    sb.append(", " + "\n");
+					  }
+					}
+					String resultado = sb.toString();
+					//System.out.print(exerciciosNew+"\n");
+					System.out.print(exerciciosNewx);
+				}
 		});
 		btnEnviar.setFont(new Font("Arial", Font.BOLD, 13));
 		btnEnviar.setFocusPainted(false);
 		btnEnviar.setBackground(Color.WHITE);
 		btnEnviar.setBounds(716, 517, 121, 40);
 		panel.add(btnEnviar);
+		
 		btnA.addActionListener(e -> {
-			btnEditar.setEnabled(false);
+			table.getSelectionModel().clearSelection();
 			celleditable = false;
 			table.repaint(); 
+			btnEnviar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
@@ -343,9 +370,11 @@ public class CadastroTreino extends JDialog {
 		});
 		
 		btnB.addActionListener(e -> {
-			btnEditar.setEnabled(false);
 			celleditable = false;
 			table.repaint(); 
+			btnEnviar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
@@ -410,9 +439,11 @@ public class CadastroTreino extends JDialog {
 		});
 		
 		btnC.addActionListener(e -> {
-			btnEditar.setEnabled(false);
 			celleditable = false;
 			table.repaint(); 
+			btnEnviar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
@@ -476,9 +507,11 @@ public class CadastroTreino extends JDialog {
 		});
 		
 		btnD.addActionListener(e -> {
-			btnEditar.setEnabled(false);
 			celleditable = false;
 			table.repaint(); 
+			btnEnviar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
@@ -536,9 +569,12 @@ public class CadastroTreino extends JDialog {
 		});
 		
 		btnE.addActionListener(e -> {
-			btnEditar.setEnabled(false);
+			modelo.setRowCount(0);
 			celleditable = false;
 			table.repaint(); 
+			btnEnviar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
@@ -595,7 +631,6 @@ public class CadastroTreino extends JDialog {
 						treinoAtual.get(2)
 					});	
 			}		
-				//modelo.removeRow(modelo.getRowCount()-1);
 			
 			} else {
 				lblSemTreino.setText("Você ainda não tem treino E");
