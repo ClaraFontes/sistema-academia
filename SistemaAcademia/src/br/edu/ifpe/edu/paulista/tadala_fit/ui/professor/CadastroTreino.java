@@ -7,9 +7,13 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,10 +30,14 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.bridj.cpp.std.list;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.TreinoAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
+import br.edu.ifpe.paulista.tadala_fit.core.UpdateController;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -53,7 +61,11 @@ public class CadastroTreino extends JDialog {
 	private ArrayList<ArrayList<String>> exercicios = new ArrayList<ArrayList<String>>();
 	private ArrayList<String []> exerciciosNew = new ArrayList<String[]>();
 	private ArrayList<String> exerciciosNewx = new ArrayList<String>();
+	private ArrayList<ArrayList<String>> exerciciosNew2 = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<String>> exerciciosNew3 = new ArrayList<ArrayList<String>>();
+	ArrayList<String> arrSuporte = new ArrayList<String>();
 	private JTable table;
+	private String table_treino;
 	private String exercicio;
 	private String observacao;
 	private String repeticao;
@@ -265,34 +277,102 @@ public class CadastroTreino extends JDialog {
 		btnEnviar.setEnabled(false);
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < table.getRowCount(); i++) {
-					   String[] row = new String[table.getColumnCount()];
-					   
-					   for (int j = 0; j < table.getColumnCount(); j++) {
-					      row[j] = String.valueOf(table.getValueAt(i, j));
+				System.out.print(table.getRowCount());
+				if (table.getRowCount() >= 1) {
+					
+					for (int i = 0; i < table.getRowCount(); i++) {
+						   String[] row = new String[table.getColumnCount()];
+						   
+						   for (int j = 0; j < table.getColumnCount(); j++) {
+						      row[j] = String.valueOf(table.getValueAt(i, j));
+						}
+						   	exerciciosNew.add(row);	
+						}
+						
+						StringBuilder sb = new StringBuilder();
+						
+						for (String[] array  : exerciciosNew) {
+							exerciciosNewx.removeAll(exerciciosNewx);
+						  for (int p = 0; p < array.length; p++) {
+							sb.delete(0, sb.length());
+							
+							
+						    sb.append(array[p]);
+						    
+						    exerciciosNewx.add(sb.toString().trim());
+						    
+
+						  }
+						  for (int z = 0; z < 3; z++) {
+							  
+							  arrSuporte.add(exerciciosNewx.get(z));
+						  }
+						  
+						  exerciciosNew2.add(arrSuporte);
+						}
+						
+						int chunkSize = 3;
+				        AtomicInteger counter = new AtomicInteger();
+				        Collection<List<String>> partitionedList = exerciciosNew2.get(0).stream().collect(Collectors.groupingBy(i -> counter.getAndIncrement() / chunkSize)).values();
+				        exerciciosNew3.addAll((Collection<? extends ArrayList<String>>) partitionedList);
+				        JSONObject my_obj = new JSONObject();
+				        JSONArray jsonArray = new JSONArray();
+				        for (List<String> list : partitionedList) {
+				        	  try {
+				        	    jsonArray.put(list);
+				        	  } catch (JSONException e7) {
+				        	    // Trate a exceção de criação de JSON, por exemplo, lançando uma exceção personalizada
+				        	  }
+				        	}
+				        for (int l = 0; l < partitionedList.size(); l++) {
+				        	Integer value = l + 1;
+				        	my_obj.put(value.toString(), jsonArray.get(l));
+				        }
+				        
+				        try {
+				        	if (table_treino == "treino_a") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoA(alunoAtual.getMatricula(), my_obj);
+				        	} else if (table_treino == "treino_b") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoB(alunoAtual.getMatricula(), my_obj);
+				        	} else if (table_treino == "treino_c") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoC(alunoAtual.getMatricula(), my_obj);
+				        	} else if (table_treino == "treino_d") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoD(alunoAtual.getMatricula(), my_obj);
+				        	} else if (table_treino == "treino_e") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoE(alunoAtual.getMatricula(), my_obj);
+				        	}
+							
+						} catch (ClassNotFoundException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					        
+					      
+					} else {
+						try {
+							JSONObject my_obj = new JSONObject();
+							my_obj = null;
+				        	if (table_treino == "treino_a") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoA(alunoAtual.getMatricula(), my_obj);
+				        	} else if (table_treino == "treino_b") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoB(alunoAtual.getMatricula(), my_obj);
+				        	} else if (table_treino == "treino_c") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoC(alunoAtual.getMatricula(), my_obj);
+				        	} else if (table_treino == "treino_d") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoD(alunoAtual.getMatricula(), my_obj);
+				        	} else if (table_treino == "treino_e") {
+				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoE(alunoAtual.getMatricula(), my_obj);
+				        	}
+							
+						} catch (ClassNotFoundException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
-					   	exerciciosNew.add(row);	
-					}
-					StringBuilder sb = new StringBuilder();
-					sb.append("[");
-					for (String[] array  : exerciciosNew) {
-					  for (int p = 0; p < array.length; p++) {
-					    sb.append(array[p]);
-					    exerciciosNewx.add(array[p]);
-					    System.out.print(array[p]+"\n");
-					    if (p < array.length - 1) {
-					      sb.append(", ");
-					    }
-					  }
-					  sb.append("]");
-					  if (exerciciosNew.indexOf(array) < exerciciosNew.size() - 1) {
-					    sb.append(", " + "\n");
-					  }
-					}
-					String resultado = sb.toString();
-					//System.out.print(exerciciosNew+"\n");
-					System.out.print(exerciciosNewx);
 				}
+				
+			
+			
 		});
 		btnEnviar.setFont(new Font("Arial", Font.BOLD, 13));
 		btnEnviar.setFocusPainted(false);
@@ -308,6 +388,7 @@ public class CadastroTreino extends JDialog {
 			btnExcluir.setEnabled(false);
 			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
+			table_treino = "treino_a";
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_a() != null) {
@@ -365,7 +446,7 @@ public class CadastroTreino extends JDialog {
 			}
 
 			} else {
-				lblSemTreino.setText("Você ainda não tem treino A");
+				lblSemTreino.setText("Aluno(a) " + alunoAtual.getNome()+ " ainda não tem treino A");
 			}			
 		});
 		
@@ -376,6 +457,7 @@ public class CadastroTreino extends JDialog {
 			btnExcluir.setEnabled(false);
 			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
+			table_treino = "treino_b";
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_b() != null) {
@@ -434,7 +516,7 @@ public class CadastroTreino extends JDialog {
 
 			
 			} else {
-				lblSemTreino.setText("Você ainda não tem treino B");
+				lblSemTreino.setText("Aluno(a) " + alunoAtual.getNome()+ "ainda não tem treino B");
 			}				
 		});
 		
@@ -445,6 +527,7 @@ public class CadastroTreino extends JDialog {
 			btnExcluir.setEnabled(false);
 			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
+			table_treino = "treino_c";
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_c() != null) {
@@ -502,7 +585,7 @@ public class CadastroTreino extends JDialog {
 			}
 
 			} else {
-				lblSemTreino.setText("Você ainda não tem treino C");
+				lblSemTreino.setText("Aluno(a) " + alunoAtual.getNome()+ " ainda não tem treino C");
 			}				
 		});
 		
@@ -513,6 +596,7 @@ public class CadastroTreino extends JDialog {
 			btnExcluir.setEnabled(false);
 			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
+			table_treino = "treino_d";
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_d() != null) {
@@ -564,7 +648,7 @@ public class CadastroTreino extends JDialog {
 					});	
 			}
 			} else {
-				lblSemTreino.setText("Você ainda não tem treino D");
+				lblSemTreino.setText("Aluno(a) " + alunoAtual.getNome()+ " ainda não tem treino D");
 			}				
 		});
 		
@@ -576,6 +660,7 @@ public class CadastroTreino extends JDialog {
 			btnExcluir.setEnabled(false);
 			btnEditar.setEnabled(false);
 			btnAdicionar.setEnabled(true);
+			table_treino = "treino_e";
 			lblSemTreino.setText(" ");
 			modelo.setRowCount(0);
 			if (alunoAtual.getTreino_e() != null) {
@@ -633,7 +718,7 @@ public class CadastroTreino extends JDialog {
 			}		
 			
 			} else {
-				lblSemTreino.setText("Você ainda não tem treino E");
+				lblSemTreino.setText("Aluno(a) " + alunoAtual.getNome()+ " ainda não tem treino E");
 			}				
 		});
 

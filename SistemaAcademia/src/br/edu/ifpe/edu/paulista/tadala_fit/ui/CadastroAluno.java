@@ -241,7 +241,7 @@ public class CadastroAluno extends JDialog {
 							JOptionPane.showMessageDialog(null,"Data inválida");
 					}
 					if(emailvalidator.isValid(email) && datevalidator.isValid(data)) {
-						alunoCadastrado = CreateController.createAluno(userstrip, passwordstrip, nometrim, sexo, cpf, telefone, emailstrip, data, altura, peso, bf, comorbidade,imagemBlob);
+						alunoCadastrado = CreateController.createAluno(userstrip, passwordstrip, nometrim, sexo, cpf, telefone, emailstrip, data, altura, peso, bf, comorbidade.trim(),imagemBlob);
 						if (alunoCadastrado == null) {
 							JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
 						}else{
@@ -254,10 +254,8 @@ public class CadastroAluno extends JDialog {
 					JOptionPane.showMessageDialog(null, "Preencha os Campos ALTURA, PESO E BF corretamente.");
 					
 				} catch (RuntimeException e2) {
-					e2.getMessage();
-					e2.printStackTrace();
-					System.out.print("oque deu?");
-					JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
+					
+					JOptionPane.showMessageDialog(null, e2.getMessage());
 			
 				} catch (SQLException e3) {
 					e3.getMessage();
@@ -333,7 +331,7 @@ public class CadastroAluno extends JDialog {
 		panel.add(txtdata);
 		
 		MaskFormatter mascaraPeso = new MaskFormatter("**.*");
-		mascaraPeso.setValidCharacters("012345679 ");
+		mascaraPeso.setValidCharacters("0123456789");
 		mascaraPeso.setAllowsInvalid(false);
 		mascaraPeso.setValueContainsLiteralCharacters(false);
 		txtpeso = new JFormattedTextField(mascaraPeso);

@@ -20,7 +20,7 @@ import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
 
-	private static final String ROOT_SENHA = "123456";	
+	private static final String ROOT_SENHA = "Stormchadow123";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {
@@ -315,7 +315,6 @@ public class MySQLRepository implements Repository {
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setInt(1, matricula);
 			statement1.execute();
-			JOptionPane.showMessageDialog(null, "Atualização feita com Sucesso, reinicie a sessão para ver as alterações!");
 		} finally {
 			connection.close();
 		}
@@ -407,15 +406,99 @@ public class MySQLRepository implements Repository {
 		
 	}
 	
-	public Aluno cadastrarTreino(int matriculaAluno, String table_name, JSONObject treino) throws SQLException {
+	public Aluno cadastrarTreinoA(int matriculaAluno, JSONObject treino) throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			String sql = ("UPDATE aluno a SET ? = ? WHERE matricula = ?");
+			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, table_name);
-			statement.setObject(2, treino);
-			statement.setInt(3, matriculaAluno);
+			if (treino != null) {
+				statement.setObject(1, treino.toString());
+			} else {
+				statement.setObject(1, null);
+			}
+			statement.setInt(2, matriculaAluno);
+			statement.execute();
+		} finally {
+			connection.close();
+		}
+		return null;
+		
+	}
+	
+	public Aluno cadastrarTreinoB(int matriculaAluno, JSONObject treino) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
+			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
+			PreparedStatement statement = connection.prepareStatement(sql);
+			if (treino != null) {
+				statement.setObject(1, treino.toString());
+			} else {
+				statement.setObject(1, null);
+			}
+			statement.setInt(2, matriculaAluno);
+			statement.execute();
+		} finally {
+			connection.close();
+		}
+		return null;
+		
+	}
+	
+	public Aluno cadastrarTreinoC(int matriculaAluno, JSONObject treino) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
+			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
+			PreparedStatement statement = connection.prepareStatement(sql);
+			if (treino != null) {
+				statement.setObject(1, treino.toString());
+			} else {
+				statement.setObject(1, null);
+			}
+			
+			statement.setInt(2, matriculaAluno);
+			statement.execute();
+		} finally {
+			connection.close();
+		}
+		return null;
+		
+	}
+	
+	public Aluno cadastrarTreinoD(int matriculaAluno, JSONObject treino) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
+			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
+			PreparedStatement statement = connection.prepareStatement(sql);
+			if (treino != null) {
+				statement.setObject(1, treino.toString());
+			} else {
+				statement.setObject(1, null);
+			}
+			statement.setInt(2, matriculaAluno);
+			statement.execute();
+		} finally {
+			connection.close();
+		}
+		return null;
+		
+	}
+	
+	public Aluno cadastrarTreinoE(int matriculaAluno, JSONObject treino) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
+			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
+			PreparedStatement statement = connection.prepareStatement(sql);
+			if (treino != null) {
+				statement.setObject(1, treino.toString());
+			} else {
+				statement.setObject(1, null);
+			}
+			statement.setInt(2, matriculaAluno);
 			statement.execute();
 		} finally {
 			connection.close();
