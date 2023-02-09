@@ -65,10 +65,7 @@ public class CadastroTreino extends JDialog {
 	private ArrayList<ArrayList<String>> exerciciosNew3 = new ArrayList<ArrayList<String>>();
 	private ArrayList<String> arrSuporte = new ArrayList<String>();
 	private JTable table;
-	private String table_treino;
-	private String exercicio;
-	private String observacao;
-	private String repeticao;
+	private static String table_treino;
 	private boolean celleditable = false;
 
 	/**
@@ -330,16 +327,21 @@ public class CadastroTreino extends JDialog {
 				        }
 				        
 				        try {
-				        	if (table_treino == "treino_a") {
+				        	if (table_treino.equals("treino_a")){
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoA(alunoAtual.getMatricula(), my_obj);
-				        	} else if (table_treino == "treino_b") {
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado A com sucesso!");
+				        	} else if (table_treino.equals("treino_b")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoB(alunoAtual.getMatricula(), my_obj);
-				        	} else if (table_treino == "treino_c") {
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado B com sucesso!");
+				        	} else if (table_treino.equals("treino_c")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoC(alunoAtual.getMatricula(), my_obj);
-				        	} else if (table_treino == "treino_d") {
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado C com sucesso!");
+				        	} else if (table_treino.equals("treino_d")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoD(alunoAtual.getMatricula(), my_obj);
-				        	} else if (table_treino == "treino_e") {
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado D com sucesso!");
+				        	} else if (table_treino.equals("treino_e")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoE(alunoAtual.getMatricula(), my_obj);
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado E com sucesso!");
 				        	}
 							
 						} catch (ClassNotFoundException | SQLException e1) {
@@ -352,16 +354,21 @@ public class CadastroTreino extends JDialog {
 						try {
 							JSONObject my_obj = new JSONObject();
 							my_obj = null;
-				        	if (table_treino == "treino_a") {
+				        	if (table_treino.equals("treino_a")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoA(alunoAtual.getMatricula(), my_obj);
-				        	} else if (table_treino == "treino_b") {
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        	} else if (table_treino.equals("treino_b")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoB(alunoAtual.getMatricula(), my_obj);
-				        	} else if (table_treino == "treino_c") {
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        	} else if (table_treino.equals("treino_c")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoC(alunoAtual.getMatricula(), my_obj);
-				        	} else if (table_treino == "treino_d") {
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        	} else if (table_treino.equals("treino_d")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoD(alunoAtual.getMatricula(), my_obj);
-				        	} else if (table_treino == "treino_e") {
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        	} else if (table_treino.equals("treino_e")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoE(alunoAtual.getMatricula(), my_obj);
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
 				        	}
 							
 						} catch (ClassNotFoundException | SQLException e1) {

@@ -65,7 +65,7 @@ public class PerfilAluno extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
+		try { 
 			PerfilAluno dialog = new PerfilAluno();
 			//dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
@@ -227,7 +227,8 @@ public class PerfilAluno extends JDialog {
 		txtdata.setBounds(324, 189, 139, 20);
 		perfilaluno.add(txtdata);
 		
-		MaskFormatter mascaraPeso = new MaskFormatter("##.#");
+		MaskFormatter mascaraPeso = new MaskFormatter("*****");
+		mascaraPeso.setValidCharacters("123456789.");
 		txtpeso = new JFormattedTextField(mascaraPeso);
 		txtpeso.setForeground(Color.WHITE);
 		txtpeso.setFont(new Font("Arial", Font.BOLD, 16));
@@ -235,7 +236,7 @@ public class PerfilAluno extends JDialog {
 		txtpeso.setColumns(10);
 		txtpeso.setBorder(null);
 		txtpeso.setBackground(new Color(0, 79, 157));
-		txtpeso.setBounds(324, 224, 51, 20);
+		txtpeso.setBounds(324, 224, 72, 20);
 		perfilaluno.add(txtpeso);
 		
 		txtcomorbidade = new JTextField();
@@ -428,7 +429,7 @@ public class PerfilAluno extends JDialog {
 		lblKg.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblKg.setForeground(Color.WHITE);
 		lblKg.setFont(new Font("Arial Black", Font.BOLD, 12));
-		lblKg.setBounds(324, 221, 72, 24);
+		lblKg.setBounds(345, 221, 72, 24);
 		perfilaluno.add(lblKg);
 		
 		JLabel lblKg_1 = new JLabel("m");

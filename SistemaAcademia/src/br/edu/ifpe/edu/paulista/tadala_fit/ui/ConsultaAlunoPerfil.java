@@ -67,9 +67,9 @@ public class ConsultaAlunoPerfil extends JDialog {
 	protected Aluno alunoPerfil;
 	private JFormattedTextField txttelefone;
 	private JFormattedTextField txtaltura;
-	private JFormattedTextField txtpeso;
 	private JFormattedTextField txtbf;
 	private JFormattedTextField txtemail;
+	private JFormattedTextField txtpeso;
 	private JButton btnpix;
 	private JSONArray arr = new JSONArray();
 	ArrayList<Double> arraySup = new ArrayList<Double>();
@@ -162,7 +162,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtnome.setFont(new Font("Arial", Font.BOLD, 20));
 		txtnome.setBounds(324, 118, 139, 20);
 		perfilaluno.add(txtnome);
-		txtnome.setColumns(10);
+		txtnome.setColumns(10); 
 		
 		JLabel lblNewLabel_2 = new JLabel("Copyright (c) 2023 Tadalafit  All Rights Reserved");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -249,17 +249,6 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtdata.setBounds(324, 189, 139, 20);
 		perfilaluno.add(txtdata);
 		
-		MaskFormatter mascaraPeso = new MaskFormatter("##.#");
-		txtpeso = new JFormattedTextField(mascaraPeso);
-		txtpeso.setForeground(Color.WHITE);
-		txtpeso.setFont(new Font("Arial", Font.BOLD, 16));
-		txtpeso.setEnabled(false);
-		txtpeso.setColumns(10);
-		txtpeso.setBorder(null);
-		txtpeso.setBackground(new Color(0, 79, 157));
-		txtpeso.setBounds(324, 224, 31, 20);
-		perfilaluno.add(txtpeso);
-		
 		txtcomorbidade = new JTextField();
 		txtcomorbidade.setForeground(Color.WHITE);
 		txtcomorbidade.setFont(new Font("Arial", Font.BOLD, 16));
@@ -281,7 +270,6 @@ public class ConsultaAlunoPerfil extends JDialog {
 		perfilaluno.add(txtcpf);
 	
 		MaskFormatter mascaraAltura = new MaskFormatter("#.##");
-		mascaraPeso.setValidCharacters("0123456789 ");
 		txtaltura = new JFormattedTextField(mascaraAltura);
 		txtaltura.setForeground(Color.WHITE);
 		txtaltura.setFont(new Font("Arial", Font.BOLD, 16));
@@ -293,7 +281,6 @@ public class ConsultaAlunoPerfil extends JDialog {
 		perfilaluno.add(txtaltura);
 		
 		MaskFormatter mascaraBf = new MaskFormatter("##");
-		mascaraPeso.setValidCharacters("0123456789 ");
 		txtbf = new JFormattedTextField(mascaraBf);
 		txtbf.setForeground(Color.WHITE);
 		txtbf.setFont(new Font("Arial", Font.BOLD, 16));
@@ -423,7 +410,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 					txttelefone.setEnabled(true);
 					btnsubmeter.setEnabled(true);
 					btnsubmeter.setVisible(true);
-					JOptionPane.showMessageDialog(null,"Preencha os campos ALTURA, PESO E BF corretamente com números válidos");
+					JOptionPane.showMessageDialog(null,"Preencha todos os Campos");
 				} catch (RuntimeException e1) {
 					e1.printStackTrace();
 					txtbf.setBorder( new TitledBorder("") );
@@ -517,7 +504,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		lblKg.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblKg.setForeground(Color.WHITE);
 		lblKg.setFont(new Font("Arial Black", Font.BOLD, 12));
-		lblKg.setBounds(300, 221, 85, 24);
+		lblKg.setBounds(408, 221, 31, 24);
 		perfilaluno.add(lblKg);
 		
 		JLabel lblKg_1 = new JLabel("m");
@@ -595,6 +582,18 @@ public class ConsultaAlunoPerfil extends JDialog {
 		btnpagamento.setBounds(520, 510, 208, 40);
 		perfilaluno.add(btnpagamento);
 		
+		MaskFormatter mascaraPeso = new MaskFormatter("****");
+		mascaraPeso.setValidCharacters("0123456789.");
+		txtpeso = new JFormattedTextField(mascaraPeso);
+		txtpeso.setEnabled(false);
+		txtpeso.setForeground(new Color(255, 255, 255));
+		txtpeso.setFont(new Font("Arial", Font.BOLD, 16));
+		txtpeso.setDisabledTextColor(new Color(255, 255, 255));
+		txtpeso.setBorder(null);
+		txtpeso.setBackground(new Color(0, 79, 157));
+		txtpeso.setBounds(324, 225, 74, 19);
+		perfilaluno.add(txtpeso);
+		
 		try {
 			pesquisaAluno = ReadController.getAlunoFiltered(matricula,nome);
 			txtemail.setText(pesquisaAluno.getEmail());
@@ -628,6 +627,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 			btnpix.setBackground(new Color(0, 69, 130));
 			btnpix.setBounds(274, 510, 208, 40);
 			perfilaluno.add(btnpix);
+
 			try {
 				
 				alunoPerfil = ReadController.getAlunoFiltered(matricula, nome);
@@ -687,6 +687,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 			btneditar_1.setBackground(new Color(0, 69, 130));
 			btneditar_1.setBounds(390, 459, 208, 40);
 			perfilaluno.add(btneditar_1);
+      
 			Blob foto = pesquisaAluno.getImage();
 			if (foto != null) {
 				byte[] data = foto.getBytes(1,(int) foto.length());

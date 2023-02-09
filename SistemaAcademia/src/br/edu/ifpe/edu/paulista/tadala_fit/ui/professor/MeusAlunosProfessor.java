@@ -42,7 +42,7 @@ public class MeusAlunosProfessor extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	protected Professor professorAtual;
-	private Object matricula;
+	private Object matricula; 
 	private String nome;
 	private JButton btnVerPerfil;
 	private JButton btnPrescreverTreino;
@@ -182,9 +182,20 @@ public class MeusAlunosProfessor extends JDialog {
 		contentPanel.add(btnVerPerfil);
 		
 		JButton btnconsultar = new JButton("Consultar Alunos");
-		btnconsultar.addActionListener(new ActionListener() {
+		btnconsultar.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
-				
+				table.setModel(new DefaultTableModel(
+						new Object[][] {
+						},
+						new String[] {
+								"Matrícula", "Nome", "Peso", "Altura", "BF", "Comorbidade"
+						}
+					){
+					private static final long serialVersionUID = 1L;
+					public boolean isCellEditable(int row, int column) {
+						return false;
+						}
+					});
 				try {
 					if (modelo.getRowCount() != 0) {
 						modelo.setRowCount(0);
@@ -192,6 +203,7 @@ public class MeusAlunosProfessor extends JDialog {
 					int matriculaProf = professorAtual.getMatricula();
 					aluno = ReadController.getMyAlunos(matriculaProf);
 					if (aluno != null) {
+						DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 						for(Aluno a: aluno) {
 							modelo.addRow(new Object[]{
 									a.getMatricula(),

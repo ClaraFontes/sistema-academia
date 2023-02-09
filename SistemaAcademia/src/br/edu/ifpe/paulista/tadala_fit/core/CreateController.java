@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
 import br.edu.ifpe.paulista.tadala_fit.data.Repository;
 
-public class CreateController {
+public class CreateController { 
 	
 	public static Aluno createAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade, Blob image,  JSONObject evolucao, String ultimaEvolucao) throws ClassNotFoundException, SQLException, Exception {
 		

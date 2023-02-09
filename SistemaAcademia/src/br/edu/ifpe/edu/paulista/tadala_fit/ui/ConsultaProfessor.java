@@ -31,7 +31,7 @@ import br.edu.ifpe.paulista.tadala_fit.core.ReadController;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+ 
 public class ConsultaProfessor extends JDialog {
 
 	/**
@@ -53,17 +53,7 @@ public class ConsultaProfessor extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			ConsultaProfessor dialog = new ConsultaProfessor();
-			dialog.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					if (JOptionPane.showConfirmDialog(null, "deseja encerrar as consultas","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
-						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					}else {
-						dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-					}
-				}
-			});			
+			ConsultaProfessor dialog = new ConsultaProfessor();			
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,6 +64,16 @@ public class ConsultaProfessor extends JDialog {
 	 * Create the dialog.
 	 */
 	public ConsultaProfessor() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "deseja encerrar as consultas","confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+					setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				}else {
+					setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+				}
+			}
+		});
 		setBounds(100, 100, 1024, 769);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(0, 79, 157));
@@ -91,9 +91,14 @@ public class ConsultaProfessor extends JDialog {
 							new Object[][] {
 							},
 							new String[] {
-								"Matrícula", "Nome"
+									"Matrícula", "Nome"
 							}
-						));
+						){
+						private static final long serialVersionUID = 1L;
+						public boolean isCellEditable(int row, int column) {
+							return false;
+							}
+						});
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					Professor pesquisaProfessor = ReadController.getProfessorFiltered(pesquisa, nome);
 						modelo.addRow(new Object[]{
@@ -108,9 +113,14 @@ public class ConsultaProfessor extends JDialog {
 							new Object[][] {
 							},
 							new String[] {
-								"Id", "Nome"
+									"Matrícula", "Nome"
 							}
-						));
+						){
+						private static final long serialVersionUID = 1L;
+						public boolean isCellEditable(int row, int column) {
+							return false;
+							}
+						});
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					Professor pesquisaProfessor;
 					try {
@@ -149,9 +159,14 @@ public class ConsultaProfessor extends JDialog {
 						new Object[][] {
 						},
 						new String[] {
-							"Matrícula", "Nome"
+								"Matrícula", "Nome"
 						}
-					));
+					){
+					private static final long serialVersionUID = 1L;
+					public boolean isCellEditable(int row, int column) {
+						return false;
+						}
+					});
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				ArrayList<Professor> professor;
 				try {
@@ -263,7 +278,6 @@ public class ConsultaProfessor extends JDialog {
 				btnPerfil.setEnabled(true);
 			}
 		});
-		
 		pesquisar = new JTextField();
 		pesquisar.setBounds(78, 62, 440, 26);
 		contentPanel.add(pesquisar);

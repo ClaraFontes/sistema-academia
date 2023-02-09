@@ -51,7 +51,7 @@ public class AlunosSemProfessor extends JDialog {
 	
 
 	public Object getMatricula() {
-		return matricula;
+		return matricula; 
 	}
 	
 	/**
@@ -195,6 +195,18 @@ public class AlunosSemProfessor extends JDialog {
 		btnconsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Aluno> aluno;
+				table.setModel(new DefaultTableModel(
+						new Object[][] {
+						},
+						new String[] {
+								"Matrícula", "Nome", "Peso", "Altura", "BF", "Comorbidade"
+						}
+					){
+					private static final long serialVersionUID = 1L;
+					public boolean isCellEditable(int row, int column) {
+						return false;
+						}
+					});
 				try {
 					if (modelo.getRowCount() != 0) {
 						modelo.setRowCount(0);
@@ -202,6 +214,7 @@ public class AlunosSemProfessor extends JDialog {
 					aluno = ReadController.getAlunosWithoutProf();
 					if (aluno != null) {
 	                    for(Aluno a: aluno) {
+	                    	DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 	                        modelo.addRow(new Object[]{
 	                                a.getMatricula(),
 	                                a.getNome(),

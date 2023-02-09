@@ -377,8 +377,8 @@ public class CadastroAluno extends JDialog {
 		txtdata.setBounds(333, 186, 209, 21);
 		panel.add(txtdata);
 		
-		MaskFormatter mascaraPeso = new MaskFormatter("**.*");
-		mascaraPeso.setValidCharacters("0123456789");
+		MaskFormatter mascaraPeso = new MaskFormatter("*****");
+		mascaraPeso.setValidCharacters("0123456789.");
 		mascaraPeso.setAllowsInvalid(false);
 		mascaraPeso.setValueContainsLiteralCharacters(false);
 		txtpeso = new JFormattedTextField(mascaraPeso);
@@ -427,7 +427,6 @@ public class CadastroAluno extends JDialog {
 				try {
 					String caminhoApp = new File("").getAbsolutePath();
 					Desktop.getDesktop().open(new File(caminhoApp + "/src/assets_loginFrame/PIXTADALFIT.png"));
-					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

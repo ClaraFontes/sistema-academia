@@ -173,20 +173,17 @@ public class ConsultaAluno extends JDialog {
 		table.setBounds(213, 93, 1, 1);
 		table.setFont(new Font("Arial", Font.BOLD, 13));
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Id", "Nome", "Telefone", "Status"
-			}
-		) {
+				new Object[][] {
+				},
+				new String[] {
+						"Id", "Nome", "Telefone", "Status"
+				}
+			){
 			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
-			};
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+				return false;
+				}
+			});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(29);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -220,9 +217,14 @@ public class ConsultaAluno extends JDialog {
 								new Object[][] {
 								},
 								new String[] {
-									"Id", "Nome", "Telefone", "Status"
+										"Id", "Nome", "Telefone", "Status"
 								}
-							));
+							){
+							private static final long serialVersionUID = 1L;
+							public boolean isCellEditable(int row, int column) {
+								return false;
+								}
+							});
 						DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 						Aluno pesquisaAluno = ReadController.getAlunoFiltered(pesquisa,nome);
 							modelo.addRow(new Object[]{
@@ -239,9 +241,14 @@ public class ConsultaAluno extends JDialog {
 							new Object[][] {
 							},
 							new String[] {
-								"Id", "Nome", "Telefone", "Status"
+									"Id", "Nome", "Telefone", "Status"
 							}
-						));
+						){
+						private static final long serialVersionUID = 1L;
+						public boolean isCellEditable(int row, int column) {
+							return false;
+							}
+						});
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					Aluno pesquisaAluno;
 					try {
@@ -280,9 +287,14 @@ public class ConsultaAluno extends JDialog {
 						new Object[][] {
 						},
 						new String[] {
-							"Id", "Nome", "Telefone", "Status"
+								"Id", "Nome", "Telefone", "Status"
 						}
-					));
+					){
+					private static final long serialVersionUID = 1L;
+					public boolean isCellEditable(int row, int column) {
+						return false;
+						}
+					});
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				ArrayList<Aluno> aluno;
 				try {

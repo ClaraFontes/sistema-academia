@@ -20,7 +20,7 @@ import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 
 public class MySQLRepository implements Repository {
 
-	private static final String ROOT_SENHA = "Stormchadow123";	
+	private static final String ROOT_SENHA = "@Clara123";	
 	
 
 	public MySQLRepository() throws ClassNotFoundException {
@@ -442,7 +442,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
+			String sql = ("UPDATE aluno a SET treino_b = ? WHERE matricula = ?");
 			PreparedStatement statement = connection.prepareStatement(sql);
 			if (treino != null) {
 				statement.setObject(1, treino.toString());
@@ -462,7 +462,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
+			String sql = ("UPDATE aluno a SET treino_c = ? WHERE matricula = ?");
 			PreparedStatement statement = connection.prepareStatement(sql);
 			if (treino != null) {
 				statement.setObject(1, treino.toString());
@@ -483,7 +483,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
+			String sql = ("UPDATE aluno a SET treino_d = ? WHERE matricula = ?");
 			PreparedStatement statement = connection.prepareStatement(sql);
 			if (treino != null) {
 				statement.setObject(1, treino.toString());
@@ -503,7 +503,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			String sql = ("UPDATE aluno a SET treino_a = ? WHERE matricula = ?");
+			String sql = ("UPDATE aluno a SET treino_e = ? WHERE matricula = ?");
 			PreparedStatement statement = connection.prepareStatement(sql);
 			if (treino != null) {
 				statement.setObject(1, treino.toString());

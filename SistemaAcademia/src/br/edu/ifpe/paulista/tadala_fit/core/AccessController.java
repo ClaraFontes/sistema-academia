@@ -6,8 +6,6 @@ import br.edu.ifpe.paulista.tadala_fit.data.MySQLRepository;
 import br.edu.ifpe.paulista.tadala_fit.data.Repository;
 
 public class AccessController {
-
-	
 		
 		public static Aluno loginAluno(String user, String password) throws ClassNotFoundException, SQLException {
 			if (user.isBlank() || password.isBlank()) {
