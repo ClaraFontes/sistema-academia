@@ -2,7 +2,7 @@
 <h1 align="center">   - Sistema de Gerenciamento de Academia - </h1>
 
 <p align = "center">
-<img src=" " height="300" width="480">
+<img src="https://user-images.githubusercontent.com/104461710/217954151-3129b942-cec7-4451-b2ed-119d706ea667.png" height="450" width="480">
 </p>
 
 <p align = "center">
