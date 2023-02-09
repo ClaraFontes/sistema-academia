@@ -152,8 +152,6 @@ public class FrameLogin {
 			public void focusLost(FocusEvent e) {
 				if(txtPassword.getPassword().toString().equals("")) {
 					txtPassword.setText("Senha");
-					
-
 				}
 			}
 		});
@@ -197,7 +195,10 @@ public class FrameLogin {
 				String password = new String(txtPassword.getPassword());
 				
 				try {
-					if (chckbxAluno.isSelected() && chckbxAdm.isSelected() && chckbxProf.isSelected()) {
+					if (chckbxAluno.isSelected() && chckbxAdm.isSelected() && chckbxProf.isSelected() 
+							|| (chckbxAluno.isSelected() && chckbxProf.isSelected()) 
+							|| (chckbxAluno.isSelected() && chckbxAdm.isSelected()) 
+							|| (chckbxProf.isSelected() && chckbxProf.isSelected())) {
 						lblloginmensagem.setText("Marque apenas uma caixa.");
 					} else if (!chckbxAluno.isSelected() && !chckbxAdm.isSelected() && !chckbxProf.isSelected()) {
 						lblloginmensagem.setText("Marque alguma caixa.");

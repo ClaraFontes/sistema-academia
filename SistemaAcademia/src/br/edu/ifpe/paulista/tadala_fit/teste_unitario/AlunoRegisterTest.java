@@ -5,6 +5,21 @@ import org.junit.Test;
 import br.edu.ifpe.paulista.tadala_fit.core.CreateController;
 
 public class AlunoRegisterTest {
+	
+	/*	String user = "testuser";
+		String password = "testpass";
+		String nome = "Teste Nome";
+		String sexo = "Masculino";
+		String cpf = "12345678900";
+		String telefone = "1234567890";
+		String email = "teste@email.com";
+		String data_nascimento = "2000-01-01";
+		Double altura = 1.70;
+		Double peso = 70.0;
+		Double bf = 20.0;
+		String comorbidade = "Nenhuma";
+		Blob image = null;
+		*/
 
 	@Test
 	public void testCreateAlunoBlankField() {
