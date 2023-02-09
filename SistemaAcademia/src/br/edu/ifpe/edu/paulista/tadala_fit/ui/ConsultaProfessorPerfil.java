@@ -53,7 +53,8 @@ public class ConsultaProfessorPerfil extends JDialog {
 	public static void main(String[] args) {
 		try {
 			Integer matricula = null;
-			ConsultaProfessorPerfil dialog = new ConsultaProfessorPerfil(matricula);
+			String nome = null;
+			ConsultaProfessorPerfil dialog = new ConsultaProfessorPerfil(matricula, nome);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -64,7 +65,7 @@ public class ConsultaProfessorPerfil extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ConsultaProfessorPerfil(Integer matricula) {
+	public ConsultaProfessorPerfil(Integer matricula, String nome) {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ConsultaProfessorPerfil.class.getResource("/assets_loginFrame/logotipo200x200.png")));
 		setBounds(100, 100, 1024, 720);
@@ -277,7 +278,7 @@ public class ConsultaProfessorPerfil extends JDialog {
 		contentPanel.add(btneditar);
 		
 		try {
-			pesquisaProfessor = ReadController.getProfessorFiltered(matricula);
+			pesquisaProfessor = ReadController.getProfessorFiltered(matricula, nome);
 			textmatricula.setText(Integer.toString(pesquisaProfessor.getMatricula()));
 			textnome.setText(pesquisaProfessor.getNome());
 			texttelefone.setText(pesquisaProfessor.getTelefone());

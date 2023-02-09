@@ -23,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.DeleteController;
 import br.edu.ifpe.paulista.tadala_fit.core.Professor;
 import br.edu.ifpe.paulista.tadala_fit.core.ReadController;
@@ -38,8 +40,9 @@ public class ConsultaProfessor extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private JTextField Pesquisar;
+	private JTextField pesquisar;
 	private Object matricula;
+	private Object nome;
 
 	public Object getMatricula() {
 		return matricula;
@@ -82,7 +85,8 @@ public class ConsultaProfessor extends JDialog {
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Integer pesquisa = Integer.parseInt(Pesquisar.getText());
+					Integer pesquisa = Integer.parseInt(pesquisar.getText());
+					String nome = "whatever";
 					table.setModel(new DefaultTableModel(
 							new Object[][] {
 							},
@@ -91,14 +95,36 @@ public class ConsultaProfessor extends JDialog {
 							}
 						));
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-					Professor pesquisaProfessor = ReadController.getProfessorFiltered(pesquisa);
+					Professor pesquisaProfessor = ReadController.getProfessorFiltered(pesquisa, nome);
 						modelo.addRow(new Object[]{
 								pesquisaProfessor.getMatricula(),
 								pesquisaProfessor.getNome(),
 						});	
 						
 				} catch (NumberFormatException e5) {
-					JOptionPane.showMessageDialog(null,"Insira uma matrícula válida pra realizar a pesquisa!");
+					Integer pesquisa = 0;
+					String nome = pesquisar.getText();
+					table.setModel(new DefaultTableModel(
+							new Object[][] {
+							},
+							new String[] {
+								"Id", "Nome"
+							}
+						));
+					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+					Professor pesquisaProfessor;
+					try {
+						pesquisaProfessor = ReadController.getProfessorFiltered(pesquisa,nome);
+						modelo.addRow(new Object[]{
+								pesquisaProfessor.getMatricula(),
+								pesquisaProfessor.getNome(),
+						});
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (NullPointerException e1) {
+			          
+			        }
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -183,7 +209,8 @@ public class ConsultaProfessor extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Integer matriculafiltered = (Integer) matricula;
 				Integer matricula = matriculafiltered.intValue();
-				ConsultaProfessorPerfil cpp = new ConsultaProfessorPerfil(matricula);
+				String nomefiltered = (String) nome;
+				ConsultaProfessorPerfil cpp = new ConsultaProfessorPerfil(matricula, nomefiltered);
 				cpp.setModal(true);
 				cpp.setVisible(true);
 			}
@@ -212,7 +239,9 @@ public class ConsultaProfessor extends JDialog {
 		            if (linha >= 0) {
 		                DefaultTableModel model = (DefaultTableModel) table.getModel();
 		                int coluna= 0; 
+		                int coluna2 = 1;
 		                matricula = model.getValueAt(linha, coluna);
+		                nome = model.getValueAt(linha, coluna2);
 		                //System.out.print(matricula+"\n");
 		            }
 		        }
@@ -235,10 +264,10 @@ public class ConsultaProfessor extends JDialog {
 			}
 		});
 		
-		Pesquisar = new JTextField();
-		Pesquisar.setBounds(78, 62, 440, 26);
-		contentPanel.add(Pesquisar);
-		Pesquisar.setColumns(10);
+		pesquisar = new JTextField();
+		pesquisar.setBounds(78, 62, 440, 26);
+		contentPanel.add(pesquisar);
+		pesquisar.setColumns(10);
 		
 		JLabel logo = new JLabel("");
 		logo.setIcon(new ImageIcon(ConsultaProfessor.class.getResource("/assets_loginFrame/logotipo200x200.png")));

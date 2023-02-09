@@ -42,7 +42,6 @@ public class AlunosSemProfessor extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
 	private JTable table;
 	private Object matricula;
 	private String nome;
@@ -87,18 +86,6 @@ public class AlunosSemProfessor extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
-		textField = new JTextField();
-		textField.setFont(new Font("Arial", Font.PLAIN, 13));
-		textField.setColumns(10);
-		textField.setBounds(77, 69, 440, 26);
-		contentPanel.add(textField);
-		
-		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setFont(new Font("Arial", Font.BOLD, 13));
-		btnPesquisar.setBackground(Color.WHITE);
-		btnPesquisar.setBounds(527, 69, 142, 26);
-		contentPanel.add(btnPesquisar);
 		
 		JLabel logo = new JLabel("");
 		logo.setIcon(new ImageIcon(AlunosSemProfessor.class.getResource("/assets_loginFrame/logotipo200x200.png")));

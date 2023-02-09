@@ -556,7 +556,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 			btnpix.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						Desktop.getDesktop().open(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/src/assets_loginFrame/PIXTADALFIT.png"));
+						String caminhoApp = new File("").getAbsolutePath();
+						Desktop.getDesktop().open(new File(caminhoApp + "/src/assets_loginFrame/PIXTADALFIT.png"));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

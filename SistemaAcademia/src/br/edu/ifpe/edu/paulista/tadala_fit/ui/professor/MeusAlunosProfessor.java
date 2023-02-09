@@ -41,7 +41,6 @@ public class MeusAlunosProfessor extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private JTextField textPesquisa;
 	protected Professor professorAtual;
 	private Object matricula;
 	private String nome;
@@ -175,18 +174,6 @@ public class MeusAlunosProfessor extends JDialog {
 		btnVerPerfil.setBackground(Color.WHITE);
 		btnVerPerfil.setBounds(751, 389, 174, 36);
 		contentPanel.add(btnVerPerfil);
-		
-		textPesquisa = new JTextField();
-		textPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
-		textPesquisa.setColumns(10);
-		textPesquisa.setBounds(77, 69, 440, 26);
-		contentPanel.add(textPesquisa);
-		
-		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setFont(new Font("Arial", Font.BOLD, 13));
-		btnPesquisar.setBackground(Color.WHITE);
-		btnPesquisar.setBounds(527, 69, 142, 26);
-		contentPanel.add(btnPesquisar);
 		
 		JButton btnconsultar = new JButton("Consultar Alunos");
 		btnconsultar.addActionListener(new ActionListener() {
