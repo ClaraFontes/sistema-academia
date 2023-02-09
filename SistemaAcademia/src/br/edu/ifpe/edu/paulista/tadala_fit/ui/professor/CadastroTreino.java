@@ -329,19 +329,19 @@ public class CadastroTreino extends JDialog {
 				        try {
 				        	if (table_treino.equals("treino_a")){
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoA(alunoAtual.getMatricula(), my_obj);
-				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado A com sucesso!");
 				        	} else if (table_treino.equals("treino_b")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoB(alunoAtual.getMatricula(), my_obj);
-				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado B com sucesso!");
 				        	} else if (table_treino.equals("treino_c")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoC(alunoAtual.getMatricula(), my_obj);
-				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado C com sucesso!");
 				        	} else if (table_treino.equals("treino_d")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoD(alunoAtual.getMatricula(), my_obj);
-				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado D com sucesso!");
 				        	} else if (table_treino.equals("treino_e")) {
 				        		Aluno alunoUpdated = UpdateController.cadastrarTreinoE(alunoAtual.getMatricula(), my_obj);
-				        		JOptionPane.showMessageDialog(null,"Treino cadastrado com sucesso");
+				        		JOptionPane.showMessageDialog(null,"Treino cadastrado E com sucesso!");
 				        	}
 							
 						} catch (ClassNotFoundException | SQLException e1) {
