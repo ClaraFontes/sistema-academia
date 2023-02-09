@@ -330,8 +330,8 @@ public class CadastroAluno extends JDialog {
 		txtdata.setBounds(333, 186, 209, 21);
 		panel.add(txtdata);
 		
-		MaskFormatter mascaraPeso = new MaskFormatter("**.*");
-		mascaraPeso.setValidCharacters("0123456789");
+		MaskFormatter mascaraPeso = new MaskFormatter("*****");
+		mascaraPeso.setValidCharacters("0123456789.");
 		mascaraPeso.setAllowsInvalid(false);
 		mascaraPeso.setValueContainsLiteralCharacters(false);
 		txtpeso = new JFormattedTextField(mascaraPeso);
