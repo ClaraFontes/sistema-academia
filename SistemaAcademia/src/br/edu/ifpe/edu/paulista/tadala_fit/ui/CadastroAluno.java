@@ -251,7 +251,7 @@ public class CadastroAluno extends JDialog {
 					}
 
 				} catch (NumberFormatException e5) {
-					JOptionPane.showMessageDialog(null, "Preencha os Campos ALTURA, PESO E BF corretamente.");
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
 					
 				} catch (RuntimeException e2) {
 					
@@ -378,7 +378,8 @@ public class CadastroAluno extends JDialog {
 		btnpdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Desktop.getDesktop().open(new File("C:/Users/Matheus/Desktop/sistema-academia/SistemaAcademia/src/assets_loginFrame/PIXTADALFIT.png"));
+					String caminhoApp = new File("").getAbsolutePath();
+					Desktop.getDesktop().open(new File(caminhoApp + "/src/assets_loginFrame/PIXTADALFIT.png"));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

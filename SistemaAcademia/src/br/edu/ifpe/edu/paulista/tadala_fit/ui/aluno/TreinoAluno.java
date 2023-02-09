@@ -43,7 +43,7 @@ public class TreinoAluno extends JDialog {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+			public void run() { 
 				try {
 					TreinoAluno dialog = new TreinoAluno();
 					dialog.setVisible(true);

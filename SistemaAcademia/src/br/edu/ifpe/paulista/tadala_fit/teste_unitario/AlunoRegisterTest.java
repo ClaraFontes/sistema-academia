@@ -1,26 +1,16 @@
 package br.edu.ifpe.paulista.tadala_fit.teste_unitario;
 
 import static org.junit.Assert.*;
+
+import java.sql.Blob;
+
 import org.junit.Test;
+
+import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
 import br.edu.ifpe.paulista.tadala_fit.core.CreateController;
 
 public class AlunoRegisterTest {
 	
-	/*	String user = "testuser";
-		String password = "testpass";
-		String nome = "Teste Nome";
-		String sexo = "Masculino";
-		String cpf = "12345678900";
-		String telefone = "1234567890";
-		String email = "teste@email.com";
-		String data_nascimento = "2000-01-01";
-		Double altura = 1.70;
-		Double peso = 70.0;
-		Double bf = 20.0;
-		String comorbidade = "Nenhuma";
-		Blob image = null;
-		*/
-
 	@Test
 	public void testCreateAlunoBlankField() {
 		Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -36,6 +26,27 @@ public class AlunoRegisterTest {
 			CreateController.createAluno("1231$@.!23"/*usuário*/, "12123"/*Senha*/, "1231$@.!23"/*Nome*/, "1231$@.!23"/*Sexo*/, "ASDUHSAIDUHSI"/*CPF*/, "ASDUHSAIDUHSI"/*telefone*/,"ASDUHSAIDUHSasdsadI"/*email*/, "24/0*&!&/10"/*dt_nascimento*/,1.90/*altura*/,75.7/*peso*/,12.0/*bf*/,"123812321"/*comorbidade*/, null/*Blob*/);
 		});
 		assertEquals("Preencha os campos corretamente", exception.getMessage());
+	}
+	
+	@Test
+	public void testCreateAlunoMatchesPasswordSize() {
+		String user = "testuser";
+		String password = "123"; //menos de 6 dígitos
+		String nome = "Teste Nome";
+		String sexo = "Masculino";
+		String cpf = "12345678900";
+		String telefone = "1234567890";
+		String email = "teste@email.com";
+		String data_nascimento = "2000-01-01";
+		Double altura = 1.70;
+		Double peso = 70.0;
+		Double bf = 20.0;
+		String comorbidade = "Nenhuma";
+		Blob image = null;
+		Exception exception = assertThrows(RuntimeException.class, () -> {
+			CreateController.createAluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, image);
+		});
+		assertEquals("Senha muito curta, use 6 ou mais caracteres", exception.getMessage());
 	}
 }
 

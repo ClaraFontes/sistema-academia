@@ -56,7 +56,7 @@ public class FrameLogin {
 				try {
 					FrameLogin window = new FrameLogin();
 					window.framelogin.setVisible(true);
-				} catch (Exception e) {
+				} catch (Exception e) { 
 					e.printStackTrace();
 				}
 			}
