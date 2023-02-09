@@ -9,6 +9,13 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -28,6 +35,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import org.apache.commons.validator.routines.DateValidator;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class CadastroAluno extends JDialog {
@@ -52,8 +66,7 @@ public class CadastroAluno extends JDialog {
 	private java.sql.Blob imagemBlob = null;
 	private JPasswordField txtpassword;
 	private JButton btnpdf;
-	
-	
+	private ArrayList<Double> arr = new ArrayList<Double>();
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -234,14 +247,48 @@ public class CadastroAluno extends JDialog {
 					String passwordstrip = password.strip();
 					EmailValidator emailvalidator = EmailValidator.getInstance();
 					DateValidator datevalidator = DateValidator.getInstance();
-
+					
+					
+					
+					Date hoje = new Date();
+					SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
+					SimpleDateFormat formatoAno = new SimpleDateFormat("yyyy");
+					String dataFormatada = formato.format(hoje);
+					String mesFormatado = formatoMes.format(hoje);
+					String anoFormatado = formatoAno.format(hoje);
+					
+					
+					
+					arr.add(altura);
+					arr.add(peso);
+					arr.add(bf);
+					JSONObject my_obj = new JSONObject();
+					JSONObject my_obj1 = new JSONObject();
+					JSONArray jsonArray = new JSONArray();
+					
+					
+					for (Double lista: arr) {
+						try {
+							jsonArray.put(lista);
+							
+						} catch (JSONException e7) {
+			        	    e7.printStackTrace();
+			        	  }
+					}
+	
+					my_obj1.put(mesFormatado, jsonArray);
+					my_obj.put(anoFormatado, my_obj1);
+					
+					
+							
 					if (!emailvalidator.isValid(email)) {
 							JOptionPane.showMessageDialog(null,"Email inválido");
 					}else if(!datevalidator.isValid(data)){
 							JOptionPane.showMessageDialog(null,"Data inválida");
 					}
 					if(emailvalidator.isValid(email) && datevalidator.isValid(data)) {
-						alunoCadastrado = CreateController.createAluno(userstrip, passwordstrip, nometrim, sexo, cpf, telefone, emailstrip, data, altura, peso, bf, comorbidade.trim(),imagemBlob);
+						alunoCadastrado = CreateController.createAluno(userstrip, passwordstrip, nometrim, sexo, cpf, telefone, emailstrip, data, altura, peso, bf, comorbidade.trim(),imagemBlob, my_obj, dataFormatada);
 						if (alunoCadastrado == null) {
 							JOptionPane.showMessageDialog(null, "Usuário já existe no banco");
 						}else{
@@ -258,12 +305,12 @@ public class CadastroAluno extends JDialog {
 					JOptionPane.showMessageDialog(null, e2.getMessage());
 			
 				} catch (SQLException e3) {
-					e3.getMessage();
+					e3.printStackTrace();
 					
 				} catch (ClassNotFoundException e1) {
-					e1.getMessage();
+					e1.printStackTrace();
 				} catch (Exception e1) {
-					e1.getMessage();
+					e1.printStackTrace();
 				}
 			}
 		});

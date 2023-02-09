@@ -18,6 +18,8 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialException;
@@ -32,6 +34,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import br.edu.ifpe.edu.paulista.tadala_fit.ui.aluno.PerfilAluno;
 import br.edu.ifpe.paulista.tadala_fit.core.Aluno;
@@ -54,12 +64,16 @@ public class ConsultaAlunoPerfil extends JDialog {
 	private JButton btnsubmeter;
 	private JButton btnfoto;
 	private Aluno pesquisaAluno;
+	protected Aluno alunoPerfil;
 	private JFormattedTextField txttelefone;
 	private JFormattedTextField txtaltura;
 	private JFormattedTextField txtbf;
 	private JFormattedTextField txtemail;
 	private JFormattedTextField txtpeso;
 	private JButton btnpix;
+	private JSONArray arr = new JSONArray();
+	ArrayList<Double> arraySup = new ArrayList<Double>();
+	ArrayList<JSONArray> arraySuporte = new ArrayList<JSONArray>();
 	/**
 	 * 
 	 */
@@ -82,8 +96,10 @@ public class ConsultaAlunoPerfil extends JDialog {
 	/**
 	 * Create the dialog.
 	 * @throws ParseException 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public ConsultaAlunoPerfil(Integer matricula, String nome) throws ParseException {
+	public ConsultaAlunoPerfil(Integer matricula, String nome) throws ParseException, ClassNotFoundException, SQLException {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -314,6 +330,45 @@ public class ConsultaAlunoPerfil extends JDialog {
 					Double pesoT = pesquisaAluno.getPeso();
 					Double bfT = pesquisaAluno.getBf();
 					Blob foto = pesquisaAluno.getImage();
+					Aluno alunoConsultado = ReadController.getAlunoFiltered(matricula, nome);
+					JSONObject jssss = alunoConsultado.getEvolucao();
+					Date hoje = new Date();
+					SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
+					SimpleDateFormat formatoAno = new SimpleDateFormat("yyyy");
+					String mesFormatado = formatoMes.format(hoje);
+					String anoFormatado = formatoAno.format(hoje);
+					
+					
+					
+					arr.put(altura);
+					arr.put(peso);
+					arr.put(bf);
+					JSONObject my_obj = new JSONObject();
+					JSONObject my_obj1 = new JSONObject();
+					JSONArray jsonArray = new JSONArray();
+					
+					
+					
+					
+					for (Object lista: arr) {
+						try {
+							jsonArray.put(lista);
+						} catch (JSONException e7) {
+			        	    e7.printStackTrace();
+			        	  }
+					}
+					
+					
+					my_obj1.put(mesFormatado, jsonArray);
+					
+					
+					if (jssss.has(anoFormatado) == true) {
+						my_obj = jssss.accumulate(anoFormatado, my_obj1);
+					} else {
+						my_obj = jssss.accumulate(anoFormatado, my_obj1);
+					}
+					
+					
 					if(foto == null) {
 						if(telefone.equals(telefoneT) && email.equals(emailT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT) && imagemBlob == imagemBlobnova){
 							System.out.print("Estou no primeiro If");
@@ -321,7 +376,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 							btneditar.setVisible(true);
 							btneditar.setEnabled(true);
 						}else {
-							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova);
+							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova, my_obj);
 							btneditar.setVisible(true);
 							btneditar.setEnabled(true);
 							btnfoto.setEnabled(false);
@@ -334,7 +389,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 							btneditar.setVisible(true);
 							btneditar.setEnabled(true);
 						}else {
-							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova);
+							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova, my_obj);
 							btneditar.setVisible(true);
 							btneditar.setEnabled(true);
 							btnfoto.setEnabled(false);
@@ -375,7 +430,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 					JOptionPane.showMessageDialog(null,"Preencha os campos corretamente");
 					e4.printStackTrace();
 			
-				}
+				} 
 			}
 		});
 		
@@ -389,6 +444,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		perfilaluno.add(btnsubmeter);
 		
 		btneditar = new JButton("Alterar Informações");
+		
 		btneditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtbf.setBorder( new TitledBorder("") );
@@ -523,7 +579,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 		btnpagamento.setFont(new Font("Arial", Font.BOLD, 16));
 		btnpagamento.setFocusPainted(false);
 		btnpagamento.setBackground(new Color(0, 69, 130));
-		btnpagamento.setBounds(520, 493, 208, 40);
+		btnpagamento.setBounds(520, 510, 208, 40);
 		perfilaluno.add(btnpagamento);
 		
 		MaskFormatter mascaraPeso = new MaskFormatter("****");
@@ -569,11 +625,69 @@ public class ConsultaAlunoPerfil extends JDialog {
 			btnpix.setFont(new Font("Arial", Font.BOLD, 16));
 			btnpix.setFocusPainted(false);
 			btnpix.setBackground(new Color(0, 69, 130));
-			btnpix.setBounds(274, 493, 208, 40);
+			btnpix.setBounds(274, 510, 208, 40);
 			perfilaluno.add(btnpix);
-		
-			
-			
+
+			try {
+				
+				alunoPerfil = ReadController.getAlunoFiltered(matricula, nome);
+				
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			JButton btneditar_1 = new JButton("Evolução Disponível!");
+			DateTime dataHoraAtual = new DateTime();
+			DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+			DateTime dt = formatter.parseDateTime(alunoPerfil.getUltimaEvolucao());
+			int dias = Days.daysBetween(dt, dataHoraAtual).getDays();
+			if (dias < 30) {
+				btneditar_1.setEnabled(false);
+				btneditar_1.setVisible(false);
+			}
+			btneditar_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					
+					
+					System.out.print(dias);
+					 
+						if (alunoPerfil.getQtdDiasUltimoPagamento() > 30) {	 
+						
+							JOptionPane.showMessageDialog(null,"Primeiro renove a mensalidade para fazer a atualização mensal da evolução.");
+							
+							
+							btneditar_1.setEnabled(false);
+						
+							
+						
+						}else {
+						 
+						btneditar_1.setEnabled(false);
+						btneditar_1.setVisible(false);
+						txtbf.setBorder( new TitledBorder("") );
+						txtaltura.setBorder( new TitledBorder("") );
+						txtpeso.setBorder( new TitledBorder("") );
+						txtbf.setEnabled(true);
+						txtaltura.setEnabled(true);
+						txtpeso.setEnabled(true);
+						btnsubmeter.setEnabled(true);
+						btnsubmeter.setVisible(true);
+						
+					}
+					}
+					
+					
+					
+				
+			});
+			btneditar_1.setForeground(Color.WHITE);
+			btneditar_1.setFont(new Font("Arial", Font.BOLD, 16));
+			btneditar_1.setFocusPainted(false);
+			btneditar_1.setBackground(new Color(0, 69, 130));
+			btneditar_1.setBounds(390, 459, 208, 40);
+			perfilaluno.add(btneditar_1);
+      
 			Blob foto = pesquisaAluno.getImage();
 			if (foto != null) {
 				byte[] data = foto.getBytes(1,(int) foto.length());
@@ -611,5 +725,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 			e1.printStackTrace();
 		}
 	}
+	
+	
 }
 

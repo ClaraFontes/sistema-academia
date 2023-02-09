@@ -60,11 +60,11 @@ public class MySQLRepository implements Repository {
 	}
 	
 	
-	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade, Blob image)  throws SQLException {
+	public Aluno cadastroAluno(String user, String password, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, Double altura, Double peso, Double bf, String comorbidade, Blob image, JSONObject evolucao, String ultimaEvolucao)  throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
-			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade,foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade,foto, evolucao, dt_evolucao) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario,cpf FROM aluno a WHERE a.usuario = ? OR a.cpf = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
 			stm2.setString(1, user);
@@ -88,12 +88,18 @@ public class MySQLRepository implements Repository {
 				stm.setDouble(11, bf);
 				stm.setString(12, comorbidade);
 				stm.setBlob(13, image);
+				if (evolucao != null) {
+					stm.setObject(14, evolucao.toString());
+				} else {
+					stm.setObject(14, null);
+				}
+				stm.setString(15, ultimaEvolucao);
 				stm.execute();
 			}
 			} finally {
 				connection.close();
 			}
-		Aluno alunoCadastrado = new Aluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento,altura, peso, bf, comorbidade,image);
+		Aluno alunoCadastrado = new Aluno(user, password, nome, sexo, cpf, telefone, email, data_nascimento,altura, peso, bf, comorbidade,image, evolucao, ultimaEvolucao);
 		return alunoCadastrado;
 		}
 
@@ -101,7 +107,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
-			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, treino_e, dt_pagamento, foto FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, treino_e, dt_pagamento, foto, evolucao FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
@@ -212,11 +218,11 @@ public class MySQLRepository implements Repository {
 		}
 	}
 	
-	public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob image) throws SQLException {
+	public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob image, JSONObject evolucao) throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ?, foto = ? WHERE matricula = ?");
+			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ?, foto = ?, evolucao = ? WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setString(1, telefone);
 			statement1.setString(2, email);
@@ -224,7 +230,12 @@ public class MySQLRepository implements Repository {
 			statement1.setDouble(4, peso);
 			statement1.setDouble(5, bf);
 			statement1.setBlob(6,image);
-			statement1.setInt(7, matricula);
+			if (evolucao != null) {
+				statement1.setObject(7, evolucao.toString());
+			} else {
+				statement1.setObject(7, null);
+			}
+			statement1.setInt(8, matricula);
 			statement1.execute();
 			JOptionPane.showMessageDialog(null, "Atualização feita com Sucesso,Reinicie a sessão para ve as alterações!");
 		} finally {
@@ -529,6 +540,7 @@ public class MySQLRepository implements Repository {
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 		DateTime dt = formatter.parseDateTime(dt_pagamento);
 		int dias = Days.daysBetween(dt, dataHoraAtual).getDays();
+		String ultimaEvolucao = resultSet.getString("dt_evolucao");
 		Object treino_a = resultSet.getObject("treino_a");
 		JSONObject treino_a_JSON = null;
 		
@@ -543,6 +555,14 @@ public class MySQLRepository implements Repository {
 		
 		Object treino_e = resultSet.getObject("treino_e");
 		JSONObject treino_e_JSON = null;
+		
+		Object evolucao = resultSet.getObject("evolucao");
+		JSONObject evolucao_JSON = null;
+		
+		if (evolucao != null) {
+			evolucao_JSON =  new JSONObject(evolucao.toString());
+		}
+		
 		if (treino_a != null) {
 			treino_a_JSON = new JSONObject(treino_a.toString());
 		}	
@@ -563,7 +583,8 @@ public class MySQLRepository implements Repository {
 		}
 		
 		Blob image = (Blob) resultSet.getBlob("foto");
-		Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, matricula_prof_encarregado, dias, treino_a_JSON, treino_b_JSON, treino_c_JSON, treino_d_JSON, treino_e_JSON, image);
+		
+		Aluno alunoRecebido = new Aluno(matricula, user, password, nome, sexo, cpf,telefone, email, data_nascimento,altura, peso, bf, comorbidade, matricula_prof_encarregado, dias, treino_a_JSON, treino_b_JSON, treino_c_JSON, treino_d_JSON, treino_e_JSON, image, evolucao_JSON, ultimaEvolucao);
 		return alunoRecebido;
 	}
 	private Professor getProfessor(ResultSet resultSet) throws SQLException {

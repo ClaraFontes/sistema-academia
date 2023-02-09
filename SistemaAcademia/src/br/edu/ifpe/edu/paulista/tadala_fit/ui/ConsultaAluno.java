@@ -127,7 +127,7 @@ public class ConsultaAluno extends JDialog {
 					cap = new ConsultaAlunoPerfil(matricula,nome);
 					cap.setModal(true);
 					cap.setVisible(true);
-				} catch (ParseException e1) {
+				} catch (ParseException | ClassNotFoundException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

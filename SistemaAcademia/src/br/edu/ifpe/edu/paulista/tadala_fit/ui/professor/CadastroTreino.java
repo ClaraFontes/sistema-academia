@@ -63,7 +63,7 @@ public class CadastroTreino extends JDialog {
 	private ArrayList<String> exerciciosNewx = new ArrayList<String>();
 	private ArrayList<ArrayList<String>> exerciciosNew2 = new ArrayList<ArrayList<String>>();
 	private ArrayList<ArrayList<String>> exerciciosNew3 = new ArrayList<ArrayList<String>>();
-	ArrayList<String> arrSuporte = new ArrayList<String>();
+	private ArrayList<String> arrSuporte = new ArrayList<String>();
 	private JTable table;
 	private static String table_treino;
 	private boolean celleditable = false;
