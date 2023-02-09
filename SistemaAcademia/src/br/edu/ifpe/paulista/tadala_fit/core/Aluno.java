@@ -27,7 +27,25 @@ public class Aluno {
 	protected JSONObject treino_e;
 	protected int qtdDiasUltimoPagamento;
 	private Blob image;
+	public String getUltimaEvolucao() {
+		return ultimaEvolucao;
+	}
+
+	public void setUltimaEvolucao(String ultimaEvolucao) {
+		this.ultimaEvolucao = ultimaEvolucao;
+	}
+
+	protected JSONObject evolucao;
+	protected String ultimaEvolucao;
 	
+	public JSONObject getEvolucao() {
+		return evolucao;
+	}
+
+	public void setEvolucao(JSONObject evolucao) {
+		this.evolucao = evolucao;
+	}
+
 	public Blob getImage() {
 		return image;
 	}
@@ -36,7 +54,9 @@ public class Aluno {
 		this.image = image;
 	}
 
-	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int matricula_prof_encarregado, int qtdDiasUltimoPagamento,JSONObject treino_a, JSONObject treino_b,JSONObject treino_c, JSONObject treino_d, JSONObject treino_e, Blob image) {
+	
+	
+	public Aluno(int matricula, String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade, int matricula_prof_encarregado, int qtdDiasUltimoPagamento,JSONObject treino_a, JSONObject treino_b,JSONObject treino_c, JSONObject treino_d, JSONObject treino_e, Blob image, JSONObject evolucao, String ultimaEvolucao) {
 		this.matricula = matricula;
 		this.usuario = usuario;
 		this.senha = senha;
@@ -58,9 +78,11 @@ public class Aluno {
 		this.treino_d = treino_d;
 		this.treino_e = treino_e;
 		this.image = image;
+		this.evolucao = evolucao;
+		this.ultimaEvolucao = ultimaEvolucao;
 	}
 	
-	public Aluno( String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade,Blob image) {
+	public Aluno( String usuario, String senha, String nome, String sexo, String cpf, String telefone, String email, String data_nascimento, double altura, double peso, double bf, String comorbidade,Blob image, JSONObject evolucao, String ultimaEvolucao) {
 		this.usuario = usuario;
 		this.senha = senha;
 		this.nome = nome;
@@ -74,6 +96,8 @@ public class Aluno {
 		this.bf = bf;
 		this.comorbidade = comorbidade;
 		this.image = image;
+		this.evolucao = evolucao;
+		this.ultimaEvolucao = ultimaEvolucao;
 	}
 	
 	

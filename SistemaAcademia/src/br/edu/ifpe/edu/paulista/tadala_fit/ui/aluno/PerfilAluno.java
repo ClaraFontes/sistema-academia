@@ -330,7 +330,7 @@ public class PerfilAluno extends JDialog {
 						btnfoto.setVisible(false);
 						btnfoto.setEnabled(false);
 					}else {
-						UpdateController.UpdateAluno(telefone,email,altura,peso,bf,matricula,imagemBlobnova);
+						UpdateController.UpdateAlunoAluno(telefone,email,altura,peso,bf,matricula,imagemBlobnova);
 						btneditar.setVisible(true);
 						btneditar.setEnabled(true);
 						btnfoto.setVisible(false);

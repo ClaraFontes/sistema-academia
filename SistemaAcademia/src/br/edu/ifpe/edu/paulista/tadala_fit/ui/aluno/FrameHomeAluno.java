@@ -125,13 +125,13 @@ public class FrameHomeAluno {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnconsultartreino.setBounds(45, 371, 176, 33);
+		btnconsultartreino.setBounds(45, 362, 176, 33);
 		panel.add(btnconsultartreino);
 		
 		JButton btnsair = new JButton("Sair");
 		btnsair.setBackground(new Color(255, 255, 255));
 		btnsair.setFont(new Font("Arial", Font.BOLD, 13));
-		btnsair.setBounds(45, 436, 176, 33);
+		btnsair.setBounds(45, 476, 176, 33);
 		panel.add(btnsair);
 		btnsair.addMouseListener(new MouseAdapter() {
 			@Override
@@ -162,6 +162,21 @@ public class FrameHomeAluno {
 		txtboasvindas.setBounds(133, 222, 97, 20);
 		panel.add(txtboasvindas);
 		txtboasvindas.setColumns(10);
+		
+		JButton btnEvoluo = new JButton("Evolução");
+		btnEvoluo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EvolucaoAluno ea = new EvolucaoAluno();
+				ea.getAluno(alunoAtual);
+				ea.setModal(true);
+				ea.setVisible(true);
+			}
+		});
+		
+		btnEvoluo.setFont(new Font("Arial", Font.BOLD, 13));
+		btnEvoluo.setBackground(Color.WHITE);
+		btnEvoluo.setBounds(45, 419, 176, 33);
+		panel.add(btnEvoluo);
 		
 		
 		JLabel lblNewLabel_1 = new JLabel("");
