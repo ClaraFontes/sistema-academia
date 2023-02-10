@@ -10,7 +10,7 @@ public class UpdateControllerTest {
 	@Test
 	public void test() {
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			UpdateController.UpdateAluno("", "", 1.70, 78.5, 10.0, 2, null);
+			UpdateController.UpdateAluno("", "", 1.70, 78.5, 10.0, 2, null, null, "");
 		});
 		assertEquals("Preencha todos os campos", exception.getMessage());
 		};

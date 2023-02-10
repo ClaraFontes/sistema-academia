@@ -58,6 +58,7 @@ public class PerfilAluno extends JDialog {
 	private Blob imagemBlobnova;
 	private JButton btnfoto;
 	private String telefoneT;
+	private String emailT;
 	private Double alturaT;
 	private Double pesoT;
 	private Double bfT;
@@ -228,7 +229,7 @@ public class PerfilAluno extends JDialog {
 		perfilaluno.add(txtdata);
 		
 		MaskFormatter mascaraPeso = new MaskFormatter("*****");
-		mascaraPeso.setValidCharacters("123456789.");
+		mascaraPeso.setValidCharacters("0123456789. ");
 		txtpeso = new JFormattedTextField(mascaraPeso);
 		txtpeso.setForeground(Color.WHITE);
 		txtpeso.setFont(new Font("Arial", Font.BOLD, 16));
@@ -280,7 +281,8 @@ public class PerfilAluno extends JDialog {
 		txtaltura.setBounds(556, 224, 44, 20);
 		perfilaluno.add(txtaltura);
 		
-		MaskFormatter mascaraBf = new MaskFormatter("##");
+		MaskFormatter mascaraBf = new MaskFormatter("***");
+		mascaraBf.setValidCharacters("0123456789. ");
 		txtbf = new JFormattedTextField(mascaraBf);
 		txtbf.setForeground(Color.WHITE);
 		txtbf.setFont(new Font("Arial", Font.BOLD, 16));
@@ -307,14 +309,8 @@ public class PerfilAluno extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				btnenviar.setVisible(false);
 				btnenviar.setEnabled(false);
-				txtbf.setEnabled(false);
-				txtaltura.setEnabled(false);
-				txtpeso.setEnabled(false);
 				txtemail.setEnabled(false);
 				txttelefone.setEnabled(false);
-				txtbf.setBorder(null);
-				txtaltura.setBorder(null);
-				txtpeso.setBorder(null);
 				txtemail.setBorder(null);
 				txttelefone.setBorder(null);
 				try {
@@ -324,7 +320,7 @@ public class PerfilAluno extends JDialog {
 					Double peso = Double.parseDouble(txtpeso.getText());
 					Double bf = Double.parseDouble(txtbf.getText());
 					Integer matricula = Integer.parseInt(txtmatricula.getText());
-					if (telefone.equals(telefoneT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT) && imagemBlob.equals(imagemBlobnova)){
+					if (email.equals(emailT)&& telefone.equals(telefoneT) && altura.equals(alturaT) && peso.equals(pesoT) && bf.equals(bfT) && imagemBlob.equals(imagemBlobnova)){
 						JOptionPane.showMessageDialog(null,"Atualize pelo menos um dado para realizar a alteração");
 						btneditar.setVisible(true);
 						btneditar.setEnabled(true);
@@ -338,26 +334,18 @@ public class PerfilAluno extends JDialog {
 						btnfoto.setEnabled(false);
 					}
 				} catch (NumberFormatException e5) {
-					txtbf.setBorder( new TitledBorder("") );
-					txtaltura.setBorder( new TitledBorder("") );
-					txtpeso.setBorder( new TitledBorder("") );
 					txttelefone.setBorder( new TitledBorder("") );
-					txtbf.setEnabled(true);
-					txtaltura.setEnabled(true);
-					txtpeso.setEnabled(true);
+					txtemail.setBorder(new TitledBorder(""));
+					txtemail.setEnabled(true);
 					txttelefone.setEnabled(true);
 					btnenviar.setEnabled(true);
 					btnenviar.setVisible(true);
 					JOptionPane.showMessageDialog(null,"Preencha os campos ALTURA, PESO E BF corretamente com números válidos");
 				} catch (RuntimeException e1) {
 					e1.printStackTrace();
-					txtbf.setBorder( new TitledBorder("") );
-					txtaltura.setBorder( new TitledBorder("") );
-					txtpeso.setBorder( new TitledBorder("") );
 					txttelefone.setBorder( new TitledBorder("") );
-					txtbf.setEnabled(true);
-					txtaltura.setEnabled(true);
-					txtpeso.setEnabled(true);
+					txtemail.setBorder(new TitledBorder(""));
+					txtemail.setEnabled(true);
 					txttelefone.setEnabled(true);
 					btnenviar.setEnabled(true);
 					btnenviar.setVisible(true);
@@ -385,14 +373,10 @@ public class PerfilAluno extends JDialog {
 		btneditar = new JButton("Alterar Informações");
 		btneditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtbf.setBorder( new TitledBorder("") );
-				txtaltura.setBorder( new TitledBorder("") );
-				txtpeso.setBorder( new TitledBorder("") );
 				txttelefone.setBorder( new TitledBorder("") );
-				txtbf.setEnabled(true);
-				txtaltura.setEnabled(true);
-				txtpeso.setEnabled(true);
 				txttelefone.setEnabled(true);
+				txtemail.setBorder(new TitledBorder(""));
+				txtemail.setEnabled(true);
 				btnenviar.setEnabled(true);
 				btnenviar.setVisible(true);
 				btnfoto.setVisible(true);
@@ -486,6 +470,7 @@ public class PerfilAluno extends JDialog {
 		txtbf.setText(Double.toString(alunoLogado.getBf()));
 		txtcomorbidade.setText(alunoLogado.getComorbidade());
 		telefoneT = alunoLogado.getTelefone();
+		emailT = alunoLogado.getEmail();
 		alturaT = alunoLogado.getAltura();
 		pesoT = alunoLogado.getPeso();
 		bfT = alunoLogado.getBf();

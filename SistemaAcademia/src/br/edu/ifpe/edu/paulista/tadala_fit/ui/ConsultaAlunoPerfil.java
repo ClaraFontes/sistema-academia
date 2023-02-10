@@ -280,7 +280,8 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtaltura.setBounds(556, 224, 36, 20);
 		perfilaluno.add(txtaltura);
 		
-		MaskFormatter mascaraBf = new MaskFormatter("##");
+		MaskFormatter mascaraBf = new MaskFormatter("***");
+		mascaraBf.setValidCharacters("0123456789. ");
 		txtbf = new JFormattedTextField(mascaraBf);
 		txtbf.setForeground(Color.WHITE);
 		txtbf.setFont(new Font("Arial", Font.BOLD, 16));
@@ -290,6 +291,18 @@ public class ConsultaAlunoPerfil extends JDialog {
 		txtbf.setBackground(new Color(0, 79, 157));
 		txtbf.setBounds(738, 224, 31, 20);
 		perfilaluno.add(txtbf);
+		
+		MaskFormatter mascaraPeso = new MaskFormatter("*****");
+		mascaraPeso.setValidCharacters("0123456789. ");
+		txtpeso = new JFormattedTextField(mascaraPeso);
+		txtpeso.setEnabled(false);
+		txtpeso.setForeground(new Color(255, 255, 255));
+		txtpeso.setFont(new Font("Arial", Font.BOLD, 16));
+		txtpeso.setDisabledTextColor(new Color(255, 255, 255));
+		txtpeso.setBorder(null);
+		txtpeso.setBackground(new Color(0, 79, 157));
+		txtpeso.setBounds(324, 225, 74, 19);
+		perfilaluno.add(txtpeso);
 		
 		txtstatus = new JTextField();
 		txtstatus.setHorizontalAlignment(SwingConstants.CENTER);
@@ -333,8 +346,10 @@ public class ConsultaAlunoPerfil extends JDialog {
 					Aluno alunoConsultado = ReadController.getAlunoFiltered(matricula, nome);
 					JSONObject jssss = alunoConsultado.getEvolucao();
 					Date hoje = new Date();
+					SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 					SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
 					SimpleDateFormat formatoAno = new SimpleDateFormat("yyyy");
+					String dataFormatada = formato.format(hoje);
 					String mesFormatado = formatoMes.format(hoje);
 					String anoFormatado = formatoAno.format(hoje);
 					
@@ -376,7 +391,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 							btneditar.setVisible(true);
 							btneditar.setEnabled(true);
 						}else {
-							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova, my_obj);
+							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova, my_obj, dataFormatada);
 							btneditar.setVisible(true);
 							btneditar.setEnabled(true);
 							btnfoto.setEnabled(false);
@@ -389,7 +404,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 							btneditar.setVisible(true);
 							btneditar.setEnabled(true);
 						}else {
-							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova, my_obj);
+							UpdateController.UpdateAluno(telefone, email, altura, peso, bf, matricula, imagemBlobnova, my_obj, dataFormatada);
 							btneditar.setVisible(true);
 							btneditar.setEnabled(true);
 							btnfoto.setEnabled(false);
@@ -410,6 +425,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 					txttelefone.setEnabled(true);
 					btnsubmeter.setEnabled(true);
 					btnsubmeter.setVisible(true);
+					e5.printStackTrace();
 					JOptionPane.showMessageDialog(null,"Preencha todos os Campos");
 				} catch (RuntimeException e1) {
 					e1.printStackTrace();
@@ -425,6 +441,7 @@ public class ConsultaAlunoPerfil extends JDialog {
 					txttelefone.setEnabled(true);
 					btnsubmeter.setEnabled(true);
 					btnsubmeter.setVisible(true);
+					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null,"Preencha todos os campos");
 				} catch (Exception e4) {
 					JOptionPane.showMessageDialog(null,"Preencha os campos corretamente");
@@ -581,18 +598,6 @@ public class ConsultaAlunoPerfil extends JDialog {
 		btnpagamento.setBackground(new Color(0, 69, 130));
 		btnpagamento.setBounds(520, 510, 208, 40);
 		perfilaluno.add(btnpagamento);
-		
-		MaskFormatter mascaraPeso = new MaskFormatter("****");
-		mascaraPeso.setValidCharacters("0123456789.");
-		txtpeso = new JFormattedTextField(mascaraPeso);
-		txtpeso.setEnabled(false);
-		txtpeso.setForeground(new Color(255, 255, 255));
-		txtpeso.setFont(new Font("Arial", Font.BOLD, 16));
-		txtpeso.setDisabledTextColor(new Color(255, 255, 255));
-		txtpeso.setBorder(null);
-		txtpeso.setBackground(new Color(0, 79, 157));
-		txtpeso.setBounds(324, 225, 74, 19);
-		perfilaluno.add(txtpeso);
 		
 		try {
 			pesquisaAluno = ReadController.getAlunoFiltered(matricula,nome);

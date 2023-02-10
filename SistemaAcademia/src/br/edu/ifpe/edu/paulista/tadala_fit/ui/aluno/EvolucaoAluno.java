@@ -176,59 +176,121 @@ public class EvolucaoAluno extends JDialog {
 				my_obj = alunoAtual.getEvolucao();
 				jsonArray = my_obj.names();
 				
+				if (jsonArray.length() == 1) {
+					
+					String key = jsonArray.getString(0);
 				
-				for (int i = 0; i < my_obj.length(); i++) {
-					String key = jsonArray.getString(i);
-					jsonArray1 = my_obj.getJSONArray(key);
-					for (int z = 0; z < jsonArray1.length(); z++) {
-						my_obj2 = jsonArray1.getJSONObject(z);
-						jsonArray2 = my_obj2.names();
-						String key2 = jsonArray2.getString(0); 
-						
-							jsonArray3 = my_obj2.getJSONArray(key2);
+					if (my_obj.get(key).getClass().equals(jsonArray.getClass()))  {
+						jsonArray1 = my_obj.getJSONArray(key);
+						for (int z = 0; z < jsonArray1.length(); z++) {
+							my_obj2 = jsonArray1.getJSONObject(z);
+							jsonArray2 = my_obj2.names();
+							String key2 = jsonArray2.getString(0); 
 							
-						String mes = "";
-						if (key2.equals("01")) {
-							mes = "janeiro";
-						} else if(key2.equals("02")) {
-							mes = "feveiro";
-						} else if(key2.equals("03")) {
-							mes = "março";
-						} else if(key2.equals("04")) {
-							mes = "abril";
-						} else if(key2.equals("05")) {
-							mes = "maio";
-						} else if(key2.equals("06")) {
-							mes = "junho";
-						} else if(key2.equals("07")) {
-							mes = "julho";
-						} else if(key2.equals("08")) {
-							mes = "agosto";
-						} else if(key2.equals("09")) {
-							mes = "setembro";
-						} else if(key2.equals("10")) {
-							mes = "outubro";
-						} else if(key2.equals("11")) {
-							mes = "novembro";
-						} else if(key2.equals("12")) {
-							mes = "dezembro";
+								jsonArray3 = my_obj2.getJSONArray(key2);
+								
+							String mes = "";
+							if (key2.equals("01")) {
+								mes = "janeiro";
+							} else if(key2.equals("02")) {
+								mes = "feveiro";
+							} else if(key2.equals("03")) {
+								mes = "março";
+							} else if(key2.equals("04")) {
+								mes = "abril";
+							} else if(key2.equals("05")) {
+								mes = "maio";
+							} else if(key2.equals("06")) {
+								mes = "junho";
+							} else if(key2.equals("07")) {
+								mes = "julho";
+							} else if(key2.equals("08")) {
+								mes = "agosto";
+							} else if(key2.equals("09")) {
+								mes = "setembro";
+							} else if(key2.equals("10")) {
+								mes = "outubro";
+							} else if(key2.equals("11")) {
+								mes = "novembro";
+							} else if(key2.equals("12")) {
+								mes = "dezembro";
+							}
+							
+								modelo.addRow(new Object[]{
+										key,
+										mes,
+										jsonArray3.get(0),
+										jsonArray3.get(1),
+										jsonArray3.get(2)
+								});
+							
 						}
-							
-							
-							
-							
-							
-							modelo.addRow(new Object[]{
-									key,
-									mes,
-									jsonArray3.get(0),
-									jsonArray3.get(1),
-									jsonArray3.get(2)
-							});
+					} else {
+						my_obj1 = my_obj.getJSONObject(key);
+						jsonArray3 = my_obj1.names();
+						jsonArray2 = my_obj1.getJSONArray(jsonArray3.getString(0));
 						
+						modelo.addRow(new Object[]{
+								key,
+								jsonArray3.getString(0),
+								jsonArray2.get(0),
+								jsonArray2.get(1),
+								jsonArray2.get(2)
+						});
 					}
 					
-				}		
+					
+				} else {
+					for (int i = 0; i < my_obj.length(); i++) {
+						String key = jsonArray.getString(i);
+						jsonArray1 = my_obj.getJSONArray(key);
+						for (int z = 0; z < jsonArray1.length(); z++) {
+							my_obj2 = jsonArray1.getJSONObject(z);
+							jsonArray2 = my_obj2.names();
+							String key2 = jsonArray2.getString(0); 
+							
+								jsonArray3 = my_obj2.getJSONArray(key2);
+								
+							String mes = "";
+							if (key2.equals("01")) {
+								mes = "janeiro";
+							} else if(key2.equals("02")) {
+								mes = "feveiro";
+							} else if(key2.equals("03")) {
+								mes = "março";
+							} else if(key2.equals("04")) {
+								mes = "abril";
+							} else if(key2.equals("05")) {
+								mes = "maio";
+							} else if(key2.equals("06")) {
+								mes = "junho";
+							} else if(key2.equals("07")) {
+								mes = "julho";
+							} else if(key2.equals("08")) {
+								mes = "agosto";
+							} else if(key2.equals("09")) {
+								mes = "setembro";
+							} else if(key2.equals("10")) {
+								mes = "outubro";
+							} else if(key2.equals("11")) {
+								mes = "novembro";
+							} else if(key2.equals("12")) {
+								mes = "dezembro";
+							}
+							
+								modelo.addRow(new Object[]{
+										key,
+										mes,
+										jsonArray3.get(0),
+										jsonArray3.get(1),
+										jsonArray3.get(2)
+								});
+							
+						}
+						
+					}
+				}
+						
 			}
 		});
 		btnConsultarEvoluo.setFont(new Font("Arial", Font.BOLD, 13));

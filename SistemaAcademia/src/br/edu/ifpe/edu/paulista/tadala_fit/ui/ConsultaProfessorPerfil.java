@@ -228,6 +228,8 @@ public class ConsultaProfessorPerfil extends JDialog {
 						UpdateController.UpdateProfessor(telefone, email, matricula, imagemNova);
 						btneditar.setVisible(true);
 						btneditar.setEnabled(true);
+						btnenviar.setVisible(false);
+						btnenviar.setEnabled(false);
 					}
 				} catch (RuntimeException e1) {
 					e1.printStackTrace();

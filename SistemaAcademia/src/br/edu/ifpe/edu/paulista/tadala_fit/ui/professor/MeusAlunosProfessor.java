@@ -118,27 +118,22 @@ public class MeusAlunosProfessor extends JDialog {
 		        }
 		    }
 		});
-		table.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				btnVerPerfil.setEnabled(true);
-				btnPrescreverTreino.setEnabled(true);
-			}
-		});
 		scrollPane.setViewportView(table);
 		
 		btnPrescreverTreino = new JButton("Prescrever Treino");
 		btnPrescreverTreino.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer matriculafiltered = (Integer) matricula;
-				Integer matricula = matriculafiltered.intValue();
 				try {
+					Integer matriculafiltered = (Integer) matricula;
+					Integer matricula = matriculafiltered.intValue();
 					Aluno alunoSelected = ReadController.getAlunoFiltered(matricula,nome); 
 					CadastroTreino ct = new CadastroTreino(matricula);
 					ct.getAluno(alunoSelected);
 					ct.setModal(true);
 					ct.setVisible(true);
-				}  catch (ClassNotFoundException e1) {
+				} catch (NullPointerException p) {
+					
+				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (SQLException e1) {
@@ -148,7 +143,6 @@ public class MeusAlunosProfessor extends JDialog {
 			}
 		});
 		btnPrescreverTreino.setFont(new Font("Arial", Font.BOLD, 13));
-		btnPrescreverTreino.setEnabled(false);
 		btnPrescreverTreino.setBackground(Color.WHITE);
 		btnPrescreverTreino.setBounds(751, 465, 174, 36);
 		contentPanel.add(btnPrescreverTreino);
@@ -156,13 +150,15 @@ public class MeusAlunosProfessor extends JDialog {
 		btnVerPerfil = new JButton("Ver Perfil");
 		btnVerPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer matriculafiltered = (Integer) matricula;
-				Integer matricula = matriculafiltered.intValue();
-				ConsultaAlunoPerfil cap;
 				try {
+					Integer matriculafiltered = (Integer) matricula;
+					Integer matricula = matriculafiltered.intValue();
+					ConsultaAlunoPerfil cap;
 					cap = new ConsultaAlunoPerfil(matricula,nome);
 					cap.setModal(true);
 					cap.setVisible(true);
+				} catch (NullPointerException p) {
+					
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -176,7 +172,6 @@ public class MeusAlunosProfessor extends JDialog {
 			}
 		});
 		btnVerPerfil.setFont(new Font("Arial", Font.BOLD, 13));
-		btnVerPerfil.setEnabled(false);
 		btnVerPerfil.setBackground(Color.WHITE);
 		btnVerPerfil.setBounds(751, 389, 174, 36);
 		contentPanel.add(btnVerPerfil);
@@ -230,6 +225,14 @@ public class MeusAlunosProfessor extends JDialog {
 		btnconsultar.setBackground(Color.WHITE);
 		btnconsultar.setBounds(751, 316, 174, 36);
 		contentPanel.add(btnconsultar);
+		
+		table.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				btnVerPerfil.setEnabled(true);
+				btnPrescreverTreino.setEnabled(true);
+			}
+		});
 		
 		JLabel lblNewLabel = new JLabel("Seus Alunos");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));

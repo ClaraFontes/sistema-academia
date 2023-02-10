@@ -135,13 +135,15 @@ public class AlunosSemProfessor extends JDialog {
 		btnVerPerfil = new JButton("Ver Perfil");
 		btnVerPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer matriculafiltered = (Integer) matricula;
-				Integer matricula = matriculafiltered.intValue();
-				ConsultaAlunoPerfil cap;
 				try {
+					Integer matriculafiltered = (Integer) matricula;
+					Integer matricula = matriculafiltered.intValue();
+					ConsultaAlunoPerfil cap;
 					cap = new ConsultaAlunoPerfil(matricula,nome);
 					cap.setModal(true);
 					cap.setVisible(true);
+				} catch (NullPointerException p) {
+					
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -163,11 +165,13 @@ public class AlunosSemProfessor extends JDialog {
 		btnAssumir = new JButton("Assumir Aluno");
 		btnAssumir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer matriculafiltered = (Integer) matricula;
-				Integer matricula = matriculafiltered.intValue();
-				Integer matriculaProf = professorAtual.getMatricula();
 				try {
+					Integer matriculafiltered = (Integer) matricula;
+					Integer matricula = matriculafiltered.intValue();
+					Integer matriculaProf = professorAtual.getMatricula();
 					UpdateController.assumeAluno(matriculaProf, matricula);
+				} catch (NullPointerException p) {
+					
 				} catch (RuntimeException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

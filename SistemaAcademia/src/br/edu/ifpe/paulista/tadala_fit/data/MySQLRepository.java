@@ -64,7 +64,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
-			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade,foto, evolucao, dt_evolucao) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			String sql = ("INSERT INTO aluno(usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade,foto, evolucao, dt_evolucao) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			String sql2 = ("SELECT usuario,cpf FROM aluno a WHERE a.usuario = ? OR a.cpf = ?");
 			PreparedStatement stm2 = connection.prepareStatement(sql2);
 			stm2.setString(1, user);
@@ -107,7 +107,7 @@ public class MySQLRepository implements Repository {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root",ROOT_SENHA);
-			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, treino_e, dt_pagamento, foto, evolucao FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT matricula, usuario, senha, nome, sexo, cpf, telefone, email, data_nascimento, altura, peso, bf, comorbidade, matricula_prof_encarregado, treino_a, treino_b, treino_c, treino_d, treino_e, dt_pagamento, foto, evolucao, dt_evolucao FROM aluno a WHERE a.usuario = ? AND a.senha = ?");
 			statement.setString(1, user);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
@@ -218,11 +218,11 @@ public class MySQLRepository implements Repository {
 		}
 	}
 	
-	public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob image, JSONObject evolucao) throws SQLException {
+	public Aluno updateAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob image, JSONObject evolucao, String ultimaevolucao) throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
-			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ?, foto = ?, evolucao = ? WHERE matricula = ?");
+			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ?, foto = ?, evolucao = ?, dt_evolucao = ? WHERE matricula = ?");
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setString(1, telefone);
 			statement1.setString(2, email);
@@ -232,10 +232,32 @@ public class MySQLRepository implements Repository {
 			statement1.setBlob(6,image);
 			if (evolucao != null) {
 				statement1.setObject(7, evolucao.toString());
-			} else {
-				statement1.setObject(7, null);
-			}
-			statement1.setInt(8, matricula);
+            } else {
+            	statement1.setObject(7, null);
+            }
+			statement1.setString(8, ultimaevolucao);
+			statement1.setInt(9, matricula);
+			statement1.execute();
+			JOptionPane.showMessageDialog(null, "Atualização feita com Sucesso, Reinicie a sessão para ver as alterações!");
+		} finally {
+			connection.close();
+		}
+		return null;
+	}
+	
+	public Aluno updateAlunoAluno(String telefone, String email, Double  altura, Double peso, Double bf,Integer matricula, Blob image) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tadalafit", "root", ROOT_SENHA);
+			String sql1 = ("UPDATE aluno a SET telefone = ?, email = ?, altura = ?, peso = ?, bf = ?, foto = ? WHERE matricula = ?");
+			PreparedStatement statement1 = connection.prepareStatement(sql1);
+			statement1.setString(1, telefone);
+			statement1.setString(2, email);
+			statement1.setDouble(3, altura);
+			statement1.setDouble(4, peso);
+			statement1.setDouble(5, bf);
+			statement1.setBlob(6,image);
+			statement1.setInt(7, matricula);
 			statement1.execute();
 			JOptionPane.showMessageDialog(null, "Atualização feita com Sucesso,Reinicie a sessão para ve as alterações!");
 		} finally {
